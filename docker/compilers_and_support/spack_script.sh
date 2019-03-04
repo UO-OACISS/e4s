@@ -1,5 +1,6 @@
 #!/bin/bash -e
 set -x
+rm -rf /spack
 git clone https://github.com/spack/spack.git
 cp /e4s/docker/compilers_and_support/packages.yaml /spack/etc/spack/packages.yaml
 source /spack/share/spack/setup-env.sh

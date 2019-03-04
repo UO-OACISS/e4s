@@ -4,7 +4,8 @@
 # configuration settings.
 spack:
   # add package specs to the `specs` list
-  specs:[tau, hpctoolkit, dyninst, gotcha, caliper, papi, pdt, siboka, c2c sonar]
+  #specs:[tau, hpctoolkit, dyninst, gotcha, caliper, papi, pdt, siboka, c2c, sonar]
+  specs:[tau, hpctoolkit]
   mirrors: {}
   modules:
     enable: []
