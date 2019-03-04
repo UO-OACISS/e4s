@@ -1,0 +1,78 @@
+khuck@omega:~$ docker create -t -i fedora bash
+Unable to find image 'fedora:latest' locally
+latest: Pulling from library/fedora
+2ec1fbfd44b7: Pull complete
+Digest: sha256:25b5487ca20b2a7f8e6875231c013000fb6da1080a73b0f75c0eea08f88ca6a5
+Status: Downloaded newer image for fedora:latest
+a3bcb06e9c360b774449b85ec7122a09cf3c99c39d19f1690e18d8c1b93bdd4b
+khuck@omega:~$ docker start -a -i a3bcb06e9c360b774449b85ec7122a09cf3c99c39d19f1690e18d8c1b93bdd4b
+
+yum install -y git
+yum install -y gcc
+yum install -y gcc-c++
+yum install -y gcc-gfortran
+yum install -y python2
+yum install -y patch
+yum install -y xz
+yum install -y bzip2
+yum install -y findutils
+yum install -y which
+
+git clone https://github.com/spack/spack.git
+cd spack
+echo 'packages:
+  all:
+    variants: +mpi
+    providers:
+      mpi: [mpich]
+      libtool: [libtool@2.4.6]
+  tar:
+    buildable: false
+      paths:
+        tar@1.30: /usr
+  python:
+    buildable: false
+      paths:
+        python@2.7.15: /usr
+  patch:
+    buildable: false
+      paths:
+        patch@2.7.6: /usr
+  xz:
+    buildable: false
+      paths:
+        xz@2.7.6: /usr
+  bzip2:
+    buildable: false
+      paths:
+        bzip2@1.0.6: /usr
+' > etc/spack/packages.yaml
+source share/spack/setup-env.sh
+spack compiler find
+spack env create ecp
+spack env activate ecp
+spack cd -e ecp
+echo '# This is a Spack Environment file.
+#
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  # add package specs to the `specs` list
+  specs: [adios, binutils, bolt, boost, caliper, darshan-runtime, darshan-util, fftw,
+    gasnet, gdb, geopm, git, globalarrays, hdf5+hl, hpctoolkit, kokkos, legion, libquo,
+    libtiff, lmod, mfem, miniconda2, miniconda3, papyrus, openmpi, mpich, paraview,
+    patch, pflotran ^hdf5+hl, protobuf, py-flake8, py-funcsigs, py-h5py, py-jinja2,
+    py-matplotlib ^python@3.7.2, py-mock, py-mpi4py, py-nose, py-numpy, py-py, py-pytables,
+    py-pytest, py-scipy, py-six, qthreads, r, raja, scr, stc, strumpack, sundials,
+    superlu, superlu-dist, swig, sz, tasmanian, tau, trilinos, umpire, unifycr, veloc,
+    vtkm]
+  mirrors: {}
+  modules:
+    enable: []
+  repos: []
+  packages: {}
+  config: {}
+' > spack.yaml
+
+spack concretize
+spack install
