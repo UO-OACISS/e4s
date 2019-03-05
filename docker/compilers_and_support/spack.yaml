@@ -3,6 +3,14 @@
 # It describes a set of packages to be installed, along with
 # configuration settings.
 spack:
+  packages: {}
+    all:
+      compiler: [gcc]
+      variants: +mpi
+      providers:
+        mpi: [mpich]
+    gcc:
+      version: [7.4.0]
   # add package specs to the `specs` list
   # openarc, kitsune, llvm, chill, openmp v&v(?), flang
   specs: [llvm, llvm-openmp-ompt, flang]
@@ -10,6 +18,5 @@ spack:
   modules:
     enable: []
   repos: []
-  packages: {}
   config: {}
 
