@@ -1,6 +1,7 @@
-FROM spack/centos7:0.12
+FROM spack/centos:7
 #RUN yum install -y git gcc gcc-c++ gcc-gfortran python2 patch xz bzip2 findutils which unzip
-RUN git clone https://github.com/khuck/e4s.git
+RUN pwd
+RUN git clone https://github.com/khuck/e4s.git /e4s
 #RUN chmod +x /e4s/docker/compilers_and_support/spack_script.sh && \
              #/e4s/docker/compilers_and_support/spack_script.sh
 RUN cp /e4s/docker/compilers_and_support/packages.yaml /spack/etc/spack/packages.yaml
