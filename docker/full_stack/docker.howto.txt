@@ -1,3 +1,5 @@
+When starting from a clean image, do the following.
+
 khuck@omega:~$ docker create -t -i fedora bash
 Unable to find image 'fedora:latest' locally
 latest: Pulling from library/fedora
