@@ -1,9 +1,0 @@
-packages:
-  all:
-    compiler: [gcc]
-    variants: +mpi
-    providers:
-      mpi: [mpich]
-  gcc:
-    version: [7.4.0]
-
