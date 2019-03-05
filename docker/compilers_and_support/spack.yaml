@@ -3,7 +3,7 @@
 # It describes a set of packages to be installed, along with
 # configuration settings.
 spack:
-  packages: {}
+  packages:
     all:
       compiler: [gcc]
       variants: +mpi
