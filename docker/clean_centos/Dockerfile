@@ -16,7 +16,8 @@ RUN yum install -y \
 # Clone the Spack repository
 RUN git clone https://github.com/spack/spack.git /spack
 
-#Build the compiler we want to use with the base system compiler
+# Build the compiler we want to use with the base system compiler
+# We stage before installation so that if downloading fails, it fails early.
 RUN source /spack/share/spack/setup-env.sh \
  && spack find \
  && spack stage gcc@7.4.0%gcc@4.8.5 lmod \
