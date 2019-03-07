@@ -11,7 +11,8 @@ RUN yum install -y \
     bzip2 \
     findutils \
     which \
-    make
+    make \
+    m4
 
 # Clone the Spack repository
 RUN git clone https://github.com/spack/spack.git /spack
