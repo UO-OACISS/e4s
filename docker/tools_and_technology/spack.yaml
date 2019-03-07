@@ -1,0 +1,22 @@
+# This is a Spack Environment file.
+#
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  packages:
+    all:
+      compiler: [gcc]
+      variants: +mpi
+      providers:
+        mpi: [mpich]
+    gcc:
+      version: [7.4.0]
+  # add package specs to the `specs` list
+  # Siboka and C2C: Unreleased. SuRF: Pending Spack Fix. Sonar: Not yet useful in this context. PAPI and PDT: Installed with TAU
+  specs: [tau,hpctoolkit,dyninst,gotcha,caliper]
+  mirrors: {}
+  modules:
+    enable: []
+  repos: []
+  config: {}
+
