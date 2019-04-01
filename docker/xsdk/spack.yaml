@@ -1,0 +1,22 @@
+# This is a Spack Environment file.
+#
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  packages:
+    all:
+      compiler: [gcc]
+      variants: +mpi
+      providers:
+        mpi: [mpich]
+    gcc:
+      version: [7.4.0]
+  # add package specs to the `specs` list
+  # dtk is an option for trilinos, fortrilinos and TuckerMPI  does not yet have spack packages
+  specs: [hypre,flecsi,mfem,kokkos,trilinos,sundials,petsc,py-libensemble,strumpack,superlu,slate,magma,tasmanian]
+  mirrors: {}
+  modules:
+    enable: []
+  repos: []
+  config: {}
+
