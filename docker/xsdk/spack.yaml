@@ -12,8 +12,8 @@ spack:
     gcc:
       version: [7.4.0]
   # add package specs to the `specs` list
-  # dtk is an option for trilinos, fortrilinos and TuckerMPI  does not yet have spack packages
-  specs: [hypre,flecsi,mfem,kokkos,trilinos,sundials,petsc,py-libensemble,strumpack,superlu,slate,magma,tasmanian]
+  # dtk is an option for trilinos, fortrilinos and TuckerMPI does not yet have spack packages. The flecsi package does not build
+  specs: [hypre,mfem,kokkos,trilinos,sundials,petsc,py-libensemble,strumpack,superlu,slate,magma,tasmanian]
   mirrors: {}
   modules:
     enable: []
