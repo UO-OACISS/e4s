@@ -4,7 +4,7 @@ FROM ecpe4s/e4s_develop:latest
 
 #This is only required until we get a new base image that includes the e4s directory
 RUN git clone https://github.com/khuck/e4s.git /e4s
-RUN mkdir /e4s/docker/tools_and_technology
+RUN mkdir -p /e4s/docker/tools_and_technology
 COPY ./spack.yaml /e4s/docker/tools_and_technology
 
 #This is only required until we get a new base image that pre-installs m4 and/or the elfutils package is fixed
