@@ -21,5 +21,4 @@ RUN spack env create ecp \
  && cp /e4s/docker/compilers_and_support/spack.yaml . \
  && spack concretize \
  && spack stage \
- && spack install \
-
+ && spack install 
