@@ -8,16 +8,17 @@ RUN mkdir -p  /e4s/docker/xsdk
 COPY ./spack.yaml /e4s/docker/xsdk
 
 #This is only required until we get a new base image that pre-installs m4 and/or the elfutils package is fixed
-RUN yum install -y m4 unzip mercurial
+RUN yum install -y m4 unzip mercurial file
 
 #RUN chmod +x /e4s/docker/compilers_and_support/spack_script.sh && \
              #/e4s/docker/compilers_and_support/spack_script.sh
 #RUN cd /e4s \ && git pull
 #RUN cp /e4s/docker/compilers_and_support/packages.yaml /spack/etc/spack/packages.yaml
-RUN export FORCE_UNSAFE_CONFIGURE=1 && source /spack/share/spack/setup-env.sh && spack env create ecp \
+RUN export FORCE_UNSAFE_CONFIGURE=1 && source /spack/share/spack/setup-env.sh &&  cd /spack && git pull  &&spack env create ecp \
  && spack env activate ecp \
  && spack cd -e ecp \
  && cp /e4s/docker/xsdk/spack.yaml . \
- && spack concretize \
- && spack stage \
+ && spack concretize 
+
+RUN export FORCE_UNSAFE_CONFIGURE=1 && source /spack/share/spack/setup-env.sh && spack env activate ecp   && spack stage \
  && spack install 
