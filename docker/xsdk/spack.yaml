@@ -13,7 +13,7 @@ spack:
       version: [7.4.0]
   # add package specs to the `specs` list
   # dtk is an option for trilinos, fortrilinos and TuckerMPI do not yet have spack packages. 
-  specs: [ flecsi^gasnet@1.32.0,magma,slate,hypre,mfem,kokkos,trilinos,sundials,petsc,py-libensemble,strumpack,superlu,tasmanian]
+  specs: [ flecsi^gasnet@1.32.0,magma,slate,hypre,mfem,kokkos,trilinos@12.14.1+dtk+intrepid2+shards,sundials,petsc,py-libensemble,strumpack,superlu,tasmanian]
   mirrors: {}
   modules:
     enable: []
