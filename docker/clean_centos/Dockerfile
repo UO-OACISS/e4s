@@ -1,4 +1,4 @@
-FROM centos
+FROM centos:7.4.1708
 # Install all the programs and utilities needed by spack
 RUN yum install -y \
     git \
@@ -12,7 +12,10 @@ RUN yum install -y \
     findutils \
     which \
     make \
-    m4
+    m4 \
+    unzip \
+    mercurial \
+    file
 
 # Clone the Spack repository
 RUN git clone https://github.com/spack/spack.git /spack
@@ -21,9 +24,21 @@ RUN git clone https://github.com/spack/spack.git /spack
 # We stage before installation so that if downloading fails, it fails early.
 RUN source /spack/share/spack/setup-env.sh \
  && spack find \
- && spack stage gcc@7.4.0%gcc@4.8.5 lmod \
- && spack install gcc@7.4.0%gcc@4.8.5 \
- && spack compiler add `spack location -i gcc@7.4.0` \
- && spack install lmod \
- && spack clean
+ && spack stage gcc@7.3.0%gcc@4.8.5 lmod \
+ && spack install gcc@7.3.0%gcc@4.8.5 \
+ && spack compiler add `spack location -i gcc@7.3.0` 
+
+RUN export FORCE_UNSAFE_CONFIGURE=1 \
+ && source /spack/share/spack/setup-env.sh \
+ && spack bootstrap \
+ && spack install lmod 
+
+RUN export FORCE_UNSAFE_CONFIGURE=1 \
+ && source /spack/share/spack/setup-env.sh \
+ && spack install mpich@3.2.1~wrapperrpath \
+ && spack clean 
+
+#With SPACK_ROOT set and the setup file in profile.d the environment should be in place for all sessions.
+ENV SPACK_ROOT=/spack
+RUN ln -s /spack/share/spack/setup-env.sh /etc/profile.d/
 
