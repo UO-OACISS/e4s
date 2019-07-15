@@ -1,7 +1,7 @@
 FROM ecpe4s/e4s_develop:latest
 
 #Set this to the sdk group name. This should be the only difference between Dockerfiles for the groups
-ENV E4S_GROUP tools_and_technology 
+ENV E4S_GROUP e4s_ecosystem 
 
 #Some spack packages may fail to build on container filesystems if this is not set
 ENV FORCE_UNSAFE_CONFIGURE 1

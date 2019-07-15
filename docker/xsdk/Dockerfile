@@ -1,24 +1,24 @@
 FROM ecpe4s/e4s_develop:latest
-#RUN yum install -y git gcc gcc-c++ gcc-gfortran python2 patch xz bzip2 findutils which unzip
-# should aready be done
 
-#This is only required until we get a new base image that includes the e4s directory
+#Set this to the sdk group name. This should be the only difference between Dockerfiles for the groups
+ENV E4S_GROUP xsdk 
+
+#Some spack packages may fail to build on container filesystems if this is not set
+ENV FORCE_UNSAFE_CONFIGURE 1
+
+#This makes sure the e4s directory is up to date in our image. Mostly for reference and building purposes. 
 RUN git clone https://github.com/khuck/e4s.git /e4s
-RUN mkdir -p  /e4s/docker/xsdk
-COPY ./spack.yaml /e4s/docker/xsdk
+RUN mkdir -p  /e4s/docker/$E4S_GROUP
+COPY ./spack.yaml /e4s/docker/$E4S_GROUP
 
-#This is only required until we get a new base image that pre-installs m4 and/or the elfutils package is fixed
-RUN yum install -y m4 unzip mercurial file
+#Update spack to latest
+RUN cd /spack && git pull
 
-#RUN chmod +x /e4s/docker/compilers_and_support/spack_script.sh && \
-             #/e4s/docker/compilers_and_support/spack_script.sh
-#RUN cd /e4s \ && git pull
-#RUN cp /e4s/docker/compilers_and_support/packages.yaml /spack/etc/spack/packages.yaml
-RUN export FORCE_UNSAFE_CONFIGURE=1 && source /spack/share/spack/setup-env.sh &&  cd /spack && git pull  &&spack env create ecp \
- && spack env activate ecp \
- && spack cd -e ecp \
- && cp /e4s/docker/xsdk/spack.yaml . \
- && spack concretize 
+#Work out of the SDK group directory
+WORKDIR /e4s/docker/$E4S_GROUP
 
-RUN export FORCE_UNSAFE_CONFIGURE=1 && source /spack/share/spack/setup-env.sh && spack env activate ecp   && spack stage \
- && spack install 
+RUN /spack/bin/spack concretize 
+
+RUN /spack/bin/spack stage \
+ && /spack/bin/spack install 
+

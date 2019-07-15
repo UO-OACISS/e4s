@@ -1,0 +1,40 @@
+# This is a Spack Environment file.
+#
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  packages:
+    all:
+      compiler: [gcc]
+      variants: +mpi
+      providers:
+        mpi: [mpich]
+      buildable: true
+      version: []
+      paths: {}
+      modules: {}
+    mpich:
+      version:
+      - 3.2.1
+      variants: ~wrapperrpath
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
+    gcc:
+      version: [7.3.0]
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
+  # add package specs to the `specs` list
+  #No package: cinema, rover. Build fails: paraview,visit,catalyst, paraview+ascent (because of vtkm?). zfp builds but currently fails to download. 
+  specs: [sz, paraview, vtkm]
+  mirrors: {}
+  modules:
+    enable: []
+  repos: []
+  config: {}
+  upstreams: {}

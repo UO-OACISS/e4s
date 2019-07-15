@@ -8,9 +8,13 @@ spack:
       compiler: [gcc]
       variants: +mpi
       providers:
-        mpi: [mpich]
+        mpi: [mpich@3.2.1~wrapperrpath]
+    mpich:
+      version:
+      - 3.2.1
+      variants: ~wrapperrpath
     gcc:
-      version: [7.4.0]
+      version: [7.3.0]
   # add package specs to the `specs` list
   # Siboka and C2C: Unreleased. SuRF: Pending Spack Fix. Sonar: Not yet useful in this context. PAPI and PDT: Installed with TAU
   specs: [tau,hpctoolkit,dyninst,gotcha,caliper]

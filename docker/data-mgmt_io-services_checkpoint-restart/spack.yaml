@@ -16,8 +16,8 @@ spack:
     gcc:
       version: [7.3.0]
   # add package specs to the `specs` list
-  #Fortrilinos is an option for trilinos that does not yet build, TuckerMPI does not yet have a spack package. 
-  specs: [ flecsi^gasnet@1.32.0,magma,slate,hypre,mfem,kokkos,trilinos@12.14.1+dtk+intrepid2+shards,sundials,petsc,py-libensemble,strumpack,superlu,tasmanian]
+  #No package: romio, ioss, hxhim. Fails to build: parallel-netcdf, unifycr 
+  specs: [ faodel, mercury, hdf5, adios2, darshan-runtime, darshan-util, veloc, scr  ]
   mirrors: {}
   modules:
     enable: []

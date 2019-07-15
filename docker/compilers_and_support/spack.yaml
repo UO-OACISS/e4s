@@ -9,11 +9,15 @@ spack:
       variants: +mpi
       providers:
         mpi: [mpich]
+    mpich:
+      version:
+      - 3.2.1
+      variants: ~wrapperrpath
     gcc:
-      version: [7.4.0]
+      version: [7.3.0]
   # add package specs to the `specs` list
-  # openarc, kitsune, llvm, chill, openmp v&v(?), flang
-  specs: [llvm, llvm-openmp-ompt, flang]
+  # openarc, kitsune, llvm, chill, openmp v&v(?), flang.  Fails to build: llvm-openmp-ompt, llvm (libffi does not download)
+  specs: [flang]
   mirrors: {}
   modules:
     enable: []
