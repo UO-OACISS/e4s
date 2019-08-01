@@ -38,7 +38,9 @@ RUN export FORCE_UNSAFE_CONFIGURE=1 \
  && source /spack/share/spack/setup-env.sh \
  && spack install mpich@3.2.1~wrapperrpath \
  && spack install cmake \
- && spack load mpich cmake \
+ && spack load mpich \
+ && spack load gcc \
+ && spack load cmake \
  && spack clean -a
 
 #With SPACK_ROOT set and the setup file in profile.d the environment should be in place for all sessions.
