@@ -9,9 +9,9 @@ docker build -t ecpe4s/ubi7_x86_64_xsdk:1.0 .
 
 The included Dockerfile is setup to attempt to pull pre-built binaries from the E4S mirror by default. These instructions are marked so that you know which lines to comment out if you would prefer to build from source instead of pulling binaries from the E4S mirror.
 
-## Overview
+## Bundled Software
 
-This container is built on top of the ecpe4s/ubi7_x86_64_base image. Once built, it contains the following packages installed using Spack:
+Once built, this Docker image will contain the following packages installed with Spack:
 
 * hypre
 * FleCSI
