@@ -1,6 +1,8 @@
 FROM registry.access.redhat.com/ubi7/ubi:latest
-# Install all the programs and utilities needed by spack
-RUN yum install -y \
+
+
+RUN yum update -y \
+ && yum install -y \
     git \
     gcc \
     gcc-c++ \
@@ -11,38 +13,55 @@ RUN yum install -y \
     bzip2 \
     findutils \
     which \
+    automake \
+    autoconf \
     make \
     m4 \
     unzip \
     mercurial \
     vim \
-    file
+    file \
+    wget \
+    curl \
+    libffi-devel \
+    zlib-devel \
+    nproc \
+    openssl-devel \
+    && rpm -ivh https://www.mercurial-scm.org/release/centos7/RPMS/x86_64/mercurial-3.4-0.x86_64.rpm \
+    && yum clean all \
+    && rm -rf /var/cache/yum/*
 
-# Clone the Spack repository
-RUN git clone https://github.com/spack/spack.git /spack
 
-# Build the compiler we want to use with the base system compiler
-# We stage before installation so that if downloading fails, it fails early.
-RUN source /spack/share/spack/setup-env.sh \
- && spack find \
- && spack stage gcc@7.3.0%gcc@4.8.5 lmod \
- && spack install gcc@7.3.0%gcc@4.8.5 \
- && spack compiler add `spack location -i gcc@7.3.0` 
+RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
+ && tar xzf Python-2.7.14.tgz \
+ && cd Python-2.7.14 \
+ && ./configure --enable-optimizations --with-ssl \
+ && if [[ `nproc` -gt 16 ]]; then make -j16 altinstall; else make -j`nproc` altinstall; fi \
+ && ln -s /usr/local/bin/python2.7 /usr/local/bin/python2 \
+ && cd / && rm -rf /Python-2.7.14 Python-2.7.14.tgz
 
-RUN export FORCE_UNSAFE_CONFIGURE=1 \
- && source /spack/share/spack/setup-env.sh \
+
+RUN git clone https://github.com/spack/spack.git /spack \
+ && sed -i "1s/python/python2/" /spack/bin/spack
+
+
+ENV SPACK_ROOT=/spack \
+    PATH=/spack/bin:${PATH} \
+    FORCE_UNSAFE_CONFIGURE=1 \
+    E4S_MIRROR_ROOT="http://oaciss.uoregon.edu/e4s"
+
+
+RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
+ && spack gpg trust e4s.pub \
+ && spack mirror add e4s ${E4S_MIRROR_ROOT}/x86_64 \
+ && spack install gcc@7.3.0 \
+ && spack compiler add `spack location -i gcc@7.3.0` \
  && spack bootstrap \
- && spack install lmod 
-
-RUN export FORCE_UNSAFE_CONFIGURE=1 \
- && source /spack/share/spack/setup-env.sh \
+ && spack install lmod \
  && spack install mpich@3.2.1~wrapperrpath \
- && spack install cmake \
- && spack load mpich \
- && spack load gcc \
- && spack load cmake \
- && spack clean -a
+ && spack install cmake
 
-#With SPACK_ROOT set and the setup file in profile.d the environment should be in place for all sessions.
-ENV SPACK_ROOT=/spack
-RUN ln -s /spack/share/spack/setup-env.sh /etc/profile.d/
+
+RUN ln -s ${SPACK_ROOT}/share/spack/setup-env.sh /etc/profile.d/ \
+ && source ${SPACK_ROOT}/share/spack/setup-env.sh \
+ && spack clean -a
