@@ -35,7 +35,7 @@ RUN yum update -y \
 RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
  && tar xzf Python-2.7.14.tgz \
  && cd Python-2.7.14 \
- && ./configure --enable-optimizations --with-ssl \
+ && ./configure --enable-optimizations \
  && if [[ `nproc` -gt 16 ]]; then make -j16 altinstall; else make -j`nproc` altinstall; fi \
  && ln -s /usr/local/bin/python2.7 /usr/local/bin/python2 \
  && cd / && rm -rf /Python-2.7.14 Python-2.7.14.tgz
