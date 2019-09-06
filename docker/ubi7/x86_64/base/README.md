@@ -13,9 +13,9 @@ This Dockerfile + build script can be used to build a clean RHEL UBI 7 base imag
 * Spack HPC package manager (latest version)
 * GCC 7.3.0
 * Mpich 3.2.1 without wrapperrpath option
-* Cmake.
+* Cmake
 
-This image's Spack install is additionally bootstrapped to include environment-modules, lmod, and basic tools which allows it to serve as the foundation for additional E4S Dockerfiles.
+The bundled Spack install is additionally bootstrapped to include environment-modules, lmod, and basic tools so that the image can serve as the foundation for additional E4S Dockerfiles, such as the E4S XSDK.
 
 ## Basic Usage
 
