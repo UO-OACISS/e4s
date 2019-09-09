@@ -1,0 +1,34 @@
+spack:
+  packages:
+    all:
+      compiler: [gcc@7.3.0]
+      variants: +mpi
+      providers:
+        mpi: [mpich]
+      buildable: true
+      version: []
+      paths: {}
+      modules: {}
+    mpich:
+      version: [3.2.1]
+      variants: ~wrapperrpath
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
+    gcc:
+      version: [7.3.0]
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
+  specs:
+  - superlu-dist
+  - petsc
+  - mfem
+  - strumpack
+  - butterflypack
+  - openblas
+  view: false
