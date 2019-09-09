@@ -1,0 +1,16 @@
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+source `spack location -i lmod`/lmod/lmod/init/bash
+source ${SPACK_ROOT}/share/spack/setup-env.sh
+module purge
+module unuse /spack/share/spack/modules/linux-rhel7-x86_64
+module use /spack/share/spack/lmod/linux-rhel7-x86_64/Core
+module load gcc
+module load mpich
