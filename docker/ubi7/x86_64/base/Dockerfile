@@ -66,6 +66,4 @@ COPY bashrc /root/.bashrc
 
 RUN spack clean -a \
  && ln -s ${SPACK_ROOT}/share/spack/setup-env.sh /etc/profile.d/ \
- && source `spack location -i lmod`/lmod/lmod/init/bash \
- && source ${SPACK_ROOT}/share/spack/setup-env.sh \
  && spack module lmod refresh --delete-tree -y
