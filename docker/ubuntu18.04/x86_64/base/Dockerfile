@@ -48,6 +48,9 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack install cmake \
  && spack compiler find
 
-RUN ln -s ${SPACK_ROOT}/share/spack/setup-env.sh /etc/profile.d/ \
- && . ${SPACK_ROOT}/share/spack/setup-env.sh \
- && spack clean -a
+COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
+COPY bashrc /root/.bashrc
+
+RUN spack clean -a \
+ && ln -s ${SPACK_ROOT}/share/spack/setup-env.sh /etc/profile.d/ \
+ && spack module lmod refresh --delete-tree -y
