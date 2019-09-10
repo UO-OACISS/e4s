@@ -1,0 +1,17 @@
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
+sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
+source ${SPACK_ROOT}/share/spack/setup-env.sh
+source `spack location -i lmod`/lmod/lmod/init/bash
+module purge
+module unuse /spack/share/spack/modules/linux-centos7-x86_64
+module use /spack/share/spack/lmod/linux-centos7-x86_64/Core
+module load gcc
+module load mpich
