@@ -33,7 +33,7 @@ You can then detach from the container using Ctrl+P followed by Ctrl+Q. Detachin
 To debug the container build process, do the following:
 
 ```
-docker run -it --entrypoint /bin/bash  registry.access.redhat.com/ubi7/ubi:latest
+docker run -it --entrypoint /bin/bash  registry.access.redhat.com/ubi7/ubi:7.6
 ```
 
 ...then run the commands in the [Dockerfile](Dockerfile).
