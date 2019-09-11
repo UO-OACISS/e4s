@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi7/ubi:latest
+FROM registry.access.redhat.com/ubi7/ubi:7.6-239
 
 
 RUN yum update -y \
