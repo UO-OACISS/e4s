@@ -25,6 +25,7 @@ RUN yum update -y \
   libffi-devel \
   nproc \
   openssl-devel \
+  hostname \
   && yum clean all \
   && rm -rf /var/cache/yum/* \
   && rpm -ivh https://www.mercurial-scm.org/release/centos7/RPMS/x86_64/mercurial-3.4-0.x86_64.rpm
