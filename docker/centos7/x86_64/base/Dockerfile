@@ -1,32 +1,32 @@
 FROM centos:7.6.1810
 
-RUN 	yum update -y \
-	&& yum install -y \
-	git \
-	gcc \
-	gcc-c++ \
-	gcc-gfortran \
-	python2 \
-	patch \
-	xz \
-	bzip2 \
-	findutils \
-	which \
+RUN yum update -y \
+ && yum install -y \
+  git \
+  gcc \
+  gcc-c++ \
+  gcc-gfortran \
+  python2 \
+  patch \
+  xz \
+  bzip2 \
+  findutils \
+  which \
   automake \
   autoconf \
-	make \
-	m4 \
-	unzip \
-	vim \
-	file \
-	wget \
+  make \
+  m4 \
+  unzip \
+  vim \
+  file \
+  wget \
   curl \
-	zlib-devel \
-	libffi-devel \
+  zlib-devel \
+  libffi-devel \
   nproc \
   openssl-devel \
-	&& yum clean all \
-	&& rm -rf /var/cache/yum/* \
+  && yum clean all \
+  && rm -rf /var/cache/yum/* \
   && rpm -ivh https://www.mercurial-scm.org/release/centos7/RPMS/x86_64/mercurial-3.4-0.x86_64.rpm
 
 RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
