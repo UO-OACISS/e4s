@@ -7,7 +7,6 @@ if [ -f /etc/bashrc ]; then
         . /etc/bashrc
 fi
 
-sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
 source ${SPACK_ROOT}/share/spack/setup-env.sh
 source `spack location -i lmod`/lmod/lmod/init/bash
 module purge
