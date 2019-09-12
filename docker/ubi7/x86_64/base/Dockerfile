@@ -18,7 +18,6 @@ RUN yum update -y \
     make \
     m4 \
     unzip \
-    mercurial \
     vim \
     file \
     wget \
@@ -27,6 +26,7 @@ RUN yum update -y \
     zlib-devel \
     nproc \
     openssl-devel \
+    hostname \
     && rpm -ivh https://www.mercurial-scm.org/release/centos7/RPMS/x86_64/mercurial-3.4-0.x86_64.rpm \
     && yum clean all \
     && rm -rf /var/cache/yum/*
@@ -62,9 +62,10 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack install cmake
 
 COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
-COPY bashrc /root/.bashrc
+COPY spack_module_setup.sh /
 
 RUN spack clean -a \
+ && cat /spack_module_setup.sh >> /etc/bashrc \
  && ln -s ${SPACK_ROOT}/share/spack/setup-env.sh /etc/profile.d/ \
  && spack module lmod refresh --delete-tree -y \
  && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh

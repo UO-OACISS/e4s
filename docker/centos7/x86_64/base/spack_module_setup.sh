@@ -1,12 +1,3 @@
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-        . /etc/bashrc
-fi
-
 source ${SPACK_ROOT}/share/spack/setup-env.sh
 source `spack location -i lmod`/lmod/lmod/init/bash
 module purge
