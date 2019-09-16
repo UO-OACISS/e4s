@@ -5,3 +5,4 @@ module unuse /spack/share/spack/modules/linux-centos7-x86_64
 module use /spack/share/spack/lmod/linux-centos7-x86_64/Core
 module load gcc
 module load mpich
+module load cmake

@@ -21,7 +21,7 @@ modules:
       - 'gcc@4.8.5'
     hierarchy:
       - mpi
-    hash_length: 0
+    hash_length: 5
     whitelist:
       - gcc
     blacklist:
