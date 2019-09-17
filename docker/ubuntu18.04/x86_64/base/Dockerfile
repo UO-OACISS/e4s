@@ -49,8 +49,11 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack compiler find
 
 COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
-COPY bashrc /root/.bashrc
+COPY /spack_bashrc_addendum.sh /spack_bashrc_addendum.sh
+COPY /spack_profile_addendum.sh /spack_profile_addendum.sh
 
 RUN spack clean -a \
- && ln -s ${SPACK_ROOT}/share/spack/setup-env.sh /etc/profile.d/ \
- && spack module lmod refresh --delete-tree -y
+ && cat /spack_bashrc_addendum.sh >> /etc/bash.bashrc \
+ && cat /spack_profile_addendum.sh >> /etc/profile \
+ && spack module lmod refresh --delete-tree -y \
+ && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
