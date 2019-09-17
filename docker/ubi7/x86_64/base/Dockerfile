@@ -62,10 +62,11 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack install cmake
 
 COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
-COPY spack_module_setup.sh /
+COPY spack_profile_addendum.sh /spack_profile_addendum.sh
+COPY spack_bashrc_addendum.sh /spack_bashrc_addendum.sh
 
 RUN spack clean -a \
- && cat /spack_module_setup.sh >> /etc/bashrc \
- && ln -s ${SPACK_ROOT}/share/spack/setup-env.sh /etc/profile.d/ \
+ && cat /spack_bashrc_addendum.sh >> /etc/bashrc \
+ && cat /spack_profile_addendum.sh >> /etc/profile \
  && spack module lmod refresh --delete-tree -y \
  && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
