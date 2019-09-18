@@ -1,24 +1,24 @@
 FROM ubuntu:18.04
 
 
-RUN 	apt update -y \
-	&& apt upgrade -y \
+RUN   apt update -y \
+  && apt upgrade -y \
   && apt install -y \
-	git \
-	gcc \
+  git \
+  gcc \
   g++ \
   gfortran \ 
-	patch \
-	bzip2 \
-	findutils \
+  patch \
+  bzip2 \
+  findutils \
   automake \
   autoconf \
-	make \
-	m4 \
-	unzip \
-	vim \
-	file \
-	wget \
+  make \
+  m4 \
+  unzip \
+  vim \
+  file \
+  wget \
   curl \
   mercurial \
   cpio \
@@ -26,7 +26,8 @@ RUN 	apt update -y \
   zlib1g-dev \
   libffi-dev \
   libssl-dev \
-	&& apt clean \
+  libxml2-dev \
+  && apt clean \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
 
 RUN git clone https://github.com/spack/spack.git /spack
