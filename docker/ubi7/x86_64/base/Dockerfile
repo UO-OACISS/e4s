@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi7/ubi:7.6
+FROM registry.access.redhat.com/ubi7/ubi:7.6-239
 
 
 RUN yum update -y \
@@ -41,7 +41,7 @@ RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
  && cd / && rm -rf /Python-2.7.14 Python-2.7.14.tgz
 
 
-RUN git clone https://github.com/spack/spack.git /spack \
+RUN echo 22 && git clone https://github.com/spack/spack.git /spack \
  && sed -i "1s/python/python2/" /spack/bin/spack
 
 
