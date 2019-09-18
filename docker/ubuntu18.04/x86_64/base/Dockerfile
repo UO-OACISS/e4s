@@ -49,8 +49,8 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack compiler find
 
 COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
-COPY /spack_bashrc_addendum.sh /spack_bashrc_addendum.sh
-COPY /spack_profile_addendum.sh /spack_profile_addendum.sh
+COPY /spack_bashrc_addendum.sh /
+COPY /spack_profile_addendum.sh /
 
 RUN spack clean -a \
  && cat /spack_bashrc_addendum.sh >> /etc/bash.bashrc \
