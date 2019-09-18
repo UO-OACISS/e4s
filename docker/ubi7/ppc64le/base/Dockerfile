@@ -53,7 +53,7 @@ ENV SPACK_ROOT=/spack \
 RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack gpg trust e4s.pub \
  && spack mirror add e4s ${E4S_MIRROR_ROOT}/ppc64le \
- && spack install gcc@7.3.0 \
+ &&  spack install gcc@7.3.0 \
  && spack compiler add `spack location -i gcc@7.3.0` \
  && spack bootstrap \
  && spack install lmod \
@@ -61,8 +61,11 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack install cmake
 
 COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
-COPY bashrc /root/.bashrc
+COPY /spack_bashrc_addendum.sh /
+COPY /spack_profile_addendum.sh /
 
 RUN spack clean -a \
- && ln -s ${SPACK_ROOT}/share/spack/setup-env.sh /etc/profile.d/ \
- && spack module lmod refresh --delete-tree -y
+ && cat /spack_bashrc_addendum.sh >> /etc/bashrc \
+ && cat /spack_profile_addendum.sh >> /etc/profile \
+ && spack module lmod refresh --delete-tree -y \
+ && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
