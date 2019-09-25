@@ -1,11 +1,8 @@
-# This is a Spack Environment file.
-#
-# It describes a set of packages to be installed, along with
-# configuration settings.
+# DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
 spack:
   packages:
     all:
-      compiler: [gcc]
+      compiler: [gcc@7.3.0]
       variants: +mpi
       providers:
         mpi: [mpich]
@@ -15,12 +12,18 @@ spack:
       variants: ~wrapperrpath
     gcc:
       version: [7.3.0]
-  # add package specs to the `specs` list
-  #No package: romio, ioss, hxhim. Fails to build: parallel-netcdf, unifycr 
-  specs: [ faodel, mercury, hdf5, adios2, darshan-runtime, darshan-util, veloc, scr  ]
-  mirrors: {}
-  modules:
-    enable: []
-  repos: []
-  config: {}
-
+  specs:
+  #- romio NO PKG
+  #- ioss NO PKG
+  #- hxhim NO PKG
+  - faodel
+  - mercury
+  - hdf5
+  - adios2
+  - darshan-runtime
+  - darshan-util
+  - veloc
+  - scr
+  - parallel-netcdf
+  - unifyfs
+  view: false
