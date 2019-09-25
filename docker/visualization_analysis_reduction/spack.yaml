@@ -1,40 +1,28 @@
-# This is a Spack Environment file.
-#
-# It describes a set of packages to be installed, along with
-# configuration settings.
+# VISUALIZATION AND REDUCTION
 spack:
   packages:
     all:
-      compiler: [gcc]
+      compiler: [gcc@7.3.0]
       variants: +mpi
       providers:
         mpi: [mpich]
       buildable: true
-      version: []
-      paths: {}
-      modules: {}
     mpich:
       version:
       - 3.2.1
       variants: ~wrapperrpath
       buildable: true
-      providers: {}
-      paths: {}
-      modules: {}
-      compiler: []
     gcc:
       version: [7.3.0]
       buildable: true
-      providers: {}
-      paths: {}
-      modules: {}
-      compiler: []
-  # add package specs to the `specs` list
-  #No package: cinema, rover. Build fails: paraview,visit,catalyst, paraview+ascent (because of vtkm?). zfp builds but currently fails to download. 
-  specs: [sz, paraview, vtkm]
-  mirrors: {}
-  modules:
-    enable: []
-  repos: []
-  config: {}
-  upstreams: {}
+  specs:
+  #- cinema NO PKG
+  #- rover NO PKG
+  #- paraview+ascent BUILD FAILS (Because of vtkm?)
+  - visit ^vtk+python+qt ^hdf5+hl
+  - catalyst
+  - zfp
+  - sz
+  - paraview
+  - vtkm
+  view: false 
