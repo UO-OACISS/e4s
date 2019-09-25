@@ -1,26 +1,31 @@
-# This is a Spack Environment file.
-#
-# It describes a set of packages to be installed, along with
-# configuration settings.
+# XSDK
 spack:
   packages:
     all:
-      compiler: [gcc]
+      compiler: [gcc@7.3.0]
       variants: +mpi
       providers:
         mpi: [mpich]
+      buildable: true
     mpich:
-      version:
-      - 3.2.1
+      version: [3.2.1]
       variants: ~wrapperrpath
+      buildable: true
     gcc:
       version: [7.3.0]
-  # add package specs to the `specs` list
-  #TuckerMPI does not yet have a spack package. +fortrilinos trilinos variant does not yet build
-  specs: [ py-libensemble^python@3.7.3, flecsi,magma,slate,hypre,mfem,kokkos,trilinos@12.14.1+dtk+intrepid2+shards,sundials,petsc,strumpack,superlu,tasmanian]
-  mirrors: {}
-  modules:
-    enable: []
-  repos: []
-  config: {}
-
+      buildable: true
+  specs:
+  - py-libensemble^python@3.7.3
+  - flecsi
+  - magma
+  - slate
+  - hypre
+  - mfem
+  - kokkos
+  - trilinos@12.14.1+dtk+intrepid2+shards+fortrilinos
+  - sundials
+  - petsc
+  - strumpack
+  - superlu
+  - tasmanian
+  view: false
