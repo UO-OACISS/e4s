@@ -1,11 +1,8 @@
-# This is a Spack Environment file.
-#
-# It describes a set of packages to be installed, along with
-# configuration settings.
+# PMR CORE
 spack:
   packages:
     all:
-      compiler: [gcc]
+      compiler: [gcc@7.3.0]
       variants: +mpi
       providers:
         mpi: [mpich]
@@ -15,12 +12,22 @@ spack:
       variants: ~wrapperrpath
     gcc:
       version: [7.3.0]
-  # add package specs to the `specs` list
-  #No package: chai, parsec,upc,sicm,darma-futures(?). Fails to build: qthreads, bolt, papyrus, aml 
-  specs: [ legion, kokkos, raja,gasnet,mpich, openmpi, umpire, libquo ]
-  mirrors: {}
-  modules:
-    enable: []
-  repos: []
-  config: {}
-
+  specs:
+  #- chai NO PKG
+  #- parsec NO PKG
+  #- darma-futures NO PKG
+  #- sicm NO PKG
+  #- papyrus BLD ERROR
+  - qthreads
+  - bolt
+  - aml
+  - upcxx
+  - legion
+  - kokkos
+  - raja
+  - gasnet
+  - mpich
+  - openmpi
+  - umpire
+  - libquo
+  view: false
