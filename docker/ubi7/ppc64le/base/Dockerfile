@@ -40,7 +40,7 @@ RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
  && cd / && rm -rf /Python-2.7.14 Python-2.7.14.tgz
 
 
-RUN git clone https://github.com/spack/spack.git /spack \
+RUN git clone -b develop-wo-uarch --single-branch --depth=1 https://github.com/UO-OACISS/spack.git /spack \
  && sed -i "1s/python/python2/" /spack/bin/spack
 
 
@@ -53,7 +53,7 @@ ENV SPACK_ROOT=/spack \
 RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack gpg trust e4s.pub \
  && spack mirror add e4s ${E4S_MIRROR_ROOT}/ppc64le \
- &&  spack install gcc@7.3.0 \
+ && spack install gcc@7.3.0 \
  && spack compiler add `spack location -i gcc@7.3.0` \
  && spack bootstrap \
  && spack install lmod \
