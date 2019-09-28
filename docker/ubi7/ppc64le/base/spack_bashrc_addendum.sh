@@ -5,7 +5,7 @@ if [ -z "$BASHRC_READ" ]; then
         module purge
         module unuse /spack/share/spack/modules/linux-rhel7-ppc64le
         module use /spack/share/spack/lmod/linux-rhel7-ppc64le/Core
-        spack load gcc@7.3.0
-        spack load mpich@3.2.1~wrapperrpath
-        spack load cmake
+        module load gcc
+        module load mpich
+        module load cmake
 fi
