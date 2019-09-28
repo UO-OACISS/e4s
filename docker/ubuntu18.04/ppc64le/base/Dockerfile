@@ -29,7 +29,8 @@ RUN   apt update -y \
   && apt clean \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
 
-RUN git clone -b develop-wo-uarch --single-branch --depth=1 https://github.com/UO-OACISS/spack.git /spack
+RUN git clone https://github.com/spack/spack.git /spack \
+ && cd /spack && git checkout a940ff34d7 . && cd /
 
 ENV SPACK_ROOT=/spack \
     PATH=/spack/bin:${PATH} \
