@@ -15,6 +15,7 @@ spack:
       version: [7.3.0]
       buildable: true
   specs:
+  # fortrilinos variant of trilinos doesn't build
   - py-libensemble^python@3.7.3
   - flecsi
   - magma
@@ -22,7 +23,7 @@ spack:
   - hypre
   - mfem
   - kokkos
-  - trilinos@12.14.1+dtk+intrepid2+shards+fortrilinos
+  - trilinos@12.14.1+dtk+intrepid2+shards
   - sundials
   - petsc
   - strumpack

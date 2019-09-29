@@ -1,15 +1,8 @@
-# PMR Core Stack
-
-To build this Spack Stack container change to this directory and do the
-following:
-
-```
-docker build -t ecpe4s/pmr_core:latest .
-```
+# PMR Core
 
 ## Overview
 
-This container contains the following software packages:
+This Spack environment contains the following software packages:
 
 * Legion
 * Kokkos

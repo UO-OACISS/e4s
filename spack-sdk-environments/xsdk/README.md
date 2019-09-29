@@ -1,15 +1,8 @@
 # xSDK Stack
 
-To build this Spack Stack container change to this directory and do the
-following:
-
-```
-docker build -t ecpe4s/xsdk:latest .
-```
-
 ## Overview
 
-This container contains the following software packages:
+This Spack environment contains the following software packages:
 
 * hypre
 * FleCSI

@@ -1,15 +1,8 @@
-#E4S Ecosystem stack
-
-To build this Spack Stack container change to this directory and do the
-following:
-
-```
-docker build -t ecpe4s/e4s_ecosystem:latest .
-```
+# E4S Ecosystem
 
 ## Overview
 
-This group contains the following software packages:
+This Spack environment contains the following software packages:
 
 * BEE
 * FSEFI

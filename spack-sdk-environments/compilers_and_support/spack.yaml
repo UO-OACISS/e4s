@@ -1,11 +1,8 @@
-# This is a Spack Environment file.
-#
-# It describes a set of packages to be installed, along with
-# configuration settings.
+# COMPILERS & SUPPORT
 spack:
   packages:
     all:
-      compiler: [gcc]
+      compiler: [gcc@7.3.0]
       variants: +mpi
       providers:
         mpi: [mpich]
@@ -15,9 +12,9 @@ spack:
       variants: ~wrapperrpath
     gcc:
       version: [7.3.0]
-  # add package specs to the `specs` list
   # openarc, kitsune, llvm, chill, openmp v&v(?), flang.  Fails to build: llvm-openmp-ompt, llvm (libffi does not download)
-  specs: [flang]
+  specs:
+  - flang
   mirrors: {}
   modules:
     enable: []
