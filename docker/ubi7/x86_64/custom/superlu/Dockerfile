@@ -1,20 +1,17 @@
 FROM ecpe4s/ubi7_x86_64_base:1.1
 
+COPY /spack.yaml /slu-env/
 
-ENV	FORCE_UNSAFE_CONFIGURE=1 \	
-	  XSDK_ENV_ROOT="/xsdk-env" \
-	  E4S_GROUP="xsdk" \
-    PATH=/spack/bin:${PATH} \
-    SPACK_ROOT=/spack
+WORKDIR /slu-env
 
+RUN spack install \
+ && echo "spack load parmetis && spack load metis && spack load openblas threads=openmp" >> /etc/bashrc
 
-COPY /spack.yaml ${XSDK_ENV_ROOT}/spack.yaml
+WORKDIR /
 
+RUN git clone https://github.com/xiaoyeli/superlu_dist.git \
+ && rm -rf /superlu_dist/build/*
 
-# !!! Comment out the following RUN instruction if you do not want to pull pre-built binaries from the E4S mirror !!!
+COPY /tutorial-build-prep.sh /superlu_dist/build/
 
-RUN	spack env create superlu ${XSDK_ENV_ROOT}/spack.yaml \
-	&& . ${SPACK_ROOT}/share/spack/setup-env.sh \
-	&& spack env activate superlu \
-	&& spack install  \
-	&& spack clean -a
+WORKDIR /superlu_dist/build
