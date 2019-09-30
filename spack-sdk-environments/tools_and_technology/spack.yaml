@@ -14,10 +14,9 @@ spack:
       version: [7.3.0]
   specs:
   #- siboka NO PKG
-  #- c2c NO PKG
   #- surf NO PKG
   #- sonar NO PKG / NOT YET USEFUL HERE??
-  - tau # includes papi + pdt
+  - tau
   - hpctoolkit
   - dyninst
   - gotcha
