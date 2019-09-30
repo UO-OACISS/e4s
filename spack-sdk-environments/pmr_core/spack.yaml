@@ -13,7 +13,7 @@ spack:
     gcc:
       version: [7.3.0]
   specs:
-  #- chai NO PKG
+  #- chai WAITING FOR SPACK PR MERGE (9/30/19 0857)
   #- parsec NO PKG
   #- darma-futures NO PKG
   #- sicm NO PKG
