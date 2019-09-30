@@ -14,11 +14,14 @@ spack:
       version: [7.3.0]
       buildable: true
   specs:
-  - superlu-dist
-  - parmetis ^mpich@3.2.1~wrapperrpath
+  - superlu-dist@develop
+  - parmetis
   - openblas threads=openmp
   - petsc
   - mfem
   - strumpack
   - butterflypack
+  - netlib-scalapack
+  - netlib-lapack
+  #- cuda
   view: false
