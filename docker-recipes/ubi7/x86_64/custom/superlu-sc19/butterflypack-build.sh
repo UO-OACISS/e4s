@@ -20,3 +20,4 @@ cmake . \
   -DCMAKE_BUILD_TYPE=Release
 
 VERBOSE=1 make
+make install

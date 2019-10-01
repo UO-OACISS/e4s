@@ -30,3 +30,4 @@ cmake . \
   -DTPL_ENABLE_CUBLAS=OFF
 
 VERBOSE=1 make
+make install

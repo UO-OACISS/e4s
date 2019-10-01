@@ -19,6 +19,7 @@ cmake . \
   -DCMAKE_CXX_COMPILER=mpicxx
 
 make
+make install
 
 sed -i 's/"pdtest/"\.\/pdtest/g' TEST/CTestTestfile.cmake
 sed -i 's/"pddrive/"\.\/pddrive/g' EXAMPLE/CTestTestfile.cmake
