@@ -63,6 +63,7 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack install lmod \
  && spack install mpich@3.2.1~wrapperrpath \
  && spack install cmake \
+ && spack install emacs \
  && spack clean -a \
  && cat /spack_bashrc_addendum.sh >> /etc/bash.bashrc \
  && cat /spack_profile_addendum.sh >> /etc/profile \

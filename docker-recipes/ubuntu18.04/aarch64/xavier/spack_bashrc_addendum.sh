@@ -8,4 +8,5 @@ if [ -z "$BASHRC_READ" ]; then
         module use /spack/share/spack/lmod/linux-ubuntu18.04-aarch64/Core
         spack load mpich@3.2.1~wrapperrpath
         spack load cmake
+	spack load emacs
 fi
