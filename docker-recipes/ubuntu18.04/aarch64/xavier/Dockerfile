@@ -68,8 +68,9 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && cat /spack_bashrc_addendum.sh >> /etc/bash.bashrc \
  && cat /spack_profile_addendum.sh >> /etc/profile \
  && spack module lmod refresh --delete-tree -y \
- && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh \
- && wget https://github.com/Archiconda/build-tools/releases/download/0.2.3/Archiconda3-0.2.3-Linux-aarch64.sh \
+ && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
+
+RUN wget https://github.com/Archiconda/build-tools/releases/download/0.2.3/Archiconda3-0.2.3-Linux-aarch64.sh \
  && chmod +x Archiconda3-0.2.3-Linux-aarch64.sh \
  && ./Archiconda3-0.2.3-Linux-aarch64.sh -b \
  && /root/archiconda3/bin/conda install python=3.6.7 \
