@@ -52,19 +52,19 @@ printf "\n\n"
 strum "changing into /STRUMPACK/examples"
 cd /STRUMPACK/examples
 
-strum "press [enter] to build: make testMMdouble"
-pause ""
-make testMMdouble
+#strum "press [enter] to build: make testMMdouble"
+#pause ""
+#make testMMdouble
 
-printf "\n\n"
+#printf "\n\n"
 strum "press [enter] to run: OMP_NUM_THREADS=4 ./testMMdouble pde900.mtx"
 pause ""
 OMP_NUM_THREADS=4 ./testMMdouble pde900.mtx
 
-printf "\n\n"
-strum "press [enter] to build: make testMMdoubleMPIDist64"
-pause ""
-make testMMdoubleMPIDist64
+#printf "\n\n"
+#strum "press [enter] to build: make testMMdoubleMPIDist64"
+#pause ""
+#make testMMdoubleMPIDist64
 
 printf "\n\n"
 strum "press [enter] to run: OMP_NUM_THREADS=1 mpirun -n 4 ./testMMdoubleMPIDist64 pde900.mtx"
