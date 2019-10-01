@@ -30,7 +30,7 @@ RUN   apt update -y \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
 
 RUN git clone https://github.com/spack/spack.git /spack \
- && cd /spack && git checkout a940ff34d7 . && cd /
+ && cd /spack && git checkout a940ff34d7 && cd /
 
 ENV SPACK_ROOT=/spack \
     PATH=/spack/bin:${PATH} \
