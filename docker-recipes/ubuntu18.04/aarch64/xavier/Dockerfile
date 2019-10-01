@@ -99,3 +99,8 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && pip install torch-1.2.0a0+8554416-cp36-cp36m-linux_aarch64.whl \
  keras \
  && echo "changeps1: False" >> /root/archiconda3/.condarc
+
+COPY /Acknowledgement.txt /
+RUN rm /spack_*.sh && echo "deb https://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list \
+ && curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | apt-key add - \
+ && apt update && apt install -y rabbitmq-server && apt clean
