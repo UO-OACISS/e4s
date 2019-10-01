@@ -1,3 +1,4 @@
+# XSDK
 spack:
   packages:
     all:
@@ -6,25 +7,15 @@ spack:
       providers:
         mpi: [mpich]
       buildable: true
-      version: []
-      paths: {}
-      modules: {}
     mpich:
       version: [3.2.1]
       variants: ~wrapperrpath
       buildable: true
-      providers: {}
-      paths: {}
-      modules: {}
-      compiler: []
     gcc:
       version: [7.3.0]
       buildable: true
-      providers: {}
-      paths: {}
-      modules: {}
-      compiler: []
   specs:
+  # fortrilinos variant of trilinos doesn't build
   - py-libensemble^python@3.7.3
   - flecsi
   - magma
