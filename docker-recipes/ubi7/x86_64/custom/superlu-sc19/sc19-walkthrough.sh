@@ -4,42 +4,71 @@ function pause() {
   read -p "$*"
 }
 
-printf "[SUPERLU_DIST] changing into /superlu_dist\n"
+function p() {
+  printf "${GR}[ ${1} ]${NC} ${2}\n"
+}
+
+function slu() {
+  p "SUPERLU_DIST" "${1}"
+}
+
+function bfly() {
+  p "BUTTERFLYPACK" "${1}"
+}
+
+function strum() {
+  p "STRUMPACK" "${1}"
+}
+
+GR='\033[0;32m'
+NC='\033[0m'
+
+slu "changing into /superlu_dist"
 cd /superlu_dist
 
-printf "[SUPERLU_DIST] press [enter] to run: OMP_NUM_THREADS=2 ctest\n"
+slu "press [enter] to run: OMP_NUM_THREADS=2 ctest"
 pause ""
 OMP_NUM_THREADS=2 ctest
 
-printf "\n\n[SUPERLU_DIST] changing into /suerplu_dist/EXAMPLE\n"
+printf "\n\n"
+
+slu "changing into /suerplu_dist/EXAMPLE"
 cd /superlu_dist/EXAMPLE
-printf "[SUPERLU_DIST] press [enter] to run: OMP_NUM_THREADS=2 mpiexec -n 4 ./pddrive -r 2 -c 2 g20.rua\n"
+slu "press [enter] to run: OMP_NUM_THREADS=2 mpiexec -n 4 ./pddrive -r 2 -c 2 g20.rua"
 pause ""
 OMP_NUM_THREADS=2 mpiexec -n 4 ./pddrive -r 2 -c 2 g20.rua
 
 
-printf "\n\n[BUTTERFLYPACK] changing into /ButterflyPACK\n"
+printf "\n\n"
+bfly "changing into /ButterflyPACK"
 cd /ButterflyPACK
 
-printf "[BUTTERFLYPACK] press [enter] to run: mpiexec -n 4 ./EXAMPLE/ie2d\n"
+bfly "press [enter] to run: mpiexec -n 4 ./EXAMPLE/ie2d"
 pause ""
 mpiexec -n 4 ./EXAMPLE/ie2d
 
-printf "\n\n[STRUMPACK] changing into /STRUMPACK/examples\n"
+
+printf "\n\n"
+strum "changing into /STRUMPACK/examples"
 cd /STRUMPACK/examples
 
-printf "[STRUMPACK] press [enter] to build: make testMMdouble\n"
+strum "press [enter] to build: make testMMdouble"
 pause ""
 make testMMdouble
 
-printf "\n\n[STRUMPACK] press [enter] to run: OMP_NUM_THREADS=4 ./testMMdouble pde900.mtx\n"
+printf "\n\n"
+strum "press [enter] to run: OMP_NUM_THREADS=4 ./testMMdouble pde900.mtx"
 pause ""
 OMP_NUM_THREADS=4 ./testMMdouble pde900.mtx
 
-printf "\n\n[STRUMPACK] press [enter] to build: make testMMdoubleMPIDist64\n"
+printf "\n\n"
+strum "press [enter] to build: make testMMdoubleMPIDist64"
 pause ""
 make testMMdoubleMPIDist64
 
-printf "\n\n[STRUMPACK] press [enter] to run: OMP_NUM_THREADS=1 mpirun -n 4 ./testMMdoubleMPIDist64 pde900.mtx\n"
+printf "\n\n"
+strum "press [enter] to run: OMP_NUM_THREADS=1 mpirun -n 4 ./testMMdoubleMPIDist64 pde900.mtx"
 pause ""
 OMP_NUM_THREADS=1 mpirun -n 4 ./testMMdoubleMPIDist64 pde900.mtx
+
+printf "\n\n${GR}WALKTHROUGH COMPLETE${NC}\n\n"
