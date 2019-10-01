@@ -5,6 +5,6 @@ ENV FORCE_UNSAFE_CONFIGURE=1 \
 
 WORKDIR /e4s-env
 COPY /spack.yaml /e4s-env
-RUN spack install && spack clean -a
+#RUN spack install && spack clean -a
 
 WORKDIR /
