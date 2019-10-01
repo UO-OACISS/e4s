@@ -3,11 +3,9 @@ export LAPACK_LIB=${NETLIB_LAPACK_ROOT}/lib64/liblapack.so
 export SCALAPACK_LIB=${NETLIB_SCALAPACK_ROOT}/lib/libscalapack.so
 export ARPACK_LIB="${ARPACK_NG_ROOT}/lib64/libarpack.so;${ARPACK_NG_ROOT}/lib64/libparpack.so"
 
-cd ..
 sh PrecisionPreprocessing.sh
-cd build
 
-cmake .. \
+cmake . \
   -DCMAKE_Fortran_FLAGS="" \
   -DCMAKE_CXX_FLAGS="" \
   -DTPL_BLAS_LIBRARIES=${BLAS_LIB} \

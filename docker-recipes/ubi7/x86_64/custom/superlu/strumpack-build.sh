@@ -1,10 +1,10 @@
-cmake ../ \
+cmake . \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_CXX_COMPILER=mpicxx \
   -DCMAKE_C_COMPILER=mpicc \
   -DCMAKE_Fortran_COMPILER=mpif90 \
   \
-  -DCMAKE_INSTALL_PREFIX=../install \
+  -DCMAKE_INSTALL_PREFIX=./install \
   \
   -DSTRUMPACK_USE_MPI=ON \
   -DSTRUMPACK_USE_OPENMP=ON \
@@ -22,8 +22,8 @@ cmake ../ \
   -DTPL_BLAS_LIBRARIES=${OPENBLAS_ROOT}/lib/libopenblas.so \
   \
   -DTPL_ENABLE_BPACK=ON \
-  -DTPL_BPACK_INCLUDE_DIRS="/ButterflyPACK/SRC_DOUBLE;/ButterflyPACK/SRC_DOUBLECOMPLEX" \
-  -DTPL_BPACK_LIBRARIES="/ButterflyPACK/build/SRC_DOUBLE/libdbutterflypack.a;/ButterflyPACK/build/SRC_DOUBLECOMPLEX/libzbutterflypack.a;${ARPACK_NG_ROOT}/lib64/libarpack.so;${ARPACK_NG_ROOT}/lib64/libparpack.so" \
+  -DTPL_BPACK_INCLUDE_DIRS="${BUTTERFLYPACK_ROOT}/include" \
+  -DTPL_BPACK_LIBRARIES="${BUTTERFLYPACK_ROOT}/lib64/libdbutterflypack.so;${BUTTERFLYPACK_ROOT}/lib64/libzbutterflypack.so;" \
   \
   -DTPL_ENABLE_SCOTCH=OFF \
   -DTPL_ENABLE_COMBBLAS=OFF \

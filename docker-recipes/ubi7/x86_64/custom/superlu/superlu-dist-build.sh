@@ -3,7 +3,7 @@
 printf "METIS = ${METIS_ROOT}\n"
 printf "PARMETIS = ${PARMETIS_ROOT}\n"
 
-cmake .. \
+cmake . \
   -DTPL_PARMETIS_INCLUDE_DIRS="${PARMETIS_ROOT}/include;${METIS_ROOT}/include" \
   -DTPL_PARMETIS_LIBRARIES="${PARMETIS_ROOT}/lib/libparmetis.so;${METIS_ROOT}/lib/libmetis.so" \
   \
@@ -23,5 +23,3 @@ make
 sed -i 's/"pdtest/"\.\/pdtest/g' TEST/CTestTestfile.cmake
 sed -i 's/"pddrive/"\.\/pddrive/g' EXAMPLE/CTestTestfile.cmake
 sed -i 's/"pzdrive/"\.\/pzdrive/g' EXAMPLE/CTestTestfile.cmake
-
-cp ../EXAMPLE/*.rua EXAMPLE/.

@@ -20,8 +20,8 @@ spack:
   - petsc
   - mfem
   - strumpack
-  - butterflypack
+  - butterflypack@master
   - netlib-scalapack
   - netlib-lapack
-  #- cuda
+  - arpack-ng
   view: false
