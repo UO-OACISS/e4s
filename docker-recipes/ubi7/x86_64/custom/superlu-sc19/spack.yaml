@@ -24,4 +24,5 @@ spack:
   - netlib-scalapack
   - netlib-lapack
   - arpack-ng
+  - emacs
   view: false
