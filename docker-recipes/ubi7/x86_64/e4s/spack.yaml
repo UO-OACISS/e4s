@@ -40,6 +40,7 @@ spack:
   - petsc
   - strumpack
   - superlu
+  - superlu-dist
   - tasmanian
   
   # DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
