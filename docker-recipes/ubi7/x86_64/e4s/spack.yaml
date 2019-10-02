@@ -1,4 +1,3 @@
-# XSDK
 spack:
   packages:
     all:
@@ -7,14 +6,26 @@ spack:
       providers:
         mpi: [mpich]
       buildable: true
+      version: []
+      paths: {}
+      modules: {}
     mpich:
       version: [3.2.1]
       variants: ~wrapperrpath
       buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
     gcc:
       version: [7.3.0]
       buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
   specs:
+  
   # XSDK
   # +fortrilinos variant of trilinos doesn't build
   - py-libensemble^python@3.7.3
@@ -30,7 +41,7 @@ spack:
   - strumpack
   - superlu
   - tasmanian
- 
+  
   # DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
   #- romio NO PKG
   #- ioss NO PKG
@@ -64,7 +75,7 @@ spack:
   - openmpi
   - umpire
   - libquo
-
+  
   # TOOLS AND TECHNOLOGY
   #- siboka NO PKG
   #- surf NO PKG
@@ -79,12 +90,12 @@ spack:
   #- cinema NO PKG
   #- rover NO PKG
   #- paraview+ascent BUILD FAILS (Because of vtkm?)
-  - visit ^vtk+python+qt ^hdf5+hl
+  #- visit ^vtk+python+qt ^hdf5+hl
+  #- vtkm
   - catalyst
   - zfp
   - sz
   - paraview
-  - vtkm
 
   # COMPILERS & SUPPORT 
   # - openarc
@@ -96,3 +107,12 @@ spack:
   # - llvm-openmp-ompt ??
   # - llvm ??
   # - flang
+
+  mirrors: {}
+  repos: []
+  upstreams: {}
+  modules:
+    enable: []
+  definitions: []
+  config: {}
+  view: false
