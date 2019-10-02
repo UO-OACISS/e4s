@@ -61,7 +61,7 @@ spack:
   #- parsec NO PKG, MSG SENT, EXPECTED SOON
   #- darma-futures NO PKG, NO LONGER IN ECP, SPACK PKG IN PROGRESS
   #- sicm NO PKG, PKG OUTSIDE OF SPACK https://github.com/lanl/SICM.git, WORKS
-  #- papyrus BLD ERROR, @develop works??
+  - papyrus@develop # develop works, default version has build error 10/1/19
   - qthreads
   - bolt # ok on x86_64, problems on ppc64le
   - aml
