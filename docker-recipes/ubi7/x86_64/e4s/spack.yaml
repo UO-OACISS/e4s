@@ -43,9 +43,8 @@ spack:
   - tasmanian
   
   # DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
-  #- romio NO PKG
-  #- ioss NO PKG
-  #- hxhim NO PKG
+  #- ioss NO PKG (works, in seacas package)
+  #- hxhim NO PKG (github removed?)
   - faodel
   - mercury
   - hdf5
@@ -59,12 +58,12 @@ spack:
 
   # PMR CORE
   #- chai WAITING FOR SPACK PR MERGE (9/30/19 0857)
-  #- parsec NO PKG
-  #- darma-futures NO PKG
-  #- sicm NO PKG
-  #- papyrus BLD ERROR
+  #- parsec NO PKG, MSG SENT, EXPECTED SOON
+  #- darma-futures NO PKG, NO LONGER IN ECP, SPACK PKG IN PROGRESS
+  #- sicm NO PKG, PKG OUTSIDE OF SPACK https://github.com/lanl/SICM.git, WORKS
+  #- papyrus BLD ERROR, @develop works??
   - qthreads
-  - bolt
+  - bolt # ok on x86_64, problems on ppc64le
   - aml
   - upcxx
   - legion
@@ -77,8 +76,8 @@ spack:
   - libquo
   
   # TOOLS AND TECHNOLOGY
-  #- siboka NO PKG
-  #- surf NO PKG
+  #- siboka NO PKG, NOT OPEN SOURCE YET
+  #- surf NO PKG, CALLED PY-YTOPT, WORKS
   #- sonar NO PKG / NOT YET USEFUL HERE??
   - tau
   - hpctoolkit
@@ -88,7 +87,7 @@ spack:
 
   # VISUALIZATION AND REDUCTION
   #- cinema NO PKG
-  #- rover NO PKG
+  #- rover NO PKG, SUBCOMPONENT OF ASCENT, INCLUDED WITHIN
   #- paraview+ascent BUILD FAILS (Because of vtkm?)
   #- visit ^vtk+python+qt ^hdf5+hl
   #- vtkm
@@ -99,9 +98,9 @@ spack:
 
   # COMPILERS & SUPPORT 
   # - openarc
-  # - kitsune
+  # - kitsune NO PKG YET
   # - llvm
-  # - chill
+  # - chill EXISTS, DOESNT WORK, CONTACTED DEVELOPERS
   # - openmp
   # - v&v(?)
   # - llvm-openmp-ompt ??
