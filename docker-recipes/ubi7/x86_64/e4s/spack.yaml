@@ -97,10 +97,9 @@ spack:
   - paraview
 
   # COMPILERS & SUPPORT 
-  # - openarc
   # - kitsune NO PKG YET
-  # - llvm
   # - chill EXISTS, DOESNT WORK, CONTACTED DEVELOPERS
+  # - openarc
   # - openmp
   # - v&v(?)
   # - llvm-openmp-ompt ??
