@@ -67,6 +67,7 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack clean -a \
  && cat /spack_bashrc_addendum.sh >> /etc/bash.bashrc \
  && cat /spack_profile_addendum.sh >> /etc/profile \
+ && rm -f /spack_*.sh \
  && spack module lmod refresh --delete-tree -y \
  && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
 
@@ -96,6 +97,7 @@ RUN wget https://github.com/Archiconda/build-tools/releases/download/0.2.3/Archi
  keras-preprocessing \
  wrapt \
  google-pasta \
+ pandas \
  && pip install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu==1.14.0+nv19.7 \
  && wget https://nvidia.box.com/shared/static/06vlvedmqpqstu1dym49fo7aapgfyyu9.whl -O torch-1.2.0a0+8554416-cp36-cp36m-linux_aarch64.whl \
  && pip install torch-1.2.0a0+8554416-cp36-cp36m-linux_aarch64.whl \
