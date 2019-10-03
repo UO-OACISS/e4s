@@ -39,12 +39,12 @@ spack:
   - sundials
   - petsc
   - strumpack
-  - superlu
   - superlu-dist
+  - superlu
   - tasmanian
   
   # DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
-  #- ioss NO PKG (works, in seacas package)
+  #- seacas #provides ioss Doesn't build
   #- hxhim NO PKG (github removed?)
   - faodel
   - mercury
@@ -56,7 +56,7 @@ spack:
   - scr
   - parallel-netcdf
   - unifyfs
-
+  
   # PMR CORE
   #- chai WAITING FOR SPACK PR MERGE (9/30/19 0857)
   #- parsec NO PKG, MSG SENT, EXPECTED SOON
@@ -78,14 +78,14 @@ spack:
   
   # TOOLS AND TECHNOLOGY
   #- siboka NO PKG, NOT OPEN SOURCE YET
-  #- surf NO PKG, CALLED PY-YTOPT, WORKS
+  - py-ytopt^python@3.7.3 #provides surf 
   #- sonar NO PKG / NOT YET USEFUL HERE??
   - tau
   - hpctoolkit
   - dyninst
   - gotcha
   - caliper
-
+ 
   # VISUALIZATION AND REDUCTION
   #- cinema NO PKG
   #- rover NO PKG, SUBCOMPONENT OF ASCENT, INCLUDED WITHIN
@@ -96,16 +96,32 @@ spack:
   - zfp
   - sz
   - paraview
-
+ 
   # COMPILERS & SUPPORT 
   # - kitsune NO PKG YET
   # - chill EXISTS, DOESNT WORK, CONTACTED DEVELOPERS
   # - openarc
-  # - openmp
-  # - v&v(?)
-  # - llvm-openmp-ompt ??
-  # - llvm ??
-  # - flang
+  # - openmp validation & verification (?)
+  # - llvm-openmp-ompt
+  - llvm-openmp
+  - llvm
+  - flang
+  
+  # Ecosystem
+  #- bee
+  #- fsefi
+  #- kitten
+  #- coolr
+  - nrm^python@3.7.3
+  - libnrm
+  #- argocontainers
+  #- spack
+  #- marfs
+  #- gufi
+  - geopm^py-numpy@1.16.5^py-pandas@0.24.2 #intel?
+  - mpifileutils@develop~xattr
+  #- tribits
+
 
   mirrors: {}
   repos: []
