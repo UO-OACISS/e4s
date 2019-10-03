@@ -28,5 +28,6 @@ spack:
   - petsc
   - strumpack
   - superlu
+  - superlu-dist ^openblas threads=openmp
   - tasmanian
   view: false
