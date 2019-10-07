@@ -29,14 +29,13 @@ spack:
   # XSDK
   # tuckermpi #No package
   # +fortrilinos variant of trilinos doesn't build
+  #- kokkoskernels (not the same as kokkos)
   - py-libensemble^python@3.7.3
   - flecsi
   - magma
   - slate
   - hypre
   - mfem
-  
-  #- kokkoskernels (not the same as kokkos)
   - trilinos@12.14.1+dtk+intrepid2+shards
   - sundials
   - petsc
@@ -44,7 +43,7 @@ spack:
   - superlu-dist
   - superlu
   - tasmanian
-
+  - xsdk
   
   # DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
   #- seacas #provides ioss Doesn't build
@@ -59,7 +58,6 @@ spack:
   - scr
   - parallel-netcdf
   - unifyfs
-
   
   # PMR CORE
   #- chai WAITING FOR SPACK PR MERGE (9/30/19 0857)
@@ -79,13 +77,14 @@ spack:
   - openmpi
   - umpire
   - libquo
-
+  - globalarrays
+  - stc #Provides swift/t compiler
+  - turbine #Provies swift/t runtime
   
   # TOOLS AND TECHNOLOGY
   #- siboka NO PKG, NOT OPEN SOURCE YET
-  - py-ytopt^python@3.7.3 #provides surf 
-  
   #- sonar NO PKG / NOT YET USEFUL HERE??
+  - py-ytopt^python@3.7.3 #provides surf 
   - tau
   - hpctoolkit
   - dyninst
@@ -94,18 +93,17 @@ spack:
   - papi
   - pdt
 
-  
   # VISUALIZATION AND REDUCTION
   #- cinema NO PKG
   #- rover NO PKG, SUBCOMPONENT OF ASCENT, INCLUDED WITHIN
   #- paraview+ascent BUILD FAILS (Because of vtkm?)
   #- visit ^vtk+python+qt ^hdf5+hl
   #- vtkm
+  #- py-jupyterhub^python@3.7.3
   - catalyst
   - zfp
   - sz
   - paraview
-
   
   # COMPILERS & SUPPORT 
   # - kitsune NO PKG YET
@@ -116,27 +114,22 @@ spack:
   - llvm-openmp
   - llvm
   - flang
-
   
   # Ecosystem
   #- bee
   #- fsefi
   #- kitten
   #- coolr
-  - nrm^python@3.7.3
-  - libnrm
-  
+  #- tribits
   #- argocontainers
   #- spack
   #- marfs
   #- gufi
+  - nrm^python@3.7.3
+  - libnrm
   - geopm^py-numpy@1.16.5^py-pandas@0.24.2 #intel?
   - mpifileutils@develop~xattr
-  #- tribits
-
-  #OTHER
-  #  - py-jupyterhub^python@3.7.3
-
+  - pmix
 
   mirrors: {}
   repos: []
