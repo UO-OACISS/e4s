@@ -27,6 +27,7 @@ spack:
   specs:
   
   # XSDK
+  # tuckermpi #No package
   # +fortrilinos variant of trilinos doesn't build
   - py-libensemble^python@3.7.3
   - flecsi
@@ -34,7 +35,8 @@ spack:
   - slate
   - hypre
   - mfem
-  - kokkos
+  
+  #- kokkoskernels (not the same as kokkos)
   - trilinos@12.14.1+dtk+intrepid2+shards
   - sundials
   - petsc
@@ -42,6 +44,7 @@ spack:
   - superlu-dist
   - superlu
   - tasmanian
+
   
   # DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
   #- seacas #provides ioss Doesn't build
@@ -56,6 +59,7 @@ spack:
   - scr
   - parallel-netcdf
   - unifyfs
+
   
   # PMR CORE
   #- chai WAITING FOR SPACK PR MERGE (9/30/19 0857)
@@ -75,17 +79,22 @@ spack:
   - openmpi
   - umpire
   - libquo
+
   
   # TOOLS AND TECHNOLOGY
   #- siboka NO PKG, NOT OPEN SOURCE YET
   - py-ytopt^python@3.7.3 #provides surf 
+  
   #- sonar NO PKG / NOT YET USEFUL HERE??
   - tau
   - hpctoolkit
   - dyninst
   - gotcha
   - caliper
- 
+  - papi
+  - pdt
+
+  
   # VISUALIZATION AND REDUCTION
   #- cinema NO PKG
   #- rover NO PKG, SUBCOMPONENT OF ASCENT, INCLUDED WITHIN
@@ -96,7 +105,8 @@ spack:
   - zfp
   - sz
   - paraview
- 
+
+  
   # COMPILERS & SUPPORT 
   # - kitsune NO PKG YET
   # - chill EXISTS, DOESNT WORK, CONTACTED DEVELOPERS
@@ -106,6 +116,7 @@ spack:
   - llvm-openmp
   - llvm
   - flang
+
   
   # Ecosystem
   #- bee
@@ -114,6 +125,7 @@ spack:
   #- coolr
   - nrm^python@3.7.3
   - libnrm
+  
   #- argocontainers
   #- spack
   #- marfs
@@ -121,6 +133,9 @@ spack:
   - geopm^py-numpy@1.16.5^py-pandas@0.24.2 #intel?
   - mpifileutils@develop~xattr
   #- tribits
+
+  #OTHER
+  #  - py-jupyterhub^python@3.7.3
 
 
   mirrors: {}
