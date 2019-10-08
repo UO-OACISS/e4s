@@ -1,4 +1,3 @@
-# DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
 spack:
   packages:
     all:
@@ -6,16 +5,29 @@ spack:
       variants: +mpi
       providers:
         mpi: [mpich]
+      buildable: true
+      version: []
+      paths: {}
+      modules: {}
     mpich:
-      version:
-      - 3.2.1
+      version: [3.2.1]
       variants: ~wrapperrpath
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
     gcc:
       version: [7.3.0]
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
   specs:
-  #- romio NO PKG
-  #- ioss NO PKG
-  #- hxhim NO PKG
+  # DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
+  #- seacas #provides ioss Doesn't build
+  #- hxhim NO PKG (github removed?)
   - faodel
   - mercury
   - hdf5
@@ -26,4 +38,11 @@ spack:
   - scr
   - parallel-netcdf
   - unifyfs
+  mirrors: {}
+  repos: []
+  upstreams: {}
+  modules:
+    enable: []
+  definitions: []
+  config: {}
   view: false
