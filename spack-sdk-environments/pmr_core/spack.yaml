@@ -1,4 +1,3 @@
-# PMR CORE
 spack:
   packages:
     all:
@@ -6,20 +5,34 @@ spack:
       variants: +mpi
       providers:
         mpi: [mpich]
+      buildable: true
+      version: []
+      paths: {}
+      modules: {}
     mpich:
-      version:
-      - 3.2.1
+      version: [3.2.1]
       variants: ~wrapperrpath
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
     gcc:
       version: [7.3.0]
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
   specs:
+  # PMR CORE
   #- chai WAITING FOR SPACK PR MERGE (9/30/19 0857)
-  #- parsec NO PKG
-  #- darma-futures NO PKG
-  #- sicm NO PKG
-  #- papyrus BLD ERROR
+  #- parsec NO PKG, MSG SENT, EXPECTED SOON
+  #- darma-futures NO PKG, NO LONGER IN ECP, SPACK PKG IN PROGRESS
+  #- sicm NO PKG, PKG OUTSIDE OF SPACK https://github.com/lanl/SICM.git, WORKS
+  - papyrus@develop # develop works, default version has build error 10/1/19
   - qthreads
-  - bolt
+  - bolt # ok on x86_64, problems on ppc64le
   - aml
   - upcxx
   - legion
@@ -30,4 +43,14 @@ spack:
   - openmpi
   - umpire
   - libquo
+  - globalarrays
+  - stc #Provides swift/t compiler
+  - turbine #Provies swift/t runtime
+  mirrors: {}
+  repos: []
+  upstreams: {}
+  modules:
+    enable: []
+  definitions: []
+  config: {}
   view: false
