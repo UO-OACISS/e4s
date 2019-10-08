@@ -1,26 +1,50 @@
-# This is a Spack Environment file.
-#
-# It describes a set of packages to be installed, along with
-# configuration settings.
 spack:
   packages:
     all:
-      compiler: [gcc]
+      compiler: [gcc@7.3.0]
       variants: +mpi
       providers:
         mpi: [mpich]
+      buildable: true
+      version: []
+      paths: {}
+      modules: {}
     mpich:
-      version:
-      - 3.2.1
+      version: [3.2.1]
       variants: ~wrapperrpath
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
     gcc:
       version: [7.3.0]
-  # add package specs to the `specs` list
-  #No package: bee, fsefi, kitten, coolr, argocontainers, spack(pre-installed), marfs, gufi, tribits. Fails to build: nrm (requested py-jsonschema doesn't validate), mpifileutils~xattr 
-  specs: [ geopm ]
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
+  specs:
+  # Ecosystem
+  #- bee
+  #- fsefi
+  #- kitten
+  #- coolr
+  #- tribits
+  #- argocontainers
+  #- spack
+  #- marfs
+  #- gufi
+  - nrm^python@3.7.3
+  - libnrm
+  - geopm^py-numpy@1.16.5^py-pandas@0.24.2 #intel?
+  - mpifileutils@develop~xattr
+  - pmix
   mirrors: {}
+  repos: []
+  upstreams: {}
   modules:
     enable: []
-  repos: []
+  definitions: []
   config: {}
-
+  view: false
