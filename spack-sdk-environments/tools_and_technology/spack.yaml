@@ -1,24 +1,46 @@
-# TOOLS AND TECHNOLOGY
 spack:
   packages:
     all:
       compiler: [gcc@7.3.0]
       variants: +mpi
       providers:
-        mpi: [mpich@3.2.1~wrapperrpath]
+        mpi: [mpich]
+      buildable: true
+      version: []
+      paths: {}
+      modules: {}
     mpich:
-      version:
-      - 3.2.1
+      version: [3.2.1]
       variants: ~wrapperrpath
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
     gcc:
       version: [7.3.0]
-  specs:
-  #- siboka NO PKG
-  #- surf NO PKG
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
+  specs: 
+  # TOOLS AND TECHNOLOGY
+  #- siboka NO PKG, NOT OPEN SOURCE YET
   #- sonar NO PKG / NOT YET USEFUL HERE??
+  - py-ytopt^python@3.7.3 #provides surf 
   - tau
   - hpctoolkit
   - dyninst
   - gotcha
   - caliper
+  - papi
+  - pdt
+  mirrors: {}
+  repos: []
+  upstreams: {}
+  modules:
+    enable: []
+  definitions: []
+  config: {}
   view: false
