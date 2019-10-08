@@ -1,4 +1,3 @@
-# COMPILERS & SUPPORT
 spack:
   packages:
     all:
@@ -6,18 +5,40 @@ spack:
       variants: +mpi
       providers:
         mpi: [mpich]
+      buildable: true
+      version: []
+      paths: {}
+      modules: {}
     mpich:
-      version:
-      - 3.2.1
+      version: [3.2.1]
       variants: ~wrapperrpath
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
     gcc:
       version: [7.3.0]
-  # openarc, kitsune, llvm, chill, openmp v&v(?), flang.  Fails to build: llvm-openmp-ompt, llvm (libffi does not download)
+      buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
   specs:
+  # COMPILERS & SUPPORT 
+  # - kitsune NO PKG YET
+  # - chill EXISTS, DOESNT WORK, CONTACTED DEVELOPERS
+  # - openarc
+  # - openmp validation & verification (?)
+  # - llvm-openmp-ompt
+  - llvm-openmp
+  - llvm
   - flang
   mirrors: {}
+  repos: []
+  upstreams: {}
   modules:
     enable: []
-  repos: []
+  definitions: []
   config: {}
-
+  view: false
