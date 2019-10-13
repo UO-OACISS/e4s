@@ -30,11 +30,13 @@ spack:
   # tuckermpi #No package
   # +fortrilinos variant of trilinos doesn't build
   #- kokkoskernels (not the same as kokkos)
+  - patchelf
   - py-libensemble^python@3.7.3
   - flecsi
   - magma
   - slate
   - hypre
+  - xsdk
   - mfem
   - trilinos@12.14.1+dtk+intrepid2+shards
   - sundials
@@ -43,7 +45,6 @@ spack:
   - superlu-dist
   - superlu
   - tasmanian
-  - xsdk
   
   # DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
   #- seacas #provides ioss Doesn't build
@@ -67,13 +68,13 @@ spack:
   - papyrus@develop # develop works, default version has build error 10/1/19
   - qthreads
   - bolt # ok on x86_64, problems on ppc64le
-  - aml
-  - upcxx
-  - legion
-  - kokkos
   - raja
-  - gasnet
-  - mpich
+  - upcxx
+  - aml
+#  - legion # legion gives an error with spack_cc
+#  - kokkos
+#  - gasnet
+#  - mpich
   - openmpi
   - umpire
   - libquo
@@ -112,8 +113,8 @@ spack:
   # - openmp validation & verification (?)
   # - llvm-openmp-ompt
   - llvm-openmp
-  - llvm
-  - flang
+  # - llvm
+  # - flang
   
   # Ecosystem
   #- bee
@@ -128,8 +129,8 @@ spack:
   - nrm^python@3.7.3
   - libnrm
   - geopm^py-numpy@1.16.5^py-pandas@0.24.2 #intel?
-  - mpifileutils@develop~xattr
-  - pmix
+#  - mpifileutils@develop~xattr
+#  - pmix
 
   mirrors: {}
   repos: []
