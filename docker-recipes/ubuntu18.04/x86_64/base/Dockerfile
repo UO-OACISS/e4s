@@ -27,6 +27,9 @@ RUN   apt update -y \
   libffi-dev \
   libssl-dev \
   libxml2-dev \
+  rsync \
+  locate \
+  && updatedb \
   && apt clean \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
 
@@ -48,6 +51,7 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack install lmod \
  && spack install mpich@3.2.1~wrapperrpath \
  && spack install cmake \
+ && spack install patchelf \
  && spack compiler find
 
 COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
@@ -58,4 +62,5 @@ RUN spack clean -a \
  && cat /spack_bashrc_addendum.sh >> /etc/bash.bashrc \
  && cat /spack_profile_addendum.sh >> /etc/profile \
  && spack module lmod refresh --delete-tree -y \
- && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
+ && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh \
+ && updatedb

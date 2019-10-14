@@ -26,6 +26,10 @@ RUN yum update -y \
   nproc \
   openssl-devel \
   hostname \
+  crontabs \
+  && wget http://mirror.centos.org/centos/7/os/x86_64/Packages/mlocate-0.26-8.el7.x86_64.rpm \
+  && rpm -i mlocate-0.26-8.el7.x86_64.rpm \
+  && updatedb \
   && yum clean all \
   && rm -rf /var/cache/yum/* \
   && rpm -ivh https://www.mercurial-scm.org/release/centos7/RPMS/x86_64/mercurial-3.4-0.x86_64.rpm
@@ -55,7 +59,8 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack bootstrap \
  && spack install lmod \
  && spack install mpich@3.2.1~wrapperrpath \
- && spack install cmake
+ && spack install cmake \
+ && spack install patchelf
 
 COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
 COPY spack_bashrc_addendum.sh /
@@ -65,4 +70,5 @@ RUN spack clean -a \
  && cat /spack_bashrc_addendum.sh >> /etc/bashrc \
  && cat /spack_profile_addendum.sh >> /etc/profile \
  && spack module lmod refresh --delete-tree -y \
- && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
+ && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh \
+ && updatedb
