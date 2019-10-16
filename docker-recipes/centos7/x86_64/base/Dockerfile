@@ -29,7 +29,6 @@ RUN yum update -y \
   crontabs \
   && wget http://mirror.centos.org/centos/7/os/x86_64/Packages/mlocate-0.26-8.el7.x86_64.rpm \
   && rpm -i mlocate-0.26-8.el7.x86_64.rpm \
-  && updatedb \
   && yum clean all \
   && rm -rf /var/cache/yum/* \
   && rpm -ivh https://www.mercurial-scm.org/release/centos7/RPMS/x86_64/mercurial-3.4-0.x86_64.rpm
@@ -42,13 +41,16 @@ RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
  && ln -s /usr/local/bin/python2.7 /usr/local/bin/python2 \
  && cd / && rm -rf /Python-2.7.14 Python-2.7.14.tgz
 
+WORKDIR /
+
 RUN git clone https://github.com/spack/spack.git /spack \
  && cd /spack && git checkout a940ff34d7 && cd / \
  && sed -i "1s/python/python2/" /spack/bin/spack
 
+WORKDIR /
+
 ENV SPACK_ROOT=/spack \
     PATH=/spack/bin:${PATH} \
-    FORCE_UNSAFE_CONFIGURE=1 \
     E4S_MIRROR_ROOT="http://oaciss.uoregon.edu/e4s"
 
 RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
@@ -60,15 +62,14 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack install lmod \
  && spack install mpich@3.2.1~wrapperrpath \
  && spack install cmake \
- && spack install patchelf
+ && spack install patchelf \
+ && spack clean -a
 
-COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
-COPY spack_bashrc_addendum.sh /
-COPY spack_profile_addendum.sh /
+COPY /modules /modules
+WORKDIR /modules
 
-RUN spack clean -a \
- && cat /spack_bashrc_addendum.sh >> /etc/bashrc \
- && cat /spack_profile_addendum.sh >> /etc/profile \
- && spack module lmod refresh --delete-tree -y \
- && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh \
+RUN ./setup.sh \
+ && cd / && rm -rf /modules \
  && updatedb
+
+WORKDIR /
