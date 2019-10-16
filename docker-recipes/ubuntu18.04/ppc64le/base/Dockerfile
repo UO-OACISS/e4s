@@ -1,7 +1,6 @@
 FROM ubuntu:18.04
 
-
-RUN   apt update -y \
+RUN apt update -y \
   && apt upgrade -y \
   && apt install -y \
   git \
@@ -26,11 +25,16 @@ RUN   apt update -y \
   zlib1g-dev \
   libffi-dev \
   libssl-dev \
+  libxml2-dev \
+  rsync \
+  locate \
   && apt clean \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
 
 RUN git clone https://github.com/spack/spack.git /spack \
- && cd /spack && git checkout a940ff34d7 && cd /
+ && cd /spack && git checkout a940ff34d7
+
+WORKDIR /
 
 ENV SPACK_ROOT=/spack \
     PATH=/spack/bin:${PATH} \
@@ -47,14 +51,14 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack install lmod \
  && spack install mpich@3.2.1~wrapperrpath \
  && spack install cmake \
- && spack compiler find
+ && spack compiler find \
+ && spack clean -a
 
-COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
-COPY /spack_bashrc_addendum.sh /spack_bashrc_addendum.sh
-COPY /spack_profile_addendum.sh /spack_profile_addendum.sh
+COPY /modules /modules
+WORKDIR /modules
 
-RUN spack clean -a \
- && cat /spack_bashrc_addendum.sh >> /etc/bash.bashrc \
- && cat /spack_profile_addendum.sh >> /etc/profile \
- && spack module lmod refresh --delete-tree -y \
- && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
+RUN ./setup.sh \
+ && cd / && rm -rf /modules \
+ && updatedb
+
+WORKDIR /
