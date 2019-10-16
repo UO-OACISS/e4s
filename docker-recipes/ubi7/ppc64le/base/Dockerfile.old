@@ -17,6 +17,7 @@ RUN yum update -y \
     make \
     m4 \
     unzip \
+    mercurial \
     vim \
     file \
     wget \
@@ -25,10 +26,9 @@ RUN yum update -y \
     zlib-devel \
     nproc \
     openssl-devel \
-    hostname \
-    crontabs \
     && yum clean all \
     && rm -rf /var/cache/yum/*
+
 
 RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
  && tar xzf Python-2.7.14.tgz \
@@ -39,15 +39,14 @@ RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
  && cd / && rm -rf /Python-2.7.14 Python-2.7.14.tgz
 
 RUN git clone https://github.com/spack/spack.git /spack \
- && cd /spack && git checkout a940ff34d7 \
+ && cd /spack && git checkout a940ff34d7 && cd / \
  && sed -i "1s/python/python2/" /spack/bin/spack
-
-WORKDIR /
 
 ENV SPACK_ROOT=/spack \
     PATH=/spack/bin:${PATH} \
     FORCE_UNSAFE_CONFIGURE=1 \
     E4S_MIRROR_ROOT="http://oaciss.uoregon.edu/e4s"
+
 
 RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack gpg trust e4s.pub \
@@ -57,14 +56,14 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack bootstrap \
  && spack install lmod \
  && spack install mpich@3.2.1~wrapperrpath \
- && spack install cmake \
- && spack install patchelf \
- && spack clean -a
+ && spack install cmake
 
-COPY /modules /modules
-WORKDIR /modules
+COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
+COPY /spack_bashrc_addendum.sh /
+COPY /spack_profile_addendum.sh /
 
-RUN ./setup.sh \
- && cd / && rm -rf /modules
-
-WORKDIR /
+RUN spack clean -a \
+ && cat /spack_bashrc_addendum.sh >> /etc/bashrc \
+ && cat /spack_profile_addendum.sh >> /etc/profile \
+ && spack module lmod refresh --delete-tree -y \
+ && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
