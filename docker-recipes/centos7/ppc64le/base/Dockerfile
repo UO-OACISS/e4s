@@ -29,17 +29,21 @@ RUN yum update -y \
   && yum clean all \
   && rm -rf /var/cache/yum/*
 
+WORKDIR /
+
 RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
  && tar xzf Python-2.7.14.tgz \
  && cd Python-2.7.14 \
- && ./configure --enable-optimizations --with-ssl \
+ && ./configure --enable-optimizations \
  && if [[ `nproc` -gt 16 ]]; then make -j16 altinstall; else make -j`nproc` altinstall; fi \
  && ln -s /usr/local/bin/python2.7 /usr/local/bin/python2 \
  && cd / && rm -rf /Python-2.7.14 Python-2.7.14.tgz
 
 RUN git clone https://github.com/spack/spack.git /spack \
- && cd /spack && git checkout a940ff34d7 && cd / \
+ && cd /spack && git checkout a940ff34d7 \
  && sed -i "1s/python/python2/" /spack/bin/spack
+
+WORKDIR /
 
 ENV SPACK_ROOT=/spack \
     PATH=/spack/bin:${PATH} \
@@ -54,14 +58,14 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack bootstrap \
  && spack install lmod \
  && spack install mpich@3.2.1~wrapperrpath \
- && spack install cmake
+ && spack install cmake \
+ && spack install patchelf \
+ && spack clean -a
 
-COPY modules.yaml /spack/etc/spack/defaults/modules.yaml
-COPY spack_bashrc_addendum.sh /
-COPY spack_profile_addendum.sh /
+COPY /modules /modules
+WORKDIR /modules
 
-RUN spack clean -a \
- && cat /spack_bashrc_addendum.sh >> /etc/bashrc \
- && cat /spack_profile_addendum.sh >> /etc/profile \
- && spack module lmod refresh --delete-tree -y \
- && sed -i 's/module tcl/module lmod/g' ${SPACK_ROOT}/share/spack/setup-env.sh
+RUN ./setup.sh \
+ && cd / && rm -rf /modules
+
+WORKDIR /
