@@ -41,8 +41,6 @@ RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
  && ln -s /usr/local/bin/python2.7 /usr/local/bin/python2 \
  && cd / && rm -rf /Python-2.7.14 Python-2.7.14.tgz
 
-WORKDIR /
-
 RUN git clone https://github.com/spack/spack.git /spack \
  && cd /spack && git checkout a940ff34d7 \
  && sed -i "1s/python/python2/" /spack/bin/spack
