@@ -34,6 +34,8 @@ RUN apt update -y \
 RUN git clone https://github.com/spack/spack.git /spack \
  && cd /spack && git checkout a940ff34d7
 
+COPY packages.yaml /etc/spack/packages.yaml
+
 WORKDIR /
 
 ENV SPACK_ROOT=/spack \
@@ -51,6 +53,7 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack install lmod \
  && spack install mpich@3.2.1~wrapperrpath \
  && spack install cmake \
+ && spack install patchelf \
  && spack compiler find \
  && spack clean -a
 
