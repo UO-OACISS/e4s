@@ -45,6 +45,8 @@ RUN git clone https://github.com/spack/spack.git /spack \
  && cd /spack && git checkout a940ff34d7 \
  && sed -i "1s/python/python2/" /spack/bin/spack
 
+COPY packages.yaml /etc/spack/packages.yaml
+
 WORKDIR /
 
 ENV SPACK_ROOT=/spack \
