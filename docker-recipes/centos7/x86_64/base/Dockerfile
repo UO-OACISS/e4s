@@ -43,6 +43,8 @@ RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
  && ./configure --enable-optimizations \
  && if [[ `nproc` -gt 16 ]]; then make -j16 altinstall; else make -j`nproc` altinstall; fi \
  && ln -s /usr/local/bin/python3.7 /usr/local/bin/python3 \
+ && python3 -m pip install --upgrade pip setuptools wheel \
+ && python3 -m pip install gnureadline \
  && cd / && rm -rf /Python-3.7.4*
 
 RUN git clone https://github.com/spack/spack.git /spack \
