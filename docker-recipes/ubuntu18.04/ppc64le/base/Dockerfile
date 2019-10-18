@@ -32,7 +32,7 @@ RUN apt update -y \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
 
 RUN git clone https://github.com/spack/spack.git /spack \
- && cd /spack && git checkout a940ff34d7
+ && cd /spack && git checkout af3c238c3162
 
 COPY packages.yaml /etc/spack/packages.yaml
 
@@ -45,7 +45,7 @@ ENV SPACK_ROOT=/spack \
 
 RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack gpg trust e4s.pub \
- && spack mirror add e4s ${E4S_MIRROR_ROOT}/ppc64le \
+ && spack mirror add e4s ${E4S_MIRROR_ROOT}/new-uarch \
  && spack install gcc@7.3.0 \
  && spack compiler add `spack location -i gcc@7.3.0` \
  && spack compiler rm gcc@7.4.0 \
