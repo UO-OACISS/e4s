@@ -28,6 +28,8 @@ RUN apt update -y \
   libxml2-dev \
   rsync \
   locate \
+  pciutils \
+  iputils-ping \
   && apt clean \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
 
