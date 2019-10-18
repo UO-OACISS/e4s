@@ -27,20 +27,21 @@ RUN yum update -y \
     openssl-devel \
     hostname \
     crontabs \
+    ncurses-devel \
     && yum clean all \
     && rm -rf /var/cache/yum/*
 
-RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
- && tar xzf Python-2.7.14.tgz \
- && cd Python-2.7.14 \
+RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
+ && tar xzf Python-3.7.4.tgz && cd Python-3.7.4 \
  && ./configure --enable-optimizations \
- && if [[ `nproc` -gt 16 ]]; then make -j16 altinstall; else make -j`nproc` altinstall; fi \
- && ln -s /usr/local/bin/python2.7 /usr/local/bin/python2 \
- && cd / && rm -rf /Python-2.7.14 Python-2.7.14.tgz
+ && make -j`if [[ $(nproc) -lt 16 ]]; then echo $(nproc) ; else echo 16; fi` altinstall \
+ && ln -s `which python3.7` /usr/local/bin/python3 \
+ && cd / && rm -rf /Python-3.7.4.tgz /Python-3.7.4 \
+ && python3 -m pip install --upgrade pip \
+ && python3 -m pip install gnureadline
 
 RUN git clone https://github.com/spack/spack.git /spack \
- && cd /spack && git checkout a940ff34d7 \
- && sed -i "1s/python/python2/" /spack/bin/spack
+ && cd /spack && git checkout af3c238c3162
 
 COPY packages.yaml /etc/spack/packages.yaml
 
@@ -53,7 +54,7 @@ ENV SPACK_ROOT=/spack \
 
 RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack gpg trust e4s.pub \
- && spack mirror add e4s ${E4S_MIRROR_ROOT}/ppc64le \
+ && spack mirror add e4s ${E4S_MIRROR_ROOT}/new-uarch \
  && spack install gcc@7.3.0 \
  && spack compiler add `spack location -i gcc@7.3.0` \
  && spack bootstrap \
