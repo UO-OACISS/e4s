@@ -30,7 +30,11 @@ RUN apt update -y \
   locate \
   pciutils \
   iputils-ping \
-  && apt clean \
+  ncurses-dev \
+  python3-pip \
+  && python3 -m pip install --upgrade pip setuptools wheel \
+  && python3 -m pip install --upgrade gnureadline \
+  && apt autoremove --purge && apt clean \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
 
 RUN git clone https://github.com/spack/spack.git /spack \
