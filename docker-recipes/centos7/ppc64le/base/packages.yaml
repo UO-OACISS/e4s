@@ -1,5 +1,6 @@
 packages:
   all:
+    target: [ppc64le]
     compiler: [gcc@7.3.0]
     variants: +mpi
     providers:
