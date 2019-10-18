@@ -27,23 +27,26 @@ RUN yum update -y \
   openssl-devel \
   hostname \
   crontabs \
+  ncurses-devel \
+  pciutils \
+  iputils \
   && wget http://mirror.centos.org/centos/7/os/x86_64/Packages/mlocate-0.26-8.el7.x86_64.rpm \
   && rpm -i mlocate-0.26-8.el7.x86_64.rpm \
   && yum clean all \
   && rm -rf /var/cache/yum/* \
-  && rpm -ivh https://www.mercurial-scm.org/release/centos7/RPMS/x86_64/mercurial-3.4-0.x86_64.rpm
+  && rpm -ivh https://www.mercurial-scm.org/release/centos7/RPMS/x86_64/mercurial-3.4-0.x86_64.rpm \
+  && cd / && rm -f *.rpm
 
-RUN wget https://www.python.org/ftp/python/2.7.14/Python-2.7.14.tgz \
- && tar xzf Python-2.7.14.tgz \
- && cd Python-2.7.14 \
- && ./configure --enable-optimizations --with-ssl \
+RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
+ && tar xzf Python-3.7.4.tgz \
+ && cd Python-3.7.4 \
+ && ./configure --enable-optimizations \
  && if [[ `nproc` -gt 16 ]]; then make -j16 altinstall; else make -j`nproc` altinstall; fi \
- && ln -s /usr/local/bin/python2.7 /usr/local/bin/python2 \
- && cd / && rm -rf /Python-2.7.14 Python-2.7.14.tgz
+ && ln -s /usr/local/bin/python3.7 /usr/local/bin/python3 \
+ && cd / && rm -rf /Python-3.7.4*
 
 RUN git clone https://github.com/spack/spack.git /spack \
- && cd /spack && git checkout a940ff34d7 \
- && sed -i "1s/python/python2/" /spack/bin/spack
+ && cd /spack && git checkout af3c238c31
 
 COPY packages.yaml /etc/spack/packages.yaml
 
@@ -51,11 +54,12 @@ WORKDIR /
 
 ENV SPACK_ROOT=/spack \
     PATH=/spack/bin:${PATH} \
+    FORCE_UNSAFE_CONFIGURE=1 \
     E4S_MIRROR_ROOT="http://oaciss.uoregon.edu/e4s"
 
 RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack gpg trust e4s.pub \
- && spack mirror add e4s ${E4S_MIRROR_ROOT}/x86_64 \
+ && spack mirror add e4s ${E4S_MIRROR_ROOT}/new-uarch \
  && spack install gcc@7.3.0 \
  && spack compiler add `spack location -i gcc@7.3.0` \
  && spack bootstrap \
@@ -63,6 +67,7 @@ RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack install mpich@3.2.1~wrapperrpath \
  && spack install cmake \
  && spack install patchelf \
+ && spack install cmake \
  && spack clean -a
 
 COPY /modules /modules

@@ -1,5 +1,6 @@
 packages:
   all:
+    target: [x86_64]
     compiler: [gcc@7.3.0]
     variants: +mpi
     providers:
