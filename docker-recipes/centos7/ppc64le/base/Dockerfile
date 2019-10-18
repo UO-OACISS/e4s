@@ -27,6 +27,8 @@ RUN yum update -y \
   openssl-devel \
   hostname \
   ncurses-devel \
+  pciutils \
+  iputils \
   && yum clean all \
   && rm -rf /var/cache/yum/*
 
@@ -37,8 +39,8 @@ RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
  && ./configure --enable-optimizations \
  && make -j`if [[ $(nproc) -lt 16 ]]; then echo $(nproc) ; else echo 16; fi` altinstall \
  && ln -s `which python3.7` /usr/local/bin/python3 \
- && cd / && rm -rf /Python-3.7.4.tgz /Python-3.7.4 \
- && python3 -m pip install --upgrade pip \
+ && cd / && rm -rf /Python-3.7.4.tgz* \
+ && python3 -m pip install --upgrade pip setuptools wheel \
  && python3 -m pip install gnureadline
 
 RUN git clone https://github.com/spack/spack.git /spack \
