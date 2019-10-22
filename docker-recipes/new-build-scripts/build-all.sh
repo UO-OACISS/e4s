@@ -2,7 +2,7 @@
 
 # This script builds all the base images for your architecture, using recipes in this repository
 
-tag="1.1"
+tag="1.2"
 date=`date '+%y%m%d.%H%M%S'`
 arch=`uname -m`
 cwd=`pwd`
