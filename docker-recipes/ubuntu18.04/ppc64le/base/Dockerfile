@@ -71,3 +71,6 @@ RUN ./setup.sh \
  && updatedb
 
 WORKDIR /
+
+ENV NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=all

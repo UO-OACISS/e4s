@@ -74,3 +74,6 @@ RUN ./setup.sh \
  && cd / && rm -rf /modules
 
 WORKDIR /
+
+ENV NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=all
