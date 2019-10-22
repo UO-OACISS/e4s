@@ -9,6 +9,7 @@ spack:
       version: []
       paths: {}
       modules: {}
+      target: []
     mpich:
       version: [3.2.1]
       variants: ~wrapperrpath
@@ -17,6 +18,7 @@ spack:
       paths: {}
       modules: {}
       compiler: []
+      target: []
     gcc:
       version: [7.3.0]
       buildable: true
@@ -24,6 +26,7 @@ spack:
       paths: {}
       modules: {}
       compiler: []
+      target: []
   specs:
   
   # XSDK
@@ -45,6 +48,7 @@ spack:
   - superlu-dist
   - superlu
   - tasmanian
+  - openblas threads=openmp #Not an E4S package. Required for some test cases
   
   # DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
   #- seacas #provides ioss Doesn't build
@@ -53,6 +57,7 @@ spack:
   - mercury
   - hdf5
   - adios2
+  - adios
   - darshan-runtime
   - darshan-util
   - veloc
@@ -71,6 +76,7 @@ spack:
   - raja
   - upcxx
   - aml
+  
 #  - legion # legion gives an error with spack_cc
 #  - kokkos
 #  - gasnet
@@ -86,14 +92,14 @@ spack:
   #- siboka NO PKG, NOT OPEN SOURCE YET
   #- sonar NO PKG / NOT YET USEFUL HERE??
   - py-ytopt^python@3.7.3 #provides surf 
-  - tau
+  - tau@develop^binutils@2.31.1
   - hpctoolkit
   - dyninst
   - gotcha
   - caliper
   - papi
   - pdt
-
+  
   # VISUALIZATION AND REDUCTION
   #- cinema NO PKG
   #- rover NO PKG, SUBCOMPONENT OF ASCENT, INCLUDED WITHIN
@@ -115,7 +121,7 @@ spack:
   - llvm-openmp
   # - llvm
   # - flang
-  
+
   # Ecosystem
   #- bee
   #- fsefi
@@ -129,7 +135,7 @@ spack:
   - nrm^python@3.7.3
   - libnrm
   - geopm^py-numpy@1.16.5^py-pandas@0.24.2 #intel?
-#  - mpifileutils@develop~xattr
+  - mpifileutils@develop~xattr
 #  - pmix
 
   mirrors: {}
@@ -140,3 +146,4 @@ spack:
   definitions: []
   config: {}
   view: false
+  concretization: separately
