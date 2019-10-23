@@ -28,12 +28,7 @@ spack:
       compiler: []
       target: []
   specs:
-  
-  # XSDK
-  # tuckermpi #No package
-  # +fortrilinos variant of trilinos doesn't build
-  #- kokkoskernels (not the same as kokkos)
-  - patchelf
+  - patchelf  #***XSDK***
   - py-libensemble^python@3.7.3
   - flecsi
   - magma
@@ -49,11 +44,7 @@ spack:
   - superlu
   - tasmanian
   - openblas threads=openmp #Not an E4S package. Required for some test cases
-  
-  # DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
-  #- seacas #provides ioss Doesn't build
-  #- hxhim NO PKG (github removed?)
-  - faodel
+  - faodel  # ***DATA MANAGEMENT, IO, AND CHECKPOINT RESTART***
   - mercury
   - hdf5
   - adios2
@@ -64,33 +55,20 @@ spack:
   - scr
   - parallel-netcdf
   - unifyfs
-  
-  # PMR CORE
-  #- chai WAITING FOR SPACK PR MERGE (9/30/19 0857)
-  #- parsec NO PKG, MSG SENT, EXPECTED SOON
-  #- darma-futures NO PKG, NO LONGER IN ECP, SPACK PKG IN PROGRESS
-  #- sicm NO PKG, PKG OUTSIDE OF SPACK https://github.com/lanl/SICM.git, WORKS
+  - qthreads  # ***PMR CORE***
   - papyrus@develop # develop works, default version has build error 10/1/19
-  - qthreads
   - bolt # ok on x86_64, problems on ppc64le
   - raja
   - upcxx
   - aml
-  
-#  - legion # legion gives an error with spack_cc
-#  - kokkos
-#  - gasnet
-#  - mpich
+  - kokkos
   - openmpi
   - umpire
   - libquo
   - globalarrays
   - stc #Provides swift/t compiler
   - turbine #Provies swift/t runtime
-  
-  # TOOLS AND TECHNOLOGY
-  #- siboka NO PKG, NOT OPEN SOURCE YET
-  #- sonar NO PKG / NOT YET USEFUL HERE??
+  - pdt  # ***TOOLS AND TECHNOLOGY***
   - py-ytopt^python@3.7.3 #provides surf 
   - tau@develop^binutils@2.31.1
   - hpctoolkit
@@ -98,8 +76,33 @@ spack:
   - gotcha
   - caliper
   - papi
-  - pdt
-  
+  - catalyst # VISUALIZATION AND REDUCTION
+  - zfp
+  - sz
+  - paraview
+  - llvm-openmp # ***COMPILERS & SUPPORT***
+  - nrm^python@3.7.3 # ***Ecosystem***
+  - libnrm
+  - geopm^py-numpy@1.16.5^py-pandas@0.24.2 #intel?
+  - mpifileutils@develop~xattr
+# XSDK
+  # tuckermpi #No package
+  # +fortrilinos variant of trilinos doesn't build
+  #- kokkoskernels (not the same as kokkos)
+# DATA MANAGEMENT, IO, AND CHECKPOINT RESTART
+  #- seacas #provides ioss Doesn't build
+ #- hxhim NO PKG (github removed?)
+ # PMR CORE
+  #- chai WAITING FOR SPACK PR MERGE (9/30/19 0857)
+  #- parsec NO PKG, MSG SENT, EXPECTED SOON
+  #- darma-futures NO PKG, NO LONGER IN ECP, SPACK PKG IN PROGRESS
+  #- sicm NO PKG, PKG OUTSIDE OF SPACK https://github.com/lanl/SICM.git, WORKS
+#  - legion # legion gives an error with spack_cc
+#  - gasnet
+#  - mpich
+  # TOOLS AND TECHNOLOGY
+  #- siboka NO PKG, NOT OPEN SOURCE YET
+  #- sonar NO PKG / NOT YET USEFUL HERE??
   # VISUALIZATION AND REDUCTION
   #- cinema NO PKG
   #- rover NO PKG, SUBCOMPONENT OF ASCENT, INCLUDED WITHIN
@@ -107,21 +110,14 @@ spack:
   #- visit ^vtk+python+qt ^hdf5+hl
   #- vtkm
   #- py-jupyterhub^python@3.7.3
-  - catalyst
-  - zfp
-  - sz
-  - paraview
-  
   # COMPILERS & SUPPORT 
   # - kitsune NO PKG YET
   # - chill EXISTS, DOESNT WORK, CONTACTED DEVELOPERS
   # - openarc
   # - openmp validation & verification (?)
   # - llvm-openmp-ompt
-  - llvm-openmp
   # - llvm
   # - flang
-
   # Ecosystem
   #- bee
   #- fsefi
@@ -132,12 +128,7 @@ spack:
   #- spack
   #- marfs
   #- gufi
-  - nrm^python@3.7.3
-  - libnrm
-  - geopm^py-numpy@1.16.5^py-pandas@0.24.2 #intel?
-  - mpifileutils@develop~xattr
 #  - pmix
-
   mirrors: {}
   repos: []
   upstreams: {}
