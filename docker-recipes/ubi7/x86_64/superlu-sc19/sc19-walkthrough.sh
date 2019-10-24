@@ -57,9 +57,9 @@ cd /STRUMPACK/examples
 #make testMMdouble
 
 #printf "\n\n"
-strum "press [enter] to run: OMP_NUM_THREADS=4 ./testMMdouble pde900.mtx"
+strum "press [enter] to run: OMP_NUM_THREADS=4 ./testMMdouble ./data/pde900.mtx"
 pause ""
-OMP_NUM_THREADS=4 ./testMMdouble pde900.mtx
+OMP_NUM_THREADS=4 ./testMMdouble ./data/pde900.mtx
 
 #printf "\n\n"
 #strum "press [enter] to build: make testMMdoubleMPIDist64"
@@ -67,8 +67,8 @@ OMP_NUM_THREADS=4 ./testMMdouble pde900.mtx
 #make testMMdoubleMPIDist64
 
 printf "\n\n"
-strum "press [enter] to run: OMP_NUM_THREADS=1 mpirun -n 4 ./testMMdoubleMPIDist64 pde900.mtx"
+strum "press [enter] to run: OMP_NUM_THREADS=1 mpirun -n 4 ./testMMdoubleMPIDist64 ./data/pde900.mtx"
 pause ""
-OMP_NUM_THREADS=1 mpirun -n 4 ./testMMdoubleMPIDist64 pde900.mtx
+OMP_NUM_THREADS=1 mpirun -n 4 ./testMMdoubleMPIDist64 ./data/pde900.mtx
 
 printf "\n\n${GR}WALKTHROUGH COMPLETE${NC}\n\n"

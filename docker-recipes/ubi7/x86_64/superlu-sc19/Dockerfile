@@ -1,11 +1,13 @@
-FROM ecpe4s/ubi7_x86_64_base:1.1
+FROM ecpe4s/ubi7_x86_64_base:1.2
 
-COPY /spack.yaml /slu-sc19-env/
+COPY /spack.yaml /spack.lock /slu-sc19-env/
 
 WORKDIR /slu-sc19-env
 
 RUN spack install \
- && echo -e "\
+ && spack clean -a
+
+RUN echo -e "\
 spack load parmetis\n\
 spack load metis\n\
 spack load openblas threads=openmp\n\
@@ -14,9 +16,8 @@ spack load netlib-lapack\n\
 spack load butterflypack@master\n\
 spack load arpack-ng\n\
 spack load superlu-dist@develop\n\
-spack load strumpack\n\
-spack load emacs" >> /etc/bashrc \
- && rm /spack_*.sh
+spack load strumpack@master\n\
+spack load emacs" >> /etc/bashrc
 
 WORKDIR /
 

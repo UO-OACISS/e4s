@@ -11,8 +11,9 @@ cmake . \
   -DTPL_ENABLE_COMBBLASLIB=OFF \
   -DTPL_ENABLE_LAPACKLIB=OFF \
   -Denable_tests=ON \
+  -Denable_openmp=ON \
   \
-  -DBUILD_SHARED_LIBS=OFF \
+  -DBUILD_SHARED_LIBS:BOOL=ON \
   -DCMAKE_INSTALL_PREFIX=. \
   -DCMAKE_C_FLAGS="-std=c99 -g -O3 -DPRNTlevel=1 -DDEBUGlevel=0" \
   -DCMAKE_C_COMPILER=mpicc \
