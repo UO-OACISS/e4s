@@ -61,7 +61,7 @@ spack:
   - raja
   - upcxx
   - aml
-  - kokkos
+  - kokkos+openmp
   - openmpi
   - umpire
   - libquo
