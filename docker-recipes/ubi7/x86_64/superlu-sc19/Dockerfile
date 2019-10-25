@@ -22,16 +22,16 @@ spack load emacs" >> /etc/bashrc
 WORKDIR /
 
 RUN git clone https://github.com/xiaoyeli/superlu_dist.git \
- && rm -rf /superlu_dist/build/* \
  && git clone https://github.com/liuyangzhuan/ButterflyPACK.git \
- && rm -rf /ButterflyPack/build/* \
- && git clone https://github.com/pghysels/STRUMPACK.git
+ && git clone https://github.com/pghysels/STRUMPACK.git \
+ && rm -rf /ButterflyPack/build/* /superlu_dist/build/*
 
 COPY /superlu-dist-build.sh /superlu_dist/sc19-build.sh
 COPY /butterflypack-build.sh /ButterflyPACK/sc19-build.sh
 COPY /strumpack-build.sh /STRUMPACK/sc19-build.sh
 
-COPY /sc19-build-all.sh /
-RUN . /etc/profile && /sc19-build-all.sh && rm sc19-build-all.sh
+COPY /sc19-build-all.sh /sc19-walkthrough.sh /
 
-COPY /sc19-walkthrough.sh /
+RUN . /etc/profile \
+ && ./sc19-build-all.sh \
+ && rm sc19-build-all.sh
