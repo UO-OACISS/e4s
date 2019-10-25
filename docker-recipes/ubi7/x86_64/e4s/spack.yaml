@@ -76,6 +76,7 @@ spack:
   - gotcha
   - caliper
   - papi
+  - py-jupyterhub #^python@3.7.3 #Specifying python3 may be necessary if build fails
   - catalyst # VISUALIZATION AND REDUCTION
   - zfp
   - sz
@@ -109,7 +110,6 @@ spack:
   #- paraview+ascent BUILD FAILS (Because of vtkm?)
   #- visit ^vtk+python+qt ^hdf5+hl
   #- vtkm
-  #- py-jupyterhub^python@3.7.3
   # COMPILERS & SUPPORT 
   # - kitsune NO PKG YET
   # - chill EXISTS, DOESNT WORK, CONTACTED DEVELOPERS
