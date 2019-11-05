@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t ecpe4s/superlu_sc:1.2 .
+docker build -t ecpe4s/superlu_sc:1.3 .
