@@ -23,17 +23,15 @@ function strum() {
 GR='\033[0;32m'
 NC='\033[0m'
 
-slu "changing into /superlu_dist"
-cd /superlu_dist
+slu "changing into /superlu_dist/EXAMPLE"
+cd /superlu_dist/EXAMPLE
 
-slu "press [enter] to run: OMP_NUM_THREADS=2 ctest"
+slu "press [enter] to run: OMP_NUM_THREADS=2 mpiexec -n 10 ./pzdrive4 cg20.cua"
 pause ""
-OMP_NUM_THREADS=2 ctest
+OMP_NUM_THREADS=2 mpiexec -n 10 ./pzdrive4 cg20.cua
 
 printf "\n\n"
 
-slu "changing into /suerplu_dist/EXAMPLE"
-cd /superlu_dist/EXAMPLE
 slu "press [enter] to run: OMP_NUM_THREADS=2 mpiexec -n 4 ./pddrive -r 2 -c 2 g20.rua"
 pause ""
 OMP_NUM_THREADS=2 mpiexec -n 4 ./pddrive -r 2 -c 2 g20.rua
