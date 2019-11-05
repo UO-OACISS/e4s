@@ -30,8 +30,10 @@ COPY /superlu-dist-build.sh /superlu_dist/sc19-build.sh
 COPY /butterflypack-build.sh /ButterflyPACK/sc19-build.sh
 COPY /strumpack-build.sh /STRUMPACK/sc19-build.sh
 
-COPY /sc19-build-all.sh /sc19-walkthrough.sh /
+COPY /sc19-build-all.sh /
 
 RUN . /etc/profile \
  && ./sc19-build-all.sh \
  && rm sc19-build-all.sh
+
+COPY /sc19-walkthrough.sh /
