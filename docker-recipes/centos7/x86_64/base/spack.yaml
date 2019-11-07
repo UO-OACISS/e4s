@@ -1,0 +1,22 @@
+spack:
+  packages:
+    all:
+      target: [x86_64]
+      compiler: [gcc@7.3.0]
+      variants: +mpi
+      providers:
+        mpi: [mpich]
+    mpich:
+      version: [3.2.1]
+      variants: ~wrapperrpath
+      buildable: true
+    gcc:
+      version: [7.3.0]
+      buildable: true
+  specs:
+  - patchelf
+  - emacs
+  - mpich
+  - cmake
+  - lmod
+

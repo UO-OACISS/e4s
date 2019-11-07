@@ -34,7 +34,6 @@ RUN yum update -y \
   && rpm -i mlocate-0.26-8.el7.x86_64.rpm \
   && yum clean all \
   && rm -rf /var/cache/yum/* \
-  && rpm -ivh https://www.mercurial-scm.org/release/centos7/RPMS/x86_64/mercurial-3.4-0.x86_64.rpm \
   && cd / && rm -f *.rpm
 
 RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
@@ -48,7 +47,7 @@ RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
  && cd / && rm -rf /Python-3.7.4*
 
 RUN git clone https://github.com/spack/spack.git /spack \
- && cd /spack && git checkout af3c238c31
+ && cd /spack && git checkout v0.13.1
 
 COPY packages.yaml /etc/spack/packages.yaml
 
@@ -59,24 +58,23 @@ ENV SPACK_ROOT=/spack \
     FORCE_UNSAFE_CONFIGURE=1 \
     E4S_MIRROR_ROOT="http://oaciss.uoregon.edu/e4s"
 
+COPY /spack.yaml /base-env/
+WORKDIR /base-env
+
 RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
  && spack gpg trust e4s.pub \
- && spack mirror add e4s ${E4S_MIRROR_ROOT}/new-uarch \
+ && spack mirror add e4s ${E4S_MIRROR_ROOT}/0.13.1 \
  && spack install gcc@7.3.0 \
  && spack compiler add `spack location -i gcc@7.3.0` \
  && spack bootstrap \
- && spack install lmod \
- && spack install mpich@3.2.1~wrapperrpath \
- && spack install cmake \
- && spack install patchelf \
- && spack install cmake \
+ && spack install \
  && spack clean -a
 
 COPY /modules /modules
 WORKDIR /modules
 
 RUN ./setup.sh \
- && cd / && rm -rf /modules \
+ && cd / && rm -rf /modules /base-env \
  && updatedb
 
 WORKDIR /
