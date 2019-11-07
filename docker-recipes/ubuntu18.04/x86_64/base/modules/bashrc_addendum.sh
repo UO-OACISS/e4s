@@ -9,4 +9,5 @@ if [ -z "$BASHRC_READ" ]; then
   module load gcc
   module load mpich
   module load cmake
+  module load emacs
 fi
