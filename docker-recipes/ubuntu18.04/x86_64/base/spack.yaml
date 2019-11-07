@@ -13,6 +13,7 @@ spack:
     gcc:
       version: [7.3.0]
       buildable: true
+  view: false
   specs:
   - patchelf
   - emacs
