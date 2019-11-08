@@ -49,6 +49,7 @@ spack:
   - netlib-lapack
   - arpack-ng
   - emacs
+  - metis
   view: false
   config: {}
   mirrors: {}

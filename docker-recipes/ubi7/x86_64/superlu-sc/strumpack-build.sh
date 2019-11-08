@@ -10,6 +10,7 @@ cmake . \
   -DSTRUMPACK_USE_OPENMP=ON \
   \
   -DSTRUMPACK_BUILD_TESTS=OFF \
+  -DBUILD_SHARED_LIBS=ON \
   -DSTRUMPACK_C_INTERFACE=ON \
   \
   -DTPL_METIS_INCLUDE_DIRS="${METIS_ROOT}/include" \
@@ -29,5 +30,5 @@ cmake . \
   -DTPL_ENABLE_COMBBLAS=OFF \
   -DTPL_ENABLE_CUBLAS=OFF
 
-VERBOSE=1 make
+make `[ ! -z ${dnproc+x} ] && echo "-j${dnproc}"`
 make install

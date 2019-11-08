@@ -19,5 +19,5 @@ cmake . \
   -DCMAKE_INSTALL_PREFIX=. \
   -DCMAKE_BUILD_TYPE=Release
 
-VERBOSE=1 make
+make `[ ! -z ${dnproc+x} ] && echo "-j${dnproc}"`
 make install

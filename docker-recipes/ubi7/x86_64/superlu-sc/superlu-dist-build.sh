@@ -19,7 +19,7 @@ cmake . \
   -DCMAKE_C_COMPILER=mpicc \
   -DCMAKE_CXX_COMPILER=mpicxx
 
-make
+make `[ ! -z ${dnproc+x} ] && echo "-j${dnproc}"`
 make install
 
 sed -i 's/"pdtest/"\.\/pdtest/g' TEST/CTestTestfile.cmake

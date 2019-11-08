@@ -1,4 +1,8 @@
-FROM ecpe4s/ubi7_x86_64_base:1.2
+FROM ecpe4s/ubi7_x86_64_base:1.3
+
+ARG dnproc=1
+ENV dnproc=${dnproc}
+RUN echo ${dnproc}
 
 COPY /spack.yaml /spack.lock /slu-sc19-env/
 
@@ -21,9 +25,9 @@ spack load emacs" >> /etc/bashrc
 
 WORKDIR /
 
-RUN git clone https://github.com/xiaoyeli/superlu_dist.git \
- && git clone https://github.com/liuyangzhuan/ButterflyPACK.git \
- && git clone https://github.com/pghysels/STRUMPACK.git \
+RUN git clone --depth=1 https://github.com/xiaoyeli/superlu_dist.git \
+ && git clone --depth=1 https://github.com/liuyangzhuan/ButterflyPACK.git \
+ && git clone --depth=1 https://github.com/pghysels/STRUMPACK.git \
  && rm -rf /ButterflyPack/build/* /superlu_dist/build/*
 
 COPY /superlu-dist-build.sh /superlu_dist/sc19-build.sh

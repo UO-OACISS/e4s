@@ -25,11 +25,11 @@
    "spec": "parmetis"
   },
   {
-   "hash": "2el35wbdxvp57mv3ss4gfpwvvritp2ra",
+   "hash": "pvwu4ec5o4afil56oj7c77sinrzrpaw7",
    "spec": "petsc"
   },
   {
-   "hash": "ccyxbxtdthuu7ci2rlbxoklcxk45qbs2",
+   "hash": "b7mpwzcly2bjt5cmrxxmewlh7ldgqerr",
    "spec": "mfem"
   },
   {
@@ -47,6 +47,14 @@
   {
    "hash": "vi5i4o7hy5lg4vhf7rvd5fdjztsvbdab",
    "spec": "emacs"
+  },
+  {
+   "hash": "gatpbtpxorob6osifh52zrjc424hbq7k",
+   "spec": "metis"
+  },
+  {
+   "hash": "dwthav3lo7fkjxwmzzj7oja4acfethfo",
+   "spec": "parmetis"
   }
  ],
  "concrete_specs": {
@@ -1265,9 +1273,9 @@
     "hash": "r63f32uztfjzd3g3rhtuohjziauttygu"
    }
   },
-  "2el35wbdxvp57mv3ss4gfpwvvritp2ra": {
+  "pvwu4ec5o4afil56oj7c77sinrzrpaw7": {
    "petsc": {
-    "version": "3.12.0",
+    "version": "3.12.1",
     "arch": {
      "platform": "linux",
      "platform_os": "rhel7",
@@ -1280,6 +1288,7 @@
     "namespace": "builtin",
     "parameters": {
      "X": false,
+     "batch": false,
      "clanguage": "C",
      "complex": false,
      "debug": false,
@@ -1312,7 +1321,7 @@
       ]
      },
      "hypre": {
-      "hash": "m5bcwuk7ac7gv2zsiha3vnllnoal76vc",
+      "hash": "hbm3ujyg7yzvauqedqjnfoil2pqngmr2",
       "type": [
        "build",
        "link"
@@ -1347,7 +1356,7 @@
       ]
      },
      "python": {
-      "hash": "wyzdcj7g3ohsvoa5ppivtuqqnojjvrgm",
+      "hash": "urxcladm2shawofunqngyf5py72672kg",
       "type": [
        "build"
       ]
@@ -1367,7 +1376,7 @@
       ]
      }
     },
-    "hash": "7eledqo7o4hoqreqyfnw2252fhccpiym"
+    "hash": "kzhga4eamiearj5niht3undf2f4j5vza"
    }
   },
   "wfpaeidnn54gkmbgwg2sivwxfwqryzii": {
@@ -1482,7 +1491,7 @@
     "hash": "uytcvzow66fwtqghsmrlwi3vdgbl2eby"
    }
   },
-  "m5bcwuk7ac7gv2zsiha3vnllnoal76vc": {
+  "hbm3ujyg7yzvauqedqjnfoil2pqngmr2": {
    "hypre": {
     "version": "2.18.1",
     "arch": {
@@ -1496,10 +1505,13 @@
     },
     "namespace": "builtin",
     "parameters": {
+     "complex": false,
      "debug": false,
      "int64": false,
      "internal-superlu": false,
+     "mixedint": false,
      "mpi": true,
+     "openmp": false,
      "shared": true,
      "superlu-dist": false,
      "cflags": [],
@@ -1525,12 +1537,12 @@
       ]
      }
     },
-    "hash": "hnab2a7mbnu52pdd7pqnf253lpbtnmzf"
+    "hash": "aajadrhi62mkx3kyglqb34k6uw2xgej5"
    }
   },
-  "wyzdcj7g3ohsvoa5ppivtuqqnojjvrgm": {
+  "urxcladm2shawofunqngyf5py72672kg": {
    "python": {
-    "version": "2.7.16",
+    "version": "3.7.4",
     "arch": {
      "platform": "linux",
      "platform_os": "rhel7",
@@ -1631,7 +1643,14 @@
       ]
      },
      "sqlite": {
-      "hash": "adba3ama6zmqy5ndd2nqce4lynmimm2q",
+      "hash": "skpft47reinyq622ubg4oetznrr2akoa",
+      "type": [
+       "build",
+       "link"
+      ]
+     },
+     "xz": {
+      "hash": "52pq7xrp2axthcs4pcn34ha5g6vwfuy5",
       "type": [
        "build",
        "link"
@@ -1645,7 +1664,7 @@
       ]
      }
     },
-    "hash": "uuxfbgasqislsn4hj7xuzxnh2r4azsz6"
+    "hash": "jof7jqpzanhhq6qvrki6kr4ehtlbstfr"
    }
   },
   "ogljhwiurkk3shpb3dmpcltdk6xsuitt": {
@@ -1898,9 +1917,9 @@
     "hash": "23pznc42nxucd4aymz5mf4yfhprg2zam"
    }
   },
-  "adba3ama6zmqy5ndd2nqce4lynmimm2q": {
+  "skpft47reinyq622ubg4oetznrr2akoa": {
    "sqlite": {
-    "version": "3.30.0",
+    "version": "3.30.1",
     "arch": {
      "platform": "linux",
      "platform_os": "rhel7",
@@ -1939,7 +1958,7 @@
       ]
      }
     },
-    "hash": "iwv5scbdpny7m4bfqlqbv5bdszq6jlcv"
+    "hash": "ab7skhcxlvq3ridsfv75npszr3b5e5xa"
    }
   },
   "7nf5aclctet5vidu6jvy7vm7ta4ujna6": {
@@ -2006,9 +2025,9 @@
     "hash": "f2c7l4ww43z2eseno3o2h2fv5squx25j"
    }
   },
-  "ccyxbxtdthuu7ci2rlbxoklcxk45qbs2": {
+  "b7mpwzcly2bjt5cmrxxmewlh7ldgqerr": {
    "mfem": {
-    "version": "3.4.0",
+    "version": "4.0.0",
     "arch": {
      "platform": "linux",
      "platform_os": "rhel7",
@@ -2033,12 +2052,14 @@
      "mpfr": false,
      "mpi": true,
      "netcdf": false,
+     "occa": false,
      "openmp": false,
      "patches": [
-      "cb6f351f1a18a917fe8286921a5f710dde314ef5b7649fa774c6cd2ff631b688"
+      "7f582bd8b418ffbd4cc37b73cb0e861efc0cf0dd332ae726e18e306f975b0310"
      ],
      "petsc": false,
      "pumi": false,
+     "raja": false,
      "shared": false,
      "static": true,
      "suite-sparse": false,
@@ -2054,11 +2075,11 @@
      "ldlibs": []
     },
     "patches": [
-     "cb6f351f1a18a917fe8286921a5f710dde314ef5b7649fa774c6cd2ff631b688"
+     "7f582bd8b418ffbd4cc37b73cb0e861efc0cf0dd332ae726e18e306f975b0310"
     ],
     "dependencies": {
      "hypre": {
-      "hash": "nxzu7s3ppy57wajztivqylp6u3sopp5p",
+      "hash": "hbm3ujyg7yzvauqedqjnfoil2pqngmr2",
       "type": [
        "build",
        "link"
@@ -2086,53 +2107,7 @@
       ]
      }
     },
-    "hash": "tba2vcccpiae5xym7a6y2i6wtw5mxzza"
-   }
-  },
-  "nxzu7s3ppy57wajztivqylp6u3sopp5p": {
-   "hypre": {
-    "version": "2.18.1",
-    "arch": {
-     "platform": "linux",
-     "platform_os": "rhel7",
-     "target": "x86_64"
-    },
-    "compiler": {
-     "name": "gcc",
-     "version": "7.3.0"
-    },
-    "namespace": "builtin",
-    "parameters": {
-     "debug": false,
-     "int64": false,
-     "internal-superlu": true,
-     "mpi": true,
-     "shared": true,
-     "superlu-dist": false,
-     "cflags": [],
-     "cppflags": [],
-     "cxxflags": [],
-     "fflags": [],
-     "ldflags": [],
-     "ldlibs": []
-    },
-    "dependencies": {
-     "mpich": {
-      "hash": "jrdjoio4aowy5hne3tfeys4hbsuhbklu",
-      "type": [
-       "build",
-       "link"
-      ]
-     },
-     "openblas": {
-      "hash": "dytmn4pco5772z3etgws6mcpymr7nhht",
-      "type": [
-       "build",
-       "link"
-      ]
-     }
-    },
-    "hash": "fi4l7csgswwhen3bw76bpxjmj6tnlhje"
+    "hash": "xjqcake4echo3aqeslyfhmvjiv3zsbmh"
    }
   },
   "vb6lbd6d7wx4iuwqnsy6odwufkzv736u": {
