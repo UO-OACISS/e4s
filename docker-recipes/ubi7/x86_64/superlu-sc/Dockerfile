@@ -27,7 +27,7 @@ WORKDIR /
 
 RUN git clone --depth=1 https://github.com/xiaoyeli/superlu_dist.git \
  && git clone --depth=1 https://github.com/liuyangzhuan/ButterflyPACK.git \
- && git clone --depth=1 https://github.com/pghysels/STRUMPACK.git \
+ && git clone --depth=2 https://github.com/pghysels/STRUMPACK.git \
  && rm -rf /ButterflyPack/build/* /superlu_dist/build/*
 
 COPY /superlu-dist-build.sh /superlu_dist/sc19-build.sh
@@ -49,5 +49,3 @@ COPY /strumpack-run-py.sh /STRUMPACK/examples/run-py.sh
 
 ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/STRUMPACK/install/lib \
     PYTHONPATH=${PYTHONPATH}:/STRUMPACK/install/include/python
-
-RUN sed -i '17s/= degree/= int(degree)/' /STRUMPACK/install/include/python/STRUMPACKKernel.py
