@@ -5,6 +5,7 @@ spack:
       variants: +mpi
       providers:
         mpi: [mpich]
+        blas: [openblas]
       buildable: true
       version: []
       paths: {}
@@ -27,6 +28,61 @@ spack:
       modules: {}
       compiler: []
       target: []
+    boost:
+      variants: +atomic+chrono~clanglibcpp~context~coroutine +date_time~debug+exception~fiber+filesystem+graph~icu+iostreams+locale+log+math+mpi+multithreaded~numpy~pic+program_options~python+random+regex+serialization+shared+signals~singlethreaded+system~taggedlayout+test+thread+timer~versionedlayout
+        visibility=hidden +wave
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+    openblas:
+      variants: threads=openmp
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+    pcre:
+      variants: +jit+multibyte+utf
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+    llvm:
+      variants: ~all_targets~clang~compiler-rt~lld~lldb
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+    binutils:
+      variants: +gold+headers+libiberty~nls
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+    elfutils:
+      variants: ~bzip2~nls~xz
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
   specs:
   - patchelf  #***XSDK***
   - py-libensemble^python@3.7.3
@@ -34,7 +90,8 @@ spack:
   - magma
   - slate
   - hypre
-  - xsdk
+  
+  #- xsdk
   - mfem
   - trilinos@12.14.1+dtk+intrepid2+shards
   - sundials
@@ -77,12 +134,14 @@ spack:
   - caliper
   - papi
   - py-jupyterhub #^python@3.7.3 #Specifying python3 may be necessary if build fails
-  - catalyst # VISUALIZATION AND REDUCTION
+  
+  #- catalyst # VISUALIZATION AND REDUCTION
   - zfp
   - sz
-  - paraview
-  - llvm-openmp # ***COMPILERS & SUPPORT***
-  - nrm^python@3.7.3 # ***Ecosystem***
+  
+  #- paraview+mpi+qt ^llvm~all_targets~clang~compiler-rt~internal_unwind~libcxx+link_dylib~lld~lldb~omp_tsan~polly~python ^mesa ^qt@5.10.0
+  #- llvm-openmp # ***COMPILERS & SUPPORT***
+  # - nrm^python@3.7.3 # ***Ecosystem*** -- package needs updating, no py-tornado@5.1.1
   - libnrm
   - geopm^py-numpy@1.16.5^py-pandas@0.24.2 #intel?
   - mpifileutils@develop~xattr
