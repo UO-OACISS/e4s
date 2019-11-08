@@ -40,4 +40,14 @@ RUN . /etc/profile \
  && ./sc19-build-all.sh \
  && rm sc19-build-all.sh
 
+RUN . /etc/profile \
+ && pip3 install --upgrade sklearn numpy mpi4py \
+ && rm -rf /root/.cache
+
 COPY /sc19-walkthrough.sh /
+COPY /strumpack-run-py.sh /STRUMPACK/examples/run-py.sh
+
+ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/STRUMPACK/install/lib \
+    PYTHONPATH=${PYTHONPATH}:/STRUMPACK/install/include/python
+
+RUN sed -i '17s/= degree/= int(degree)/' /STRUMPACK/install/include/python/STRUMPACKKernel.py
