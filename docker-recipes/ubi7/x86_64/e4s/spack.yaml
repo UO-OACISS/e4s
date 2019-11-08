@@ -90,6 +90,12 @@ spack:
   - magma
   - slate
   - hypre
+
+
+
+
+
+
   
   #- xsdk
   - mfem
@@ -138,6 +144,12 @@ spack:
   #- catalyst # VISUALIZATION AND REDUCTION
   - zfp
   - sz
+
+
+
+
+
+
   
   #- paraview+mpi+qt ^llvm~all_targets~clang~compiler-rt~internal_unwind~libcxx+link_dylib~lld~lldb~omp_tsan~polly~python ^mesa ^qt@5.10.0
   #- llvm-openmp # ***COMPILERS & SUPPORT***
@@ -145,6 +157,9 @@ spack:
   - libnrm
   - geopm^py-numpy@1.16.5^py-pandas@0.24.2 #intel?
   - mpifileutils@develop~xattr
+  - rempi
+  - ninja
+  - kokkos-kernels
 # XSDK
   # tuckermpi #No package
   # +fortrilinos variant of trilinos doesn't build
