@@ -27,7 +27,7 @@ WORKDIR /
 
 RUN git clone --depth=1 https://github.com/xiaoyeli/superlu_dist.git \
  && git clone --depth=1 https://github.com/liuyangzhuan/ButterflyPACK.git \
- && git clone --depth=2 https://github.com/pghysels/STRUMPACK.git \
+ && git clone --depth=1 https://github.com/pghysels/STRUMPACK.git \
  && rm -rf /ButterflyPack/build/* /superlu_dist/build/*
 
 COPY /superlu-dist-build.sh /superlu_dist/sc19-build.sh
@@ -43,6 +43,18 @@ RUN . /etc/profile \
 RUN . /etc/profile \
  && pip3 install --upgrade sklearn numpy mpi4py \
  && rm -rf /root/.cache
+
+COPY /PETSc_example /PETSc_example
+ENV PETSC_DIR=/PETSc_example/petsc
+RUN git clone --depth=1 -b maint https://gitlab.com/petsc/petsc.git /PETSc_example/petsc \
+ && mv /PETSc_example/petsc-config.sh /PETSc_example/petsc/. \
+ && cd /PETSc_example/petsc \
+ && . /etc/profile \
+ && ./petsc-config.sh \
+ && make \
+ && cd .. && make
+
+WORKDIR /
 
 COPY /sc19-walkthrough.sh /
 COPY /strumpack-run-py.sh /STRUMPACK/examples/run-py.sh
