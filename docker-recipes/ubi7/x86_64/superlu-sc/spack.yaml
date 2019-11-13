@@ -37,19 +37,25 @@ spack:
       modules: {}
       providers: {}
       paths: {}
+    cmake:
+      version: [3.15.4]
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
   specs:
-  - superlu-dist@develop +openmp
-  - butterflypack@master
-  - strumpack@master +build_tests
-  - openblas threads=openmp
+  - superlu-dist@6.2.0 +openmp
+  - butterflypack@1.1.0
+  - strumpack@3.3.0
   - parmetis
-  - petsc
+  - metis
   - mfem
   - netlib-scalapack
   - netlib-lapack
   - arpack-ng
-  - emacs
-  - metis
+  - emacs@26.2
   view: false
   config: {}
   mirrors: {}

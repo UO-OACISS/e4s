@@ -4,8 +4,10 @@ ARG dnproc=1
 ENV dnproc=${dnproc}
 RUN echo ${dnproc}
 
-COPY /spack.yaml /spack.lock /slu-sc19-env/
+WORKDIR /spack
+RUN git fetch && git checkout 56de86dda
 
+COPY /spack.yaml /spack.lock /slu-sc19-env/
 WORKDIR /slu-sc19-env
 
 RUN spack install \
@@ -17,15 +19,15 @@ spack load metis\n\
 spack load openblas threads=openmp\n\
 spack load netlib-scalapack\n\
 spack load netlib-lapack\n\
-spack load butterflypack@master\n\
+spack load butterflypack@1.1.0\n\
 spack load arpack-ng\n\
-spack load superlu-dist@develop\n\
-spack load strumpack@master\n\
+spack load superlu-dist@6.2.0\n\
+spack load strumpack@3.3.0\n\
 spack load emacs" >> /etc/bashrc
 
 WORKDIR /
 
-RUN git clone --depth=1 https://github.com/xiaoyeli/superlu_dist.git \
+RUN git clone --depth=2 https://github.com/xiaoyeli/superlu_dist.git \
  && git clone --depth=1 https://github.com/liuyangzhuan/ButterflyPACK.git \
  && git clone --depth=1 https://github.com/pghysels/STRUMPACK.git \
  && rm -rf /ButterflyPack/build/* /superlu_dist/build/*
