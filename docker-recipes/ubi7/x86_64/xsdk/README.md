@@ -1,13 +1,13 @@
-# xSDK Docker Image
+# RH UBI 7 xSDK Docker Image
 
-Build with Docker using:
+To build this image from scratch using the recipe here, run the following command in this directory:
 ```
-docker build -t ecpe4s/ubi7_x86_64_xsdk:1.0 .
+docker build -t ecpe4s/ubi7_x86_64_xsdk:1.3 .
 ```
 
-## E4S Mirror
+## E4S Spack Build Cache
 
-The included Dockerfile is setup to attempt to pull pre-built binaries from the E4S mirror by default. These instructions are marked so that you know which lines to comment out if you would prefer to build from source instead of pulling binaries from the E4S mirror.
+All of the Spack packages used to build this image are available as pre-built binaries on the E4S Spack build cache. 
 
 ## Bundled Software
 
@@ -26,7 +26,3 @@ Once built, this Docker image will contain the following packages installed with
 * SLATE
 * MAGMA
 * Tasmanian
-
-Other tools from the xSDK  group are not (yet) included:
-
-* ForTrilinos
