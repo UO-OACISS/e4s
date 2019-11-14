@@ -1,39 +1,43 @@
-# Clean Docker Stack
+# Red Hat UBI 7 Base Image for x86/64
 
-To build this Spack Stack container change to this directory and do the
-following:
+To build this Spack-based Docker image from scratch, run the following command from within this directory:
 
 ```
-docker build -t ecpe4s/ubi7_x86_64_base:1.1 .
+docker build -t ecpe4s/ubi7_x86_64_base:1.3 .
 ```
 
 ## Overview
 
-This Dockerfile + build script can be used to build a clean RHEL UBI 7 base image with the following software:
-* Spack HPC package manager (latest version)
+This Dockerfile + build script can be used to build a clean UBI 7 base image with the following software:
+* Spack HPC package manager (v0.13.1)
 * GCC 7.3.0
 * Mpich 3.2.1 without wrapperrpath option
 * Cmake
 
-The bundled Spack install is additionally bootstrapped to include environment-modules, lmod, and basic tools so that the image can serve as the foundation for additional E4S Dockerfiles, such as the E4S XSDK.
+The bundled Spack install is additionally bootstrapped to include environment-modules, lmod, and basic tools so that the image can serve as the foundation for additional E4S Dockerfiles, such as the comprehensive E4S image. All of the Spack packages used in building this base image are available as pre-built binaries on the E4S Spack build cache. There is a line in the Dockerfile which configures Spack to use the E4S build cache:
+```
+ENV E4S_MIRROR_ROOT="http://oaciss.uoregon.edu/e4s"
+...
+spack mirror add e4s ${E4S_MIRROR_ROOT}/0.13.1
+```
 
 ## Basic Usage
 
-Once built, you can run this container using the following commands:
+Once built, you can use this image to launch a container:
 ```
-docker create -it ecpe4s/ubi7_x86_64_base:1.1 --name <container-name>
+docker create -it --name <container-name> ecpe4s/ubi7_x86_64_base:1.3
 docker start <container-name>
 docker attach <container-name>
 ```
 
-You can then detach from the container using Ctrl+P followed by Ctrl+Q. Detaching from the container keeps it running in the background. The container may also be shutdown either by typing `exit` at the command shell while attached, or by issuing the `docker stop <container-name>` command. Here, "<container-name>" is a name you pick for the container.
+You can then detach from the container using Ctrl+P followed by Ctrl+Q. Detaching from the container keeps it running in the background. The container may also be shutdown either by typing `exit` at the command shell while attached, or by issuing the `docker stop <container-name>` command. Here, `<container-name>` is a name you pick for the container.
 
-## Debugging the container construction
+## Debugging the Image Build Process
 
-To debug the container build process, do the following:
+To debug the image build process, do the following:
 
 ```
-docker run -it --entrypoint /bin/bash  registry.access.redhat.com/ubi7/ubi:7.6
+docker run -it --entrypoint /bin/bash  registry.access.redhat.com/ubi7/ubi:7.6-239
 ```
 
 ...then run the commands in the [Dockerfile](Dockerfile).
