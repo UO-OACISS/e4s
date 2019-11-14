@@ -1,7 +1,6 @@
 # Ubuntu 18.04 (Bionic) Base Image for ppc64le
 
-To build this Spack Stack container change to this directory and do the
-following:
+To build this Spack-based Docker image from scratch, run the following command from within this directory:
 
 ```
 docker build -t ecpe4s/ubuntu1804_ppc64le_base:1.3 .
@@ -24,18 +23,18 @@ spack mirror add e4s ${E4S_MIRROR_ROOT}/0.13.1
 
 ## Basic Usage
 
-Once built, you can run this container using the following commands:
+Once built, you can use this image to launch a container:
 ```
 docker create -it --name <container-name> ecpe4s/ubuntu1804_ppc64le_base:1.3
 docker start <container-name>
 docker attach <container-name>
 ```
 
-You can then detach from the container using Ctrl+P followed by Ctrl+Q. Detaching from the container keeps it running in the background. The container may also be shutdown either by typing `exit` at the command shell while attached, or by issuing the `docker stop <container-name>` command. Here, "<container-name>" is a name you pick for the container.
+You can then detach from the container using Ctrl+P followed by Ctrl+Q. Detaching from the container keeps it running in the background. The container may also be shutdown either by typing `exit` at the command shell while attached, or by issuing the `docker stop <container-name>` command. Here, `<container-name>` is a name you pick for the container.
 
-## Debugging the container construction
+## Debugging the Image Build Process
 
-To debug the container build process, do the following:
+To debug the image build process, do the following:
 
 ```
 docker run -it --entrypoint /bin/bash  ubuntu:18.04
