@@ -2,11 +2,11 @@
 
 # This script builds all the base images for your architecture, using recipes in this repository
 
-tag="1.2"
+tag="1.3"
 date=`date '+%y%m%d.%H%M%S'`
 arch=`uname -m`
 cwd=`pwd`
-rootdir="${cwd}/.."
+rootdir="${cwd}/../docker-recipes"
 
 declare -A os_paths
 os_paths["ubi7"]="${rootdir}/ubi7"
