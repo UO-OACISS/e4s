@@ -89,14 +89,7 @@ spack:
   - flecsi
   - magma
   - slate
-  - hypre
-
-
-
-
-
-
-  
+  - hypre  
   #- xsdk
   - mfem
   - trilinos@12.14.1+dtk+intrepid2+shards
@@ -145,12 +138,6 @@ spack:
   - zfp
   - sz
 
-
-
-
-
-
-  
   #- paraview+mpi+qt ^llvm~all_targets~clang~compiler-rt~internal_unwind~libcxx+link_dylib~lld~lldb~omp_tsan~polly~python ^mesa ^qt@5.10.0
   #- llvm-openmp # ***COMPILERS & SUPPORT***
   # - nrm^python@3.7.3 # ***Ecosystem*** -- package needs updating, no py-tornado@5.1.1
