@@ -1,4 +1,3 @@
-# XSDK
 spack:
   packages:
     all:
@@ -6,27 +5,105 @@ spack:
       variants: +mpi
       providers:
         mpi: [mpich]
+        blas: [openblas]
       buildable: true
+      version: []
+      paths: {}
+      modules: {}
+      target: []
     mpich:
       version: [3.2.1]
       variants: ~wrapperrpath
       buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
+      target: []
     gcc:
       version: [7.3.0]
       buildable: true
+      providers: {}
+      paths: {}
+      modules: {}
+      compiler: []
+      target: []
+    boost:
+      variants: +atomic+chrono~clanglibcpp~context~coroutine +date_time~debug+exception~fiber+filesystem+graph~icu+iostreams+locale+log+math+mpi+multithreaded~numpy~pic+program_options~python+random+regex+serialization+shared+signals~singlethreaded+system~taggedlayout+test+thread+timer~versionedlayout
+        visibility=hidden +wave
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+    openblas:
+      variants: threads=openmp
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+    pcre:
+      variants: +jit+multibyte+utf
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+    llvm:
+      variants: ~all_targets~clang~compiler-rt~lld~lldb
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+    binutils:
+      variants: +gold+headers+libiberty~nls
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
+    elfutils:
+      variants: ~bzip2~nls~xz
+      version: []
+      target: []
+      compiler: []
+      buildable: true
+      modules: {}
+      providers: {}
+      paths: {}
   specs:
-  # fortrilinos variant of trilinos doesn't build
+  - patchelf  #***XSDK***
   - py-libensemble^python@3.7.3
   - flecsi
   - magma
   - slate
   - hypre
   - mfem
-  - kokkos
   - trilinos@12.14.1+dtk+intrepid2+shards
   - sundials
   - petsc
   - strumpack
+  - superlu-dist
   - superlu
   - tasmanian
+  mirrors: {}
+  repos: []
+  upstreams: {}
+  modules:
+    enable: []
+  definitions: []
+  config: {}
   view: false
+  concretization: separately
