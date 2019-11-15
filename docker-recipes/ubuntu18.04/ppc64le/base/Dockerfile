@@ -47,7 +47,7 @@ ENV SPACK_ROOT=/spack \
     FORCE_UNSAFE_CONFIGURE=1 \
     E4S_MIRROR_ROOT="http://oaciss.uoregon.edu/e4s"
 
-COPY /spack.yaml /base-env/
+COPY /spack.yaml /spack.lock /base-env/
 WORKDIR /base-env
 
 RUN wget ${E4S_MIRROR_ROOT}/e4s.pub \
