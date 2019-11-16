@@ -10,9 +10,10 @@ docker build -t ecpe4s/ubuntu1804_ppc64le_base:1.3 .
 
 This Dockerfile + build script can be used to build a clean Ubuntu 18.04 base image with the following software:
 * Spack HPC package manager (v0.13.1)
+* Python 3.7.4
 * GCC 7.3.0
-* Mpich 3.2.1 without wrapperrpath option
-* Cmake
+* MPICH 3.2.1 without wrapperrpath option
+* CMake 3.15.4
 
 The bundled Spack install is additionally bootstrapped to include environment-modules, lmod, and basic tools so that the image can serve as the foundation for additional E4S Dockerfiles, such as the comprehensive E4S image. All of the Spack packages used in building this base image are available as pre-built binaries on the E4S Spack build cache. There is a line in the Dockerfile which configures Spack to use the E4S build cache:
 ```
