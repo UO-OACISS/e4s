@@ -1,0 +1,14 @@
+---
+- heading: Math Libraries
+- e4s_product: hypre
+  type: Math Library
+  repo_url: https://github.com/hypre-space/hypre/blob/master
+  docs: [README.md, CHANGELOG, LICENSE-APACHE, LICENSE-MIT]
+- e4s_product: flecsi
+  type: Framework
+  repo_url: https://github.com/laristra/flecsi/blob/master
+  docs: [README.md, RELEASE.md, LICENSE]
+- e4s_product: mfem
+  type: Framework
+  repo_url: https://github.com/mfem/mfem/blob/master
+  docs: [README, CHANGELOG, LICENSE]
