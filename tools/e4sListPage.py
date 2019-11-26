@@ -81,7 +81,7 @@ introCloseBlock='''			</main><!-- .content -->
 </body>
 </html>'''
 
-introHeadingBlock='''<h2>***HEADING***</h2>
+introHeadingBlock='''<h3>***HEADING***</h3>
 '''
 
 introLinkBlock='''<!-- This is a single product entry. To add more copy and edit from here... -->
@@ -177,9 +177,21 @@ with open(output_prefix+'E4S-Products.html', "a") as listPage:
 
             introFix=introBlock.replace("***CAPNAME***",capName).replace("***TIMESTAMP***",timestamp)
             print(introFix, file=ppage)
-            rawFileURL = product['repo_url'].replace("blob","raw")
+
+            appendRaw=""
+            if 'raw_append' in product:
+                appendRaw=product['raw_append']
+                rawFileURL = product['repo_url']
+            else:
+                fromRaw="/blob/"
+                toRaw="/raw/"
+                if 'raw_replace' in product:
+                    fromRaw=product['raw_replace'][0]
+                    toRaw=product['raw_replace'][1]
+                rawFileURL = product['repo_url'].replace(fromRaw,toRaw)
+            print(rawFileURL)
             for doc in product['docs']:
-                docHead=getURLHead(rawFileURL+"/"+doc)
+                docHead=getURLHead(rawFileURL+"/"+doc+appendRaw)
                 docFix = docBlock.replace("***DOCNAME***",doc).replace("***DOCTEXT***",docHead).replace("***DOCURL***",product['repo_url']+"/"+doc)
                 print(docFix, file=ppage)
             #.replace('***DESCRIPTION***',"N/A").replace("***SITEADDRESS***","N/A").replace("***SPACKVERSION***","N/A")

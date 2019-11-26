@@ -4,11 +4,76 @@
   type: Math Library
   repo_url: https://github.com/hypre-space/hypre/blob/master
   docs: [README.md, CHANGELOG, LICENSE-APACHE, LICENSE-MIT]
+- e4s_product: magma
+  type: Math Library
+  raw_replace: [/src/, /raw/]
+  repo_url: https://bitbucket.org/icl/magma/src/default/
+  docs: [README, ReleaseNotes, COPYRIGHT]
+- e4s_product: mfem
+  type: Math Library
+  repo_url: https://github.com/mfem/mfem/blob/master
+  docs: [README, CHANGELOG, LICENSE]
+- e4s_product: slate
+  type: Math Library
+  raw_replace: [/src/, /raw/]
+  repo_url: https://bitbucket.org/icl/slate/src/default
+  docs: [README.md, LICENSE]
+- e4s_product: strumpack
+  repo_url: https://github.com/pghysels/STRUMPACK/blob/master
+  docs: [README.md, CHANGELOG, LICENSE]
+- e4s_product: sundials
+  type: Math Library
+  repo_url: https://github.com/LLNL/sundials/blob/master
+  docs: [README.md, NOTICE, LICENSE]
+- heading: Progamming Environments
 - e4s_product: flecsi
   type: Framework
   repo_url: https://github.com/laristra/flecsi/blob/master
   docs: [README.md, RELEASE.md, LICENSE]
-- e4s_product: mfem
+- e4s_product: petsc
   type: Framework
-  repo_url: https://github.com/mfem/mfem/blob/master
-  docs: [README, CHANGELOG, LICENSE]
+  repo_url: https://gitlab.com/petsc/petsc/blob/master
+  docs: [README.md, LICENSE]
+- e4s_product: trilinos
+  type: Framework
+  repo_url: https://github.com/trilinos/Trilinos/blob/master
+  docs: [README.md, LICENSE]
+- heading: I/O libraries
+- e4s_product: adios
+  type: I/O Library
+  repo_url: https://github.com/ornladios/ADIOS/blob/master
+  docs: [README.md, NEWS, COPYING]
+- e4s_product: hdf5
+  repo_url: https://bitbucket.hdfgroup.org/projects/HDFFV/repos/hdf5/browse
+  raw_append: ?&raw
+  docs: [README.txt, COPYING]
+- e4s_product: parallel-netcdf
+  repo_url: https://github.com/Parallel-NetCDF/PnetCDF/blob/master
+  docs: [README.md, RELEASE_NOTES, COPYRIGHT]
+- heading: Compression Tools
+- e4s_product: sz
+  repo_url: https://github.com/disheng222/SZ/blob/master
+  docs: [README.md, copyright-and-BSD-license.txt]
+- e4s_product: zfp
+  repo_url: https://github.com/LLNL/zfp/blob/develop
+  docs: [README.md, VERSIONS.md, LICENSE]
+- heading: Performance Tools
+- e4s_product: caliper
+  repo_url: https://github.com/LLNL/Caliper/blob/master
+  docs: [README.md, LICENSE]
+- e4s_product: darshan
+  repo_url: https://xgitlab.cels.anl.gov/darshan/darshan/blob/master
+  docs: [README.md, ChangeLog, COPYRIGHT]
+- e4s_product: dyninst
+  repo_url: https://github.com/dyninst/dyninst/blob/master
+  docs: [README.md, CHANGELOG.md, LICENSE.md]
+- e4s_product: hpctoolkit
+  repo_url: https://github.com/HPCToolkit/hpctoolkit/blob/master
+  docs: [README, README.ReleaseNotes, README.License]
+- e4s_product: papi
+  repo_url: https://bitbucket.org/icl/papi/src/master
+  raw_replace: [/src/, /raw/]
+  docs: [README.md, RELEASENOTES.txt, LICENSE.txt]
+- e4s_product: tau
+  repo_url: https://github.com/UO-OACISS/tau2/blob/master
+  docs: [README, Changes, LICENSE]
