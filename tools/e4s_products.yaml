@@ -1,5 +1,9 @@
 ---
 - heading: Math Libraries
+- e4s_product: flecsi
+  type: Framework
+  repo_url: https://github.com/laristra/flecsi/blob/master
+  docs: [README.md, RELEASE.md, LICENSE]
 - e4s_product: hypre
   type: Math Library
   repo_url: https://github.com/hypre-space/hypre/blob/master
@@ -13,6 +17,10 @@
   type: Math Library
   repo_url: https://github.com/mfem/mfem/blob/master
   docs: [README, CHANGELOG, LICENSE]
+- e4s_product: petsc
+  type: Framework
+  repo_url: https://gitlab.com/petsc/petsc/blob/master
+  docs: [README.md, LICENSE]
 - e4s_product: slate
   type: Math Library
   raw_replace: [/src/, /raw/]
@@ -25,15 +33,6 @@
   type: Math Library
   repo_url: https://github.com/LLNL/sundials/blob/master
   docs: [README.md, NOTICE, LICENSE]
-- heading: Progamming Environments
-- e4s_product: flecsi
-  type: Framework
-  repo_url: https://github.com/laristra/flecsi/blob/master
-  docs: [README.md, RELEASE.md, LICENSE]
-- e4s_product: petsc
-  type: Framework
-  repo_url: https://gitlab.com/petsc/petsc/blob/master
-  docs: [README.md, LICENSE]
 - e4s_product: trilinos
   type: Framework
   repo_url: https://github.com/trilinos/Trilinos/blob/master
