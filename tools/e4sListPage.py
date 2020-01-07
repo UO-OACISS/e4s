@@ -10,6 +10,7 @@ import datetime
 import html
 import sys
 import os
+import shutil
 
 timestamp='{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
 
@@ -18,7 +19,7 @@ introListBlock='''<!DOCTYPE html>
 <head>
 	<meta charset="utf-8" />
 	<!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]-->
-	<title>E4S Packages</title>
+	<title>E4S Products</title>
 	<meta name="keywords" content="" />
 	<meta name="description" content="" />
 	<link href="style.css" rel="stylesheet">
@@ -95,7 +96,7 @@ introBlock='''<!DOCTYPE html>
 <head>
 	<meta charset="utf-8" />
 
-	<title>E4S Packages: ***CAPNAME***</title>
+	<title>E4S Products: ***CAPNAME***</title>
   </head>
   <body>
 		<h1>***CAPNAME***</h1>
@@ -138,7 +139,13 @@ docBlock='''<b>***DOCNAME***</b>
 <hr>
 <br>
 '''
-
+def getSpackInfo(name):
+    whichSpack = shutil.which('spack')
+    if whichSpack is None:
+        return None
+    infoBlob = subprocess.run(['spack', 'info', name], stdout=subprocess.PIPE).stdout.decode('utf-8')
+    infoBlob
+    return infoBlob
 
 def getURLHead(url, numChars=200):
     #masteryaml_url="https://raw.githubusercontent.com/UO-OACISS/e4s/master/docker-recipes/ubi7/x86_64/e4s/spack.yaml"
@@ -178,6 +185,10 @@ with open(output_prefix+'E4S-Products.html', "a") as listPage:
             introFix=introBlock.replace("***CAPNAME***",capName).replace("***TIMESTAMP***",timestamp)
             print(introFix, file=ppage)
 
+            spackInfo = getSpackInfo(lowName)
+            if spackInfo is not None:
+                print(spackInfo)
+
             appendRaw=""
             if 'raw_append' in product:
                 appendRaw=product['raw_append']
@@ -198,6 +209,6 @@ with open(output_prefix+'E4S-Products.html', "a") as listPage:
 
             print(endBlock, file=ppage)
     print(introCloseBlock.replace("***TIMESTAMP***",timestamp), file=listPage)
-#subprocess.run(['ls', '-l'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+
 
 #print('\n'.join(speclist))

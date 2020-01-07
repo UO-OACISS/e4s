@@ -8,6 +8,15 @@
   type: Math Library
   repo_url: https://github.com/hypre-space/hypre/blob/master
   docs: [README.md, CHANGELOG, LICENSE-APACHE, LICENSE-MIT]
+- e4s_product: kokkos-kernels
+  type: Math Library
+  repo_url: https://github.com/kokkos/kokkos-kernels/blob/master
+  docs: [README, CHANGELOG.md, LICENSE]
+- e4s_product: libensemble
+  spack_name: py-libensemble
+  type: Math Library
+  repo_url: https://github.com/Libensemble/libensemble/blob/master
+  docs: [README.rst, CHANGELOG.rst, LICENSE]
 - e4s_product: magma
   type: Math Library
   raw_replace: [/src/, /raw/]
@@ -33,6 +42,16 @@
   type: Math Library
   repo_url: https://github.com/LLNL/sundials/blob/master
   docs: [README.md, NOTICE, LICENSE]
+- e4s_product: superlu
+  spack_name: superlu-dist
+  type: Math Library
+  repo_url: https://github.com/xiaoyeli/superlu_dist/blob/master
+  docs: [README.md, License.txt]
+- e4s_product: tasmanian
+  spack_name: tasmanian
+  type: Math Library
+  repo_url: https://github.com/ORNL/TASMANIAN/blob/master
+  docs: [README.md, CHANGELOG.md, LICENSE]
 - e4s_product: trilinos
   type: Framework
   repo_url: https://github.com/trilinos/Trilinos/blob/master
@@ -42,6 +61,10 @@
   type: I/O Library
   repo_url: https://github.com/ornladios/ADIOS/blob/master
   docs: [README.md, NEWS, COPYING]
+- e4s_product: adios2
+  type: I/O Library
+  repo_url: https://github.com/ornladios/ADIOS2/blob/master
+  docs: [ReadMe.md, LICENSE]
 - e4s_product: hdf5
   repo_url: https://bitbucket.hdfgroup.org/projects/HDFFV/repos/hdf5/browse
   raw_append: ?&raw
@@ -49,6 +72,19 @@
 - e4s_product: parallel-netcdf
   repo_url: https://github.com/Parallel-NetCDF/PnetCDF/blob/master
   docs: [README.md, RELEASE_NOTES, COPYRIGHT]
+- e4s_product: unifyfs
+  type: TOOL
+  repo_url: https://github.com/LLNL/UnifyFS/blob/dev
+  docs: [README.md, LICENSE]
+- heading: Checkpointing
+- e4s_product: veloc
+  type: TOOL
+  repo_url: https://github.com/ECP-VeloC/VELOC/blob/master
+  docs: [README.md, LICENSE]
+- e4s_product: scr
+  type: TOOL
+  repo_url: https://github.com/LLNL/scr/blob/master
+  docs: [README.md, ChangeLog, LICENSE.TXT]
 - heading: Compression Tools
 - e4s_product: sz
   repo_url: https://github.com/disheng222/SZ/blob/master
@@ -76,3 +112,86 @@
 - e4s_product: tau
   repo_url: https://github.com/UO-OACISS/tau2/blob/master
   docs: [README, Changes, LICENSE]
+- heading: PMR
+- e4s_product: aml
+  type: PMR
+  repo_url: https://xgitlab.cels.anl.gov/argo/aml/blob/master
+  docs: [README.markdown, LICENSE]
+- e4s_product: bolt
+  type: PMR
+  repo_url: https://github.com/pmodels/bolt/blob/master
+  docs: [README.md, CHANGES.txt, LICENSE.txt]
+- e4s_product: globalarrays
+  type: PMR
+  repo_url: https://github.com/GlobalArrays/ga/blob/master
+  docs: [README.md, CHANGELOG.md, COPYRIGHT]
+- e4s_product: kokkos
+  spack_name: kokkos
+  type: PMR
+  repo_url: https://github.com/kokkos/kokkos/blob/master
+  docs: [README, CHANGELOG.md, LICENSE]
+- e4s_product: openmpi
+  type: PMR
+  repo_url: https://github.com/open-mpi/ompi/blob/master
+  docs: [README, NEWS, LICENSE]
+- e4s_product: papyrus
+  type: PMR
+  repo_url: https://code.ornl.gov/eck/papyrus/blob/master
+  docs: [README.md, LICENSE.txt]
+- e4s_product: qthreads
+  type: PMR
+  repo_url: https://github.com/Qthreads/qthreads/blob/master
+  docs: [README.md, NEWS, COPYING]
+- e4s_product: quo
+  spack_name: libquo
+  type: PMR
+  repo_url: https://github.com/lanl/libquo/blob/master
+  docs: [README.md, LICENSE]
+- e4s_product: raja
+  type: PMR
+  repo_url: https://github.com/LLNL/RAJA/blob/develop
+  docs: [README.md, RELEASE_NOTES.md, LICENSE]
+- e4s_product: umpire
+  type: PMR
+  repo_url: https://github.com/LLNL/Umpire/blob/develop
+  docs: [README.md, CHANGELOG.md, LICENSE]
+- e4s_product: upcxx
+  type: PMR
+  raw_replace: [/src/, /raw/]
+  repo_url: https://bitbucket.org/berkeleylab/upcxx/src/master
+  docs: [README.md, ChangeLog.md, LICENSE.txt]
+- heading: Tools
+- e4s_product: gotcha
+  type: TOOL
+  repo_url: https://github.com/LLNL/GOTCHA/blob/develop
+  docs: [README.md, LGPL]
+- e4s_product: faodel
+  type: TOOL
+  repo_url: https://github.com/faodel/faodel/blob/master
+  docs: [README.md, NEWS.md, LICENSE.md]
+- e4s_product: mercury
+  type: TOOL
+  repo_url: https://github.com/mercury-hpc/mercury/blob/master
+  docs: [README.md, CHANGELOG, COPYING]
+- e4s_product: surf
+  spack_name: py-ytopt
+  type: TOOL
+  repo_url: https://xgitlab.cels.anl.gov/pbalapra/ytopt/blob/master
+  docs: [README.md]
+- e4s_product: jupyterhub
+  spack_name: py-jupyterhub
+  type: TOOL
+  repo_url: https://github.com/jupyterhub/jupyterhub/blob/master
+  docs: [README.md, COPYING.md]
+- e4s_product: geopm
+  type: TOOL
+  repo_url: https://github.com/geopm/geopm/blob/dev
+  docs: [README, ChangeLog, COPYING]
+- e4s_product: mpifileutils
+  type: TOOL
+  repo_url: https://github.com/hpc/mpifileutils/blob/master
+  docs: [README.md, LICENSE]
+- e4s_product: rempi
+  type: TOOL
+  repo_url: https://github.com/PRUNERS/ReMPI/blob/master
+  docs: [README.md, LICENSE.TXT]
