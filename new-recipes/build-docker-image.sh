@@ -24,7 +24,7 @@ docker_namespace="ecpe4s"
 baseimg="${docker_namespace}/${os}-${arch}:${tag}-new"
 outputimg="${docker_namespace}/${os}-${arch}-${env}:${tag}"
 
-. "${name}.sh"
+. "${name}.vars"
 
 echo "${PLATFORM} ${CORECOMPILER} ${RCFILE}"
 
