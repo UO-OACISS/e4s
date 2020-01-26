@@ -3,14 +3,14 @@ modules:
   - lmod
   lmod:
     core_compilers:
-    - '!!CORECOMPILER'
+    - '!!CORECOMPILER!!'
     hierarchy:
     - mpi
     hash_length: 4
     whitelist:
     - gcc
     blacklist:
-    - '!!CORECOMPILER'
+    - '!!CORECOMPILER!!'
     all:
       environment:
         set:
