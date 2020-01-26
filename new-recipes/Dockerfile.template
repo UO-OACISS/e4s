@@ -3,6 +3,7 @@ FROM ${baseimg}
 
 COPY /etc-spack/ /etc/spack
 
+ARG SPACK_ROOT=/spack
 ARG E4S_MIRROR=https://instinct.nic.uoregon.edu:8083/e4s
 
 COPY e4s.pub /
@@ -20,6 +21,6 @@ COPY setup /setup
 WORKDIR /setup
 
 RUN ./setup.sh \
- && rm -rf /setup
+ && rm -f /setup.sh
 
 WORKDIR /
