@@ -9,7 +9,7 @@ rm -rf "${bd}"
 mkdir "${bd}"
 
 cp Dockerfile.template "${bd}/Dockerfile"
-cp -r "${1}/etc-spack" "${1}/setup" "${1}/spack.yaml" e4s.pub "${bd}/"
+cp -r "${1}/etc-spack" "${1}/setup" "${1}/spack.yaml" "${1}/e4s.pub" "${bd}/"
 
 cd "${bd}"
 
