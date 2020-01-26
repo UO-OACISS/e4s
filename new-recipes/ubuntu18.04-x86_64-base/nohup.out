@@ -1,0 +1,393 @@
++ cp ../config/pre-process.sh .
++ . pre-process.sh ../config
+++ set -e
+++ rm -f pre-process.sh
+++ . env.sh
++++ PLATFORM=linux-ubuntu18.04-x86_64
++++ TARGETARCH=x86_64
++++ CORECOMPILER=gcc@7.4.0
++++ RCFILE=/etc/bash.bashrc
++++ date +%Y-%m-%d.%H%M
+++ ts=2020-01-26.0120
+++ bd=docker-context-2020-01-26.0120
+++ rm -rf docker-context-2020-01-26.0120
+++ mkdir docker-context-2020-01-26.0120
+++ cp -r Dockerfile ../config/etc-spack ../config/setup ../config/spack.yaml ../e4s.pub docker-context-2020-01-26.0120/
+++ cd docker-context-2020-01-26.0120
+++ for f in 'etc-spack/*' 'setup/*' spack.yaml
+++ '[' '!' -f etc-spack/modules.yaml ']'
+++ sed -i 's@!!PLATFORM!!@linux-ubuntu18.04-x86_64@' etc-spack/modules.yaml
+++ sed -i 's@!!TARGETARCH!!@x86_64@' etc-spack/modules.yaml
+++ sed -i 's/!!CORECOMPILER!!/gcc@7.4.0/' etc-spack/modules.yaml
+++ sed -i 's@!!RCFILE!!@/etc/bash.bashrc@' etc-spack/modules.yaml
+++ for f in 'etc-spack/*' 'setup/*' spack.yaml
+++ '[' '!' -f etc-spack/packages.yaml ']'
+++ sed -i 's@!!PLATFORM!!@linux-ubuntu18.04-x86_64@' etc-spack/packages.yaml
+++ sed -i 's@!!TARGETARCH!!@x86_64@' etc-spack/packages.yaml
+++ sed -i 's/!!CORECOMPILER!!/gcc@7.4.0/' etc-spack/packages.yaml
+++ sed -i 's@!!RCFILE!!@/etc/bash.bashrc@' etc-spack/packages.yaml
+++ for f in 'etc-spack/*' 'setup/*' spack.yaml
+++ '[' '!' -f setup/rc-modules.sh ']'
+++ sed -i 's@!!PLATFORM!!@linux-ubuntu18.04-x86_64@' setup/rc-modules.sh
+++ sed -i 's@!!TARGETARCH!!@x86_64@' setup/rc-modules.sh
+++ sed -i 's/!!CORECOMPILER!!/gcc@7.4.0/' setup/rc-modules.sh
+++ sed -i 's@!!RCFILE!!@/etc/bash.bashrc@' setup/rc-modules.sh
+++ for f in 'etc-spack/*' 'setup/*' spack.yaml
+++ '[' '!' -f setup/setup.sh ']'
+++ sed -i 's@!!PLATFORM!!@linux-ubuntu18.04-x86_64@' setup/setup.sh
+++ sed -i 's@!!TARGETARCH!!@x86_64@' setup/setup.sh
+++ sed -i 's/!!CORECOMPILER!!/gcc@7.4.0/' setup/setup.sh
+++ sed -i 's@!!RCFILE!!@/etc/bash.bashrc@' setup/setup.sh
+++ for f in 'etc-spack/*' 'setup/*' spack.yaml
+++ '[' '!' -f spack.yaml ']'
+++ sed -i 's@!!PLATFORM!!@linux-ubuntu18.04-x86_64@' spack.yaml
+++ sed -i 's@!!TARGETARCH!!@x86_64@' spack.yaml
+++ sed -i 's/!!CORECOMPILER!!/gcc@7.4.0/' spack.yaml
+++ sed -i 's@!!RCFILE!!@/etc/bash.bashrc@' spack.yaml
+++ echo docker-context-2020-01-26.0120
+docker-context-2020-01-26.0120
++ docker build -t ecpe4s/ubuntu18.04-x86_64-base:0.13.3 .
+Sending build context to Docker daemon  11.26kB
+Step 1/11 : FROM ecpe4s/rhel7-x86_64:0.13.3-new
+ ---> 0698f53522d2
+Step 2/11 : COPY /etc-spack/ /etc/spack
+ ---> 51468644bc20
+Step 3/11 : ARG E4S_MIRROR=https://instinct.nic.uoregon.edu:8083/e4s
+ ---> Running in c622feb5a39c
+Removing intermediate container c622feb5a39c
+ ---> 68765caeb71b
+Step 4/11 : COPY e4s.pub /
+ ---> 03ae75018fad
+Step 5/11 : COPY spack.yaml /base-env/
+ ---> 18ebb3b25600
+Step 6/11 : WORKDIR /base-env
+ ---> Running in 89b167b9dfde
+Removing intermediate container 89b167b9dfde
+ ---> a32d8e39bbde
+Step 7/11 : RUN spack gpg trust /e4s.pub  && spack mirror add E4S ${E4S_MIRROR}  && spack install --cache-only gcc  && spack compiler add `spack location -i gcc`  && spack install --cache-only  && spack clean -a && rm -rf /tmp/root/spack-stage
+ ---> Running in bb6de80588b4
+[91mgpg: keyring `/spack/opt/spack/gpg/secring.gpg' created
+[0m[91mgpg: keyring `/spack/opt/spack/gpg/pubring.gpg' created
+[0m[91mgpg: /spack/opt/spack/gpg/trustdb.gpg: trustdb created
+[0m[91mgpg: key 0314303D: public key "prl" imported
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+[0m==> Installing libsigsegv
+==> Searching for binary cache of libsigsegv
+==> Finding buildcaches at https://instinct.nic.uoregon.edu:8083/e4s/build_cache
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-cuda-10.1.243-xf7kwwhyvh35nzo5vcdj5sha46gppo6p.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-netlib-scalapack-2.0.2-dyydkee7p53xkrin4pysb4yvmo773fvb.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-python-2.7.16-vbgnjmytoknaevyqugh5fp7c2jn4zecf.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-nettle-3.4.1-rzicapwk3jpnyfsexmq57rpdyzua2lua.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-six-1.12.0-46ns7ktadz5z7l4rys2jkdmtnfu76y47.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-ppc64le-gcc-8.3.1-gmp-6.1.2-5fw3ddnbzqi25gvre7rniizwhudkxxzh.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-faodel-1.1906.1-hpyznyzuou256cmnvpy7uf3flof4zkpc.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-openmpi-3.1.4-6clymsxv5diize7kvy6dfqouocixixnc.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-axl-0.1.1-ko6inlhpfmkhe4su27yc3fiqcr6p3q4b.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-qthreads-1.14-wdbuioiajj4j6pmw656nfy7qm3n7le6e.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-ninja-1.9.0-vwu3smyjyej5olkvhzsy4t4piilcgmql.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-python-3.7.3-c3aoibdyeuxw3r44rl2lzgjynziq2l5h.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-zeromq-4.3.2-4tdk5vup7hnqrjxxvffzcmwuwvn6zqkp.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-elfutils-0.177-id7uiqnerdrre3l4vykdcumw6ju64iou.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-natsort-5.2.0-lx24phwcula4y2v74vimdvx2sv2rfyik.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-openblas-0.3.7-dytmn4pco5772z3etgws6mcpymr7nhht.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-pytz-2019.3-hk76d3eky4bx3tidaw5hr63hanngh4zq.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-kiwisolver-1.1.0-vd7clw3k5vpoavpiqbj2s3jioly3zsni.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-decorator-4.4.0-vykxhm3lm2iciupcer2jfw6swpgbjotk.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-upcxx-2019.9.0-54ryimkhwwecrhmsmgweev5ku5zvsdf7.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-wcwidth-0.1.7-dwop64jqivkg6kgys3lmvhqfxnkilaq2.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-pytz-2019.3-gww4letfnekqr3qdzicqi56zdy3ref3r.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-asn1crypto-0.22.0-6mdhknkcriurunpoelywe6wv4qitfehz.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-libcircle-0.2.1-rc.1-rmybniyoebo76atjixycecsvitovo7ew.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-libnrm-0.1.0-iqrh53sz2y6th5si5v22jn2marn2sfm3.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-kiwisolver-1.1.0-6dlzouihnjzmoehrcrqtxxqz43al5cdx.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-llvm-9.0.0-v22q5bdhyrpbhylgzftwvwb6akj7be6g.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-automake-1.16.1-euovhbf4iz7cny25gbcdmhzbrnasadll.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-libx11-1.6.7-lx42yyatyjnbphndxm7yxizk4pdf5vew.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-py-pyjwt-1.7.1-4szoprdzhdsata4f3etgr43g5nwdfhz2.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-urllib3-1.25.6-x5o5b4drv7ewgghupmdtyqwzxhw6vupj.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-papyrus-develop-nu56mejweub56zjuexidml2t4o664zug.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-libxscrnsaver-1.2.2-xgafq2zur6f5z5islcv3ryxkhnm6kzpw.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-lz4-1.9.2-jbcch6qi5ltupw5wuvcft3afbdqmzbrr.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-rankstr-0.0.2-rtxfvzsjjjmzuyx4b2vcxedijfg2i3n7.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-font-util-1.3.2-d3pizifgvj3vhafi372vdyrzmbxjpsfw.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-sz-1.4.12.3-q3tlbjv37okpqneikayaal5q2qg2whr6.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-papi-5.7.0-uecwojn6daicxkdejmqzkla2uxyu7kax.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-4.8.5-isl-0.18-aollzc76gwoac466pv6lnnnz3gb22rj6.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-setuptools-scm-3.3.3-zarbjdhqjfaesuh2h4y3ncqab737nd5t.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-libunwind-2018.10.12-vjtowb5kydkn6p22urlxdf6hl4ihscyx.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-strumpack-3.1.1-vea3nkhsmxqlaqt3lmd6yis5pg6g6wbw.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-hpctoolkit-2019.08.14-hxkxbdzshqnv5hljrdyzwkgfq2qadgyg.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-parallel-netcdf-1.11.2-lmkvcp7xspmgob2a6v4mgoso5whlxtg4.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-mumps-5.2.0-z37iwhub4xex72zhrbaea244l3u6qrmj.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-binutils-2.32-2qdvs2ckcuhmc2yri3mkpaoiuhkemgmo.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-ninja-1.9.0-24umgjiprquvfd7mvpfqmfzkowvgm2si.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-py-babel-2.7.0-kjg7qs35rhvljgchswlsexvjjfubhh4r.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-py-libensemble-0.5.2-gz4rxbjd5lku5lt6ji6lyf2f6qoafuzt.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-py-jupyterhub-1.0.0-hz7puynas2txy3ytoshj227qf7xgkply.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-4.8.5-mpc-1.1.0-v5rqsbkr3zbia475v33ndowqhecvcvzn.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-automake-1.16.1-qz6ehke6tks2ulc7wbprmtopuecsh3ey.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-jsonschema-2.6.0-smu3h2auugib2fm575totohbfycvvjaa.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-elfutils-0.177-nj5qupycyeeisybrrchhwhiyk5v3l5s6.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-netlib-scalapack-2.0.2-2uec7oqb6hog3up44rit2q754n3quero.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-six-1.12.0-ytx6ko3r3ffe4rwidv6i7zwg3vr4gdm3.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-scikit-learn-0.21.3-qgvd4lcyorqdbhremiw24ijzg2l3zrq5.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-gotcha-0.0.2-gburxnh3huyi7qumoogaptmujeqv56jp.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-4.8.5-pkgconf-1.6.3-mzpurdeoicehjhsunpgcgepafcq5mbtd.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-util-macros-1.19.1-uxqqtdvublvyr43eqf6ctd4gpzqluim2.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-tar-1.32-s2x7wratoimr45fk7do7fbanvd6bji5n.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-8.3.1-patchelf-0.10-4rffqd2vem7feh55dpuivrv5kkq3j27w.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-pdsh-2.31-65jukzbk6kdrcecssafobzazxjyxchze.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-libxdmcp-1.1.2-3an6wiq237ply7gsycyx34fvivznebkn.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-rankstr-0.0.2-myycgf35rykry5h6rs4ffpqzgaigy4vh.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-pytest-runner-5.1-2mmeixhyrljqa2uzj723efe5dujkeiuk.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-mercury-1.0.1-ywlkrch4ofmi6mq4fhir6mmuxi7zia5s.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-redset-0.0.3-a6cegrzayl2simq4jgt2e6ozcwrdpbfo.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-4.8.5-readline-8.0-52unqybigs433bewo7ur2tybkt7ugkje.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-libxml2-2.9.9-dievmpecr2a2gaxb5odj4sto7cur6oym.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-libunwind-1.2.1-uqsvneoezozhdgac6gha7ezmkmpiyepr.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-8.3.1-patchelf-0.10-pp7awhfv4kybtkzj35fgbqg4qx6w5at2.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-4.8.5-patchelf-0.10-ociajsremyzayreubvrbnlpcpwrobkha.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-mpich-3.2.1-sb2fna3i4s4feofy6swrr6wivzyyu7he.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-matplotlib-2.2.3-ciwbez5tbsaspzf5qatykp4murlakqme.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-magma-2.5.1-z5fgqsv4uexa2vjqh3m4eeymsxhsnmhm.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-numactl-2.0.12-bjtuswrwpa6mj4csff7yeopag5i5paxi.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-nettle-3.4.1-bnarow45x2n7uwbtm6fybg3dgjwgizf4.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-py-ptyprocess-0.5.1-hb4zsaray6bbezduksnbdjpswsartsq2.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-libmonitor-2018.07.18-ia7obsf5qbvivnbqjxpovgsmt53o6tsl.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-4.8.5-autoconf-2.69-rc7uexiv3qqvpqxahghbd4lvptqvzws5.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-bdftopcf-1.0.5-pwgrq2ixauhaxmmdgzxgvkp2ugsfh2bh.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-libsodium-1.0.17-xlarhm3cabw5726fr7fveilo7tjlgkll.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-glproto-1.4.17-sytub3b2h5tneynumeeeughxewcx42oa.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-py-simplegeneric-0.8.1-dklun6jufzbmkc7rmpwbmc23wep34iya.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-ruby-2.6.2-3mvjbnwgti5oin7tx7mdpstlj2wj3h46.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-dyninst-10.1.0-tdyvcemn6aeet2i2625zij4rpqre2wp6.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-mpifileutils-develop-5bab7hoya6zxg3rae3x35dckfhumhw7h.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-zeromq-4.3.2-4kibaxflogdezgllddk4dcavtaf37jpu.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-hpctoolkit-2019.08.14-2iwddpemc4q64pvxmd6ys5oicmyr3lyr.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-py-prompt-toolkit-2.0.9-eyzsq33q2fzs6yu5btuqlz42xiy6pvdz.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-mpifileutils-develop-vwk7wvyrnd3khbmwm457wkocdm2i7eyg.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-py-mistune-0.7.1-yrh5i4x7aizpngdszrtj43bto3imv66o.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-libquo-1.3-xyv4tgjvrkgflybc6k3cyvs6zima2f4z.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-py-vcversioner-2.16.0.0-z2ylpognshgz74ya5g5xfmhx2e2ajpmo.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-8.3.1-readline-8.0-egmazxdlp2wqg4jkzaxcuopmv4muc6ch.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-m4-1.4.18-oufggyzdrqxafxrtnkwmvccjlmc7gc4n.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-boost-1.70.0-7ylloxxuiqhxtf3vtwdylopd4d34hwcy.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-4.8.5-pkgconf-1.6.3-2o5cmgggfr73fdp4nuextyuc67vcumzw.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-kokkos-kernels-2.7.00-bwu6l4ffwabax3eh5ltvha3ailcxfvgf.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-libpciaccess-0.13.5-7l5d4mimqxnqjbosxyfk2i7pztwwlxqm.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-m4-1.4.18-pzzjla4pqruhvqth6a6xszynkx35hjkn.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-boost-1.70.0-vqypyuojfyz46fsmnk7a6o6mle5zpzkv.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-python-oauth2-1.1.1-2yybrt3koz5g7aw5nrymacg4e3icqrlz.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-zlib-1.2.11-sy4kmi6ylvps55waaobeqjt7pdiqvnlg.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-lua-5.3.5-z2ovyizvfeheqgq7eleow5b3vtzg55fl.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-hdf5-1.10.5-azl2baxexegynwmeoawqzfzfk7parl4j.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-numpy-1.16.5-wl7d5lbcijebs6vj5qsge6astvsjyafe.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-4.8.5-libiconv-1.16-lvr73ddlu2j3uqyxpygqetwair335ff7.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-chardet-3.0.4-rjsua3pgoex3hybcveka7g532uuin4vm.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-lwgrp-1.0.2-eh2x4umvqg5c2t725sq2hwacru2uyw4i.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-alembic-1.0.7-cage5vtgbffxh2rqhn6zdzcgcxo6w3i2.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-expat-2.2.9-alzcyklwhmtbgchvoomw5lznzlhqb3to.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-unzip-6.0-5e62f2s3fs5aodxqxkqwqq3tb5oudu3h.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-pdt-3.25.1-e6bwjdenbiki6qour6sdwjwuu3i56ejw.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-py-pytz-2019.3-hrr4cvf3zdvpm33valxgpqghvxo44dtr.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-pickleshare-0.7.4-o6ylj6alsbktahi72zhozei64lah5nsh.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-gdbm-1.18.1-rypv5ucybzo5fcwpv422kyyikw477jcx.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-pickleshare-0.7.4-gvubrclaa5v4qf2iggtxo35bpc2ncrsd.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-cryptography-2.3.1-ujnkxtwdf6joqdvb4suelmadak253ma5.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-pyopenssl-19.0.0-mnj37nuukdcacve3mbygwowyouq7ix6m.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-ant-1.10.0-z5xefwyxapabbjv2zbyrlgmqilnnzytq.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-openssl-1.1.1d-g6lhgfwnyn2ktwldxcanbofvyxcdgwhc.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.4.0-libsigsegv-2.12-425gqrqexivtzphky6gojarxwbtluxu3.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-python-2.7.16-ruwblmszqtxsvbpgzkfbrdvuigqvxydp.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-sqlalchemy-1.3.9-vmq7gp3kmitaiyfcvu5ec7rhpsus3ivq.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-exmcutils-0.5.7-tbezukvdiqy2it4ccf7t4ckeare6rj66.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-sundials-5.0.0-cjkp7zluit5jtm6eqd74mavwko5thr2w.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-m4-1.4.18-hek2weg4zv6kxxetj4vqsiblas3zken4.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-libdwarf-20180129-ausi55cvcvsu4w33fzqjste2dmyd5c5y.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-nasm-2.14.02-vcsqh5sjzkbypvobjzzxvywmjngzigq2.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-nasm-2.14.02-ennb445anlxxugc3z633o57zbi3vhyyr.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-mpi4py-3.0.1-als7ys3lcto2mqcr4e2w3h5qzt3ujlbp.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-markupsafe-1.1.1-fuks4zqhz4hj26rgtabmhb3x57zf3qyo.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-py-cffi-1.13.0-fmwncqh37ff7t6iqcaegnmrqqbzmde7s.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-pyjwt-1.7.1-rbwzu4qkue3psp3hvshl3mcgf26xigpb.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-libxrender-0.9.10-h7ra55zjruqnluvkudagje6smaw5b65m.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-4.8.5-zlib-1.2.11-vhzh5cfaki5lx5sjuth5iuojq5azdkbd.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-4.8.5-zlib-1.2.11-pwv4vcrqu3hv4cxtaesxgo6rzwqps6sr.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-mpich-3.2.1-zh5d6cb6ovlsvbp46hy55g6vm46rnuhu.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-mercury-1.0.1-xvjutfijagchnuvwwhwebpaxzc46kwrb.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-ppc64le-gcc-8.3.1-zlib-1.2.11-6xzxvdmqiprlacniomudigfmuxw7zb6y.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-py-nbconvert-4.2.0-263licth6dktls5u5nt2mfvnxbvhgn4c.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-py-mpi4py-3.0.1-eixyn4ukv4i5nzd6a7hpicq3wpxftl6o.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-libsodium-1.0.17-ba2mnrttpqnitifpnig245ten274vvbu.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-autoconf-2.69-fg5dz5l7mjfpfewad2zm2hrmgcvoumdi.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-python-2.7.16-qgsf5xwwy7k6ksbnswlg6zndlsj4nprp.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-lzo-2.10-pxaxy73dvc3bd7htfaxtke5lrvyasy77.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-libxft-2.3.2-vhwbpyvrqtdflddmtppnlb4vfz6rdc5p.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-py-jupyter-client-4.4.0-p3k5utx2t6e7kh4kuqyynca6mluormfv.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-py-1.8.0-ldqu4qacuo3l3eiaziojkyfwrc3vrn6i.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-libxau-1.0.8-sv4mtjqa6y7csbcrd66rblgfkj4zbgbs.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-glm-0.9.7.1-jkk2qnihlmgpdqd7l4lzfl5sxy5ncy4y.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-flecsi-develop-ynz24vye444sjdpqdweoyu5cgx4oet65.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-blinker-1.4-dg2bfaxmmh2ih5fa7euwl4xskwghbvno.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-expat-2.2.9-7qhufc6bvmbvjgj6prtkwafvr7ommxkw.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-geopm-1.0.0-rc2-qsmweyvctesk3emdws7llinr5crtlatk.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-gotcha-0.0.2-iwuha3t3ezd47xh3b4vx4vvp7q463bcn.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-4.8.5-libsigsegv-2.12-knjj5ju2siz52ffmqy2nshqlkyav3oo5.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-py-cython-0.29.13-uedaebqz2tkwtr7f5baqk4vqqn5vuics.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-py-cryptography-2.3.1-dhgbfjnnhfx2cc7xvrgek4tjmuu54mgz.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-autoconf-2.69-zkc6b7z5xmygeuvdip7u4vdnxon4qewb.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-python-2.7.16-wz3ifs2foubnw4ylo5vmapigcc6sj7sa.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-py-pygments-2.4.2-worwaeds7g5v3frcwagl4xcmezxljlyb.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-tornado-6.0.3-qyzkiu3bkyvg5m37v4vy3fjqc3e3vskw.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-ncurses-6.1-wgtsbpe5feo4ae2kfroqjocmhdfloq24.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-sundials-5.0.0-dadjxspladivgtrftar2ezs4wywirb7i.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-aarch64-gcc-7.4.0-libiconv-1.16-4u6lfnd4qinr6lherwdohbypbt6ely25.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-wcwidth-0.1.7-j76mirxz6v7extxd2jtlvqkofahpcjbb.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-bison-3.4.2-b27h234jjkzqdaqyljnleqena2krhtlr.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-libpciaccess-0.13.5-4iwftgv6hv5ipkljtvnru36wv6qludjx.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-simplegeneric-0.8.1-2ueyondq55rhsviabawap6bezhebu62z.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-asn1crypto-0.22.0-xkxoccua7qw2tlcin7w5athbqclxjhfc.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-libquo-1.3-b7xacuhxdenoha76xlq2jgjsxbqupzdp.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-autoconf-2.69-ideiapdrma2cmxtl22cni4nckoxwinpo.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-mercury-1.0.1-oaivhpgodtn2wpjhzan56zu3jdcchltx.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-mumps-5.2.0-bsbthhumxpfkkcdiioeua7zvksebgpza.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-jupyter-core-4.4.0-g5ih4isdkmgkumuttay75w2hmzjxrkww.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-dyninst-10.1.0-3ze2rmmi2a6khwrj6qgkhqxbecntbpgp.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-libffi-3.2.1-c7muului6mt2nh3eexjmbsok5npiwli3.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-py-1.8.0-bjkxtip6jepq64kfx6mgwq66nivwfzf4.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.4.0-gcc-7.3.0-yzxttnm3nf6us2ywcdtga5jwfbiovnm5.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-elfutils-0.177-vklviodnu5ui6gqjfctqp24bftygl2re.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-help2man-1.47.11-p6qdiqa6agarrhqz6qonirxtb2x36lvg.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-py-prometheus-client-0.7.1-qakxsv5dk7lonhwt65x2gg4pv43mxcxc.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-hdf5-1.10.5-wenw76hw6hvw2pa7rns75fihelzvf77h.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-kokkos-2.9.00-5jh3f3fvgugsaqxf3skyd62jfnm2mmbc.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-superlu-5.2.1-3fo7zup7fd6nbace5gxbnngjhzgfblm6.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-certipy-0.1.3-kvcwtb5ubn6jtbwpkt55ryvnpjxw4fys.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-libxdmcp-1.1.2-5yhqzpcgtkorwvgagz3g7juwbtwzhke3.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-mpich-3.2.1-mwci37d6itcwyz7cilhoebt2xfjq5htx.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-pygments-2.4.2-attd2cn3p6sxlrt2ubdwwczre3dt2lmp.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-py-jinja2-2.10.3-jzevvkguzdozxor5lpog5ik5q3ra7jb6.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-blinker-1.4-oakqg5euttfintkwbos3vdorj6xoqjd6.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-mkfontscale-1.1.2-ugp35bxhvc2f4gq3barjhwbmxlvsqgk3.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-redset-0.0.3-5i2fhgrhged2yllim2sbezfdhtdkieff.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-exmcutils-0.5.7-qnfcpo5xau4ltfbp2cylhtgh7fftdc4l.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-ant-1.10.0-arrduatzwxjgkjrwjyunngf7d3w27cpd.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-otf2-2.2-5w4pm3wpagavcep3tdjzjt2g74lyo2pw.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-m4-1.4.18-udtb6e3jpj5vcati65ld355qkwitff7l.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-py-pyparsing-2.4.2-zajqpy3wj6wbu5bv3ijdvfkwwg6n6bpc.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-8.2.1-zlib-1.2.11-me2zvmmaj2ul5xhnqi5w6wwv5jqc6nf5.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-mercury-1.0.1-sumuz3lkxcd6vad742cqzerrpgkqjvsb.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-ninja-1.9.0-ybbnz3qnvam3rznykhwjuu5lwekjeuc4.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-er-0.0.3-lq6pjuf2mnf6ftoqh2jqrjibcudpylxa.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-scrnsaverproto-1.2.2-rq7bhhvrvsnxs6mo2f4mjlanldg3ykah.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-gotcha-1.0.2-h3qq2jz6a2ihwibdqndbfehh4pnmjr3z.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-papyrus-develop-ctuz4x2d75c4eianmo4ymanir3twwdrm.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-zlib-1.2.11-7od7gziwzx5o4liw77v3rn2l4q64al3t.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-texinfo-6.5-leohmyvjm6tx2kqvpuikempuuzwkg7jr.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-libxscrnsaver-1.2.2-cfdd5xpijl7rt2noas2u4rkzfmafbq7z.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-libdwarf-20180129-djhfwyxb4yax3kvnwkjqois3n6fca5at.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-llvm-9.0.0-gzootgs2uhjvfhznwfvgzld4mdjgte3a.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-mpich-3.2.1-pkprv2wolgl6icoteaortsphjp2jlhzi.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-mumps-5.2.0-v6zbvwza3q73gmkocvv4qdkey4lomuge.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-geopm-1.0.0-rc2-lpi63ms44lclsuiov6ahcwvxi62x3kf6.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-libiberty-2.31.1-rain3fyyiwklojwsv4n5xtquks72cqvx.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-zstd-1.4.3-4jo3yqxcs3w7friqvw5jlkx5jrphmyhy.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-libmonitor-2018.07.18-3py365lie2k6irpspicolovi4m4vq5ag.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-json-c-0.13.1-aoql42e53nyqspbwps7ehcmvw7lgeahz.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-setuptools-41.4.0-4jjgysntdzfoewzbshyzu66xodnra2gl.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-argobots-1.0rc1-qvajk43tfolnaelc7i4y3vcpp5alqwng.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-kokkos-2.7.00-6p3pefv3hymm5deixtxiqgrjqpkc65kx.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-zsh-5.4.2-rpzt6m3zizinqgch4djghkkafxp7v2ve.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-binutils-2.31.1-wcfvwzq2m6ahq6slwcsxvb72x5ez22cg.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-mfem-4.0.0-qybhs2nxvpvezplpwkvj2ij3qrklnupm.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-libxml2-2.9.9-aty3ijhr2cdckuy45ezfrw752fqjnwoe.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.4.0-m4-1.4.18-ut64la6rptcwos3uwl2kp5mle572hlhi.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.4.0-zlib-1.2.11-o2viq7yriiaw6nwqpaa7ltpyzqkaonhb.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.4.0-isl-0.18-kskdvhjd7s3ofseqyqutoe44jiwkt45o.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-setuptools-41.4.0-xof5ucumxh4uqphvhbswqgcxrfgouy2m.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-4.8.5-libtool-2.4.6-bcbiddkmbu4gy7wx6ftntmxqe3c5br3z.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-py-ipykernel-5.1.0-mursma76wsmzudpffjue5ylrgmsmgps5.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-libdwarf-20180129-ikfofdd6jvet2atcqkfagzc2dfg57mum.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-cuda-10.1.243-wsxvgo3w4ox5pn3elvaozaqg67sdwgqo.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-readline-8.0-pvy3kualeshu3ji3ssc47266vybhfz35.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-perl-data-dumper-2.173-z4tjbpzy6eeqaafb3evsrfwci2e5ge7q.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-openmpi-3.1.4-suwdembrvnjs6zj7roh4577ggk2wnnpc.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-xproto-7.0.31-qnwpv27cd2s55sn55ltbu6o4sggft4ds.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-libxfont-1.5.2-zr2y7feldapepmaqpstmyttaspt3wviq.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-gdbm-1.18.1-upouu42jbbfn6c7t6ffpd22mpk45hr6r.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-prompt-toolkit-2.0.9-gjfnnlb6affldsamx3qndd2ecydfzowd.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-expat-2.2.9-vgufrcbfvxgy4bcsyh2qq6ra2nkbmedl.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-py-certifi-2019.9.11-mki4vtq3tm3rd4gixqnlxhwyavpbhg5c.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-py-wcwidth-0.1.7-kxzipuyszodus3hhwx27ubynqwcty5ty.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-8.3.1-gdbm-1.18.1-jf5oic3tieo5c3empadtnyl7qmune6as.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-libxml2-2.9.9-v34smokz66c33hlpp6js7cljsw5tged7.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-py-requests-2.22.0-xprugmxm43s23m4xee5jc37lzwhqn64w.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-4.8.5-perl-5.30.0-xlnmibms4wy6o45vz25zsnzql5qn6552.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-pickleshare-0.7.4-fq6k22bxsjsekzlit4dtsvopbhhmvylr.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-papyrus-develop-w37ikryaewpezaobh3k7uihayfcrbizm.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-8.3.1-libtool-2.4.6-fe2k4wmfvhl7rlafj3mpr6wx7qcqr34t.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-lmod-8.1.5-e2555dworgh2qau5cgwkos3hmya6woff.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-8.3.1-libiconv-1.16-eovfptqgoevl6gbuiiyhftvw37refjqt.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-py-ipython-genutils-0.2.0-cgz6p5v6zxhzydxlhwg4lxbfe6lm2ddd.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-mako-1.0.4-4hw2k3v52yej7ffk7wfwopybhmbpjo33.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-libpfm4-4.10.1-dcrh6kwfjeroam2qfllj44lnd7qrmheg.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-libxcb-1.13-sam4aay6e3lyzbtdkjenx5jtekbon5an.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-idna-2.8-erwgd4xllltlgyzgjekmqqwqx6sh2hlg.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-util-macros-1.19.1-325c2mbwiy55522757xear34254ihlub.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-parallel-netcdf-1.11.2-y6tnmcqw3epzc2p6drfsxcvyektczttw.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-findutils-4.6.0-zbt7jdeiwy6wyidr6y7dgzedf3zz75mp.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-hdf5-1.10.5-foje4k3hog22yhxxchhdxxruqjc4dmia.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-cython-0.29.13-fqpkcuabu22hqhefm6b67pyyb4diqpqj.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-entrypoints-0.3-vsiyunbt6hty3zlhvfjxet5w7wvv2ffm.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-libtool-2.4.6-uwur3sqdt3b7im2bkqvdyxqbq4k7knsz.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-py-setuptools-41.4.0-zbgmwudgkn474pznievnez5dljfbihbg.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-libpng-1.6.37-omptdvzaw3htverj27toj7vsuiuoo7ro.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-subprocess32-3.2.7-jvswxp6hp6rrycbwn66u6xqqxwzekgpx.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-pexpect-4.6.0-xjlqmw3dgluxqtkrookhbzqza7ntrxyi.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-hdf5-1.10.5-i3gmmd7p5lgwl6kjga5cc53ffypwa2r5.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-perl-5.30.0-vyugfkpui2fyfwtc65meh4x5fsc4da4w.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.4.0-gcc-7.3.0-bdx6zbjloqcxrltvp2r2gp5evobwjmac.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-aarch64-gcc-7.4.0-autoconf-2.69-wofdwzuwlcy6bni3pq4luxn5nfjb6p7j.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-fontsproto-2.1.3-nlnclwray5emnik34g2hdngvrswcbg2w.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-perl-data-dumper-2.173-o3myem62utwzdvsk6iaz74ldmwpqhs7g.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-pycparser-2.19-v6gq4jyr5wevo5ubqphwxu76uwrzy5aw.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-py-pycparser-2.19-gf5phnghp4j7dfrauixuete53f6jixmo.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-inputproto-2.3.2-hxfymugu7edjiv2zo55icbxuiilavzox.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-libfontenc-1.1.3-rbkop3tcpmuug4iokuji4plxfm5wqngv.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-python-3.7.3-t5hntasev4admew2ehai4af6qltoekd2.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-subprocess32-3.2.7-vqefyi4o6lyhroxddfrpa54xuljisqdo.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-sqlite-3.30.1-ab7skhcxlvq3ridsfv75npszr3b5e5xa.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-gettext-0.20.1-j4pbdfvjb2wedtn4ejjyyc4i52n3y6dn.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-aml-0.1.0-trtuzmlbxxyg6k42t7xy5prcgifcidb3.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-netlib-scalapack-2.0.2-vkvh34wxrju5uytjc6th3ilsdpi3k5zm.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-zmq-17.1.2-chfupgl5rqlbojbwx5u4oiqz4trozv2g.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-libfabric-1.8.1-7bg5tr2zplnsbdh7dgrbm46zdjvuznsl.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-8.2.1-pkgconf-1.6.3-zy7f2327drfhxvtizsu4dqhf6gsne225.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-py-scikit-optimize-0.5.2-776hgvgiovmd3ymcgkksvj6z73akt7l7.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-superlu-dist-6.1.1-sp4dikmr6lhmm5vlemwhx6snsudxlm62.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-kvtree-1.0.2-hljd2zh66kolsul4n77u3b4dto2wlnwg.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-xcb-proto-1.13-hxt55rkcqhbwx7r3htticjqxo2va7fqi.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-argobots-1.0rc1-dvjidh6fqvr75a7qnvrmyeezu3aqnnju.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-lua-luaposix-33.4.0-s5ixzy4l2x6dy4tlhh2ezima2mqgg5wd.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-py-python-oauth2-1.1.1-gnhbb4cz2k7e4axz5vj4pr26i54ukbi2.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-py-certifi-2019.9.11-ffg57bsqevxll5nmpcbulfuwqynnqjay.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-ppc64le-gcc-7.3.0-py-idna-2.8-s3zplcf3msceqngzrgm7ttiiaqfsflie.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-certifi-2019.9.11-lkmf7eswf6e4vm5yamh3buvujpnpbtjx.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-pandas-0.24.2-hlxi2pngbhjoxmp5xjnqfrzv3a7kbmbq.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-py-joblib-0.14.0-gt2eyt6xaj5qcfwr3hbqieuwx25eyhs3.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-py-wcwidth-0.1.7-nbbj2q4wgxjhxsuwfab3xwvxmk7m7s2q.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-nasm-2.14.02-pcwdwtq4lgyt2xqf37hozjkv7unznxcb.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-aarch64-gcc-7.4.0-gmp-6.1.2-o5et742zi553mmpvrgvxia2s4qxvp2wl.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-libxml2-2.9.9-4svhqsfeghm6pxnd4te3mthfs6pyg7pa.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos7-x86_64-gcc-7.3.0-py-libensemble-0.5.2-akaixys4ergs5c4bdl6edy253jn7i6bp.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-py-pycurl-7.43.0-pp3xvd2rgxozsonrxqxkjq26hhd5pi55.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-zsh-5.4.2-h3t6oaa6zthqsrigk54zlfe7asa3l2ku.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-ppc64le-gcc-7.3.0-python-3.7.4-tzziyd5h7h27biwq3ww2kayzopyvb3fj.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-netcdf-4.7.1-z3nkaxwr5a7hvrxknvq7afaqjpu2u6e6.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-py-subprocess32-3.2.7-634z7f6mq2mmxfu5y4bcokchnoqi3hty.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel8-x86_64-gcc-7.3.0-tar-1.32-w7d76d3dw44nnt4wgqqzr5kid5aqo7sy.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-centos8-x86_64-gcc-7.3.0-renderproto-0.11.1-vzsifqg44ivxmbs222coisejq65rdfvj.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-ppc64le-gcc-7.3.0-matio-1.5.13-7cmb3aapcqkbqn3dikbrr5afgsfvntyc.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-rhel7-x86_64-gcc-7.3.0-pkgconf-1.6.3-f7eeymkxs4uls32m7rt6fewmqqle2ibj.spec.yaml
+==> Fetching https://instinct.nic.uoregon.edu:8083/e4s/build_cache/linux-ubuntu18.04-x86_64-gcc-7.3.0-py-cryptography-2.3.1-mj3c3fbilhodraemweum47idfzjsfvbo.spec.yaml

@@ -1,0 +1,4 @@
+PLATFORM=linux-centos8-x86_64
+TARGETARCH=x86_64
+CORECOMPILER=gcc@8.3.1
+RCFILE=/etc/bashrc

@@ -1,0 +1,4 @@
+PLATFORM=linux-ubuntu18.04-x86_64
+TARGETARCH=x86_64
+CORECOMPILER=gcc@7.4.0
+RCFILE=/etc/bash.bashrc

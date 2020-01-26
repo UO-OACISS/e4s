@@ -8,9 +8,9 @@ modules:
     - mpi
     hash_length: 4
     whitelist:
-    - gcc
+    - 'gcc'
     blacklist:
-    - '!!CORECOMPILER!!'
+    - '%!!CORECOMPILER!!'
     all:
       environment:
         set:

@@ -1,0 +1,84 @@
++ cp ../config/pre-process.sh .
++ . pre-process.sh ../config
+++ set -e
+++ rm -f pre-process.sh
+++ . env.sh
++++ PLATFORM=linux-rhel8-x86_64
++++ TARGETARCH=x86_64
++++ CORECOMPILER=gcc@8.3.1
++++ RCFILE=/etc/bashrc
++++ date +%Y-%m-%d.%H%M
+++ ts=2020-01-26.0119
+++ bd=docker-context-2020-01-26.0119
+++ rm -rf docker-context-2020-01-26.0119
+++ mkdir docker-context-2020-01-26.0119
+++ cp -r Dockerfile ../config/etc-spack ../config/setup ../config/spack.yaml ../e4s.pub docker-context-2020-01-26.0119/
+++ cd docker-context-2020-01-26.0119
+++ for f in 'etc-spack/*' 'setup/*' spack.yaml
+++ '[' '!' -f etc-spack/modules.yaml ']'
+++ sed -i 's@!!PLATFORM!!@linux-rhel8-x86_64@' etc-spack/modules.yaml
+++ sed -i 's@!!TARGETARCH!!@x86_64@' etc-spack/modules.yaml
+++ sed -i 's/!!CORECOMPILER!!/gcc@8.3.1/' etc-spack/modules.yaml
+++ sed -i 's@!!RCFILE!!@/etc/bashrc@' etc-spack/modules.yaml
+++ for f in 'etc-spack/*' 'setup/*' spack.yaml
+++ '[' '!' -f etc-spack/packages.yaml ']'
+++ sed -i 's@!!PLATFORM!!@linux-rhel8-x86_64@' etc-spack/packages.yaml
+++ sed -i 's@!!TARGETARCH!!@x86_64@' etc-spack/packages.yaml
+++ sed -i 's/!!CORECOMPILER!!/gcc@8.3.1/' etc-spack/packages.yaml
+++ sed -i 's@!!RCFILE!!@/etc/bashrc@' etc-spack/packages.yaml
+++ for f in 'etc-spack/*' 'setup/*' spack.yaml
+++ '[' '!' -f setup/rc-modules.sh ']'
+++ sed -i 's@!!PLATFORM!!@linux-rhel8-x86_64@' setup/rc-modules.sh
+++ sed -i 's@!!TARGETARCH!!@x86_64@' setup/rc-modules.sh
+++ sed -i 's/!!CORECOMPILER!!/gcc@8.3.1/' setup/rc-modules.sh
+++ sed -i 's@!!RCFILE!!@/etc/bashrc@' setup/rc-modules.sh
+++ for f in 'etc-spack/*' 'setup/*' spack.yaml
+++ '[' '!' -f setup/setup.sh ']'
+++ sed -i 's@!!PLATFORM!!@linux-rhel8-x86_64@' setup/setup.sh
+++ sed -i 's@!!TARGETARCH!!@x86_64@' setup/setup.sh
+++ sed -i 's/!!CORECOMPILER!!/gcc@8.3.1/' setup/setup.sh
+++ sed -i 's@!!RCFILE!!@/etc/bashrc@' setup/setup.sh
+++ for f in 'etc-spack/*' 'setup/*' spack.yaml
+++ '[' '!' -f spack.yaml ']'
+++ sed -i 's@!!PLATFORM!!@linux-rhel8-x86_64@' spack.yaml
+++ sed -i 's@!!TARGETARCH!!@x86_64@' spack.yaml
+++ sed -i 's/!!CORECOMPILER!!/gcc@8.3.1/' spack.yaml
+++ sed -i 's@!!RCFILE!!@/etc/bashrc@' spack.yaml
+++ echo docker-context-2020-01-26.0119
+docker-context-2020-01-26.0119
++ docker build -t ecpe4s/rhel8-x86_64-base:0.13.3 .
+Sending build context to Docker daemon  11.26kB
+Step 1/11 : FROM ecpe4s/rhel8-x86_64:0.13.3-new
+ ---> 84f9444186fe
+Step 2/11 : COPY /etc-spack/ /etc/spack
+ ---> Using cache
+ ---> e8c67ff66efe
+Step 3/11 : ARG E4S_MIRROR=https://instinct.nic.uoregon.edu:8083/e4s
+ ---> Using cache
+ ---> 569c97a6e2bf
+Step 4/11 : COPY e4s.pub /
+ ---> Using cache
+ ---> 2812a7dec660
+Step 5/11 : COPY spack.yaml /base-env/
+ ---> Using cache
+ ---> 49dcfc6e438c
+Step 6/11 : WORKDIR /base-env
+ ---> Using cache
+ ---> 5a6ce8e21263
+Step 7/11 : RUN spack gpg trust /e4s.pub  && spack mirror add E4S ${E4S_MIRROR}  && spack install --cache-only gcc  && spack compiler add `spack location -i gcc`  && spack install --cache-only  && spack clean -a && rm -rf /tmp/root/spack-stage
+ ---> Using cache
+ ---> 2f069c6842a8
+Step 8/11 : COPY setup /setup
+ ---> Using cache
+ ---> 45c1d7ec4a0d
+Step 9/11 : WORKDIR /setup
+ ---> Using cache
+ ---> 27cc26a1467e
+Step 10/11 : RUN ./setup.sh  && rm -rf /setup
+ ---> Using cache
+ ---> dd5c02cf1687
+Step 11/11 : WORKDIR /
+ ---> Using cache
+ ---> f608ff00f1b5
+Successfully built f608ff00f1b5
+Successfully tagged ecpe4s/rhel8-x86_64-base:0.13.3
