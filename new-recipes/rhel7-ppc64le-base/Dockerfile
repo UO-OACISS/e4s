@@ -1,4 +1,4 @@
-FROM ecpe4s/centos7-ppc64le:0.13.3-new
+FROM ecpe4s/rhel7-ppc64le:0.13.3-new
 
 COPY /etc-spack/ /etc/spack
 
@@ -14,10 +14,10 @@ RUN spack gpg trust /e4s.pub \
 # && spack compiler add `spack location -i gcc` \
 # && spack install --cache-only \
 # && spack clean -a && rm -rf /tmp/root/spack-stage
-
+#
 #COPY setup /setup
 #WORKDIR /setup
-
+#
 #RUN ./setup.sh \
 # && rm -rf /setup
 

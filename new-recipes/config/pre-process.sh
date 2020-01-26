@@ -3,14 +3,14 @@ set -e
 
 rm -f pre-process.sh
 
-. env.sh 
-
 ts=`date +"%Y-%m-%d.%H%M"`
 bd="docker-context-${ts}"
 rm -rf "${bd}"
 mkdir "${bd}"
 
-cp -r Dockerfile "${1}/etc-spack" "${1}/setup" "${1}/spack.yaml" ../e4s.pub "${bd}/"
+cp Dockerfile.template "${bd}/Dockerfile"
+cp -r "${1}/etc-spack" "${1}/setup" "${1}/spack.yaml" e4s.pub "${bd}/"
+
 cd "${bd}"
 
 for f in etc-spack/* setup/* spack.yaml ; do

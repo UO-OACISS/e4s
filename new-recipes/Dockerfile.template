@@ -1,4 +1,5 @@
-FROM ecpe4s/centos7-ppc64le:0.13.3-new
+ARG baseimg
+FROM ${baseimg}
 
 COPY /etc-spack/ /etc/spack
 
