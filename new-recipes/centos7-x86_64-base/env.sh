@@ -1,4 +1,0 @@
-PLATFORM=linux-centos7-x86_64
-TARGETARCH=x86_64
-CORECOMPILER=gcc@4.8.5
-RCFILE=/etc/bashrc
