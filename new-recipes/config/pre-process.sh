@@ -3,7 +3,7 @@ set -e
 
 rm -f pre-process.sh
 
-ts=`date +"%Y-%m-%d.%H%M"`
+ts=`date +"%Y-%m-%d.%H%M%S"`
 bd="docker-context-${ts}"
 rm -rf "${bd}"
 mkdir "${bd}"
