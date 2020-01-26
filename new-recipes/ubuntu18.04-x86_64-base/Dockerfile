@@ -1,4 +1,4 @@
-FROM ecpe4s/rhel7-x86_64:0.13.3-new
+FROM ecpe4s/ubuntu18.04-x86_64:0.13.3-new
 
 COPY /etc-spack/ /etc/spack
 

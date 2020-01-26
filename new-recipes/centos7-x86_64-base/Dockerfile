@@ -4,11 +4,11 @@ COPY /etc-spack/ /etc/spack
 
 ARG E4S_MIRROR=https://instinct.nic.uoregon.edu:8083/e4s
 
+COPY e4s.pub /
 COPY spack.yaml /base-env/
 WORKDIR /base-env
 
-RUN wget http://oaciss.uoregon.edu/e4s/e4s.pub \
- && spack gpg trust e4s.pub \
+RUN spack gpg trust /e4s.pub \
  && spack mirror add E4S ${E4S_MIRROR} \
  && spack install --cache-only gcc \
  && spack compiler add `spack location -i gcc` \
