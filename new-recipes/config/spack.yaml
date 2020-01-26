@@ -1,0 +1,19 @@
+spack:
+  packages:
+    all:
+      target: [!!TARGETARCH!!]
+      compiler: [gcc@7.3.0]
+      providers:
+        mpi: [mpich]
+    mpich:
+      version: [3.2.1]
+      variants: ~wrapperrpath
+    gcc:
+      version: [7.3.0]
+    patchelf:
+      compiler: [!!CORECOMPILER!!]
+  view: false
+  specs:
+  - mpich
+  - cmake
+  - lmod

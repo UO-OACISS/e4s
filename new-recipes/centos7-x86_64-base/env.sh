@@ -1,0 +1,3 @@
+TARGETARCH=x86_64
+CORECOMPILER=gcc@7.3.0
+RCFILE=/etc/bashrc
