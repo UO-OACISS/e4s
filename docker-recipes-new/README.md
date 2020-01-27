@@ -46,7 +46,10 @@ $> docker pull ecpe4s/ubuntu18.04-base:0.13.3
 Usage: ./build-docker-image.sh <target>
 Targets: centos7-x86_64-base:0.13.3, centos7-ppc64le-base:0.13.3, etc...
 
-Example:
+1) Build the image
 $> ./build-docker-image centos7-x86_64-base:0.13.3
+--> generates image: ecpe4s/centos7-x86_64-base:0.13.3
 
+2) Create a container from the image
+$> docker run -it ecpe4s/centos7-x86_64-base:0.13.3
 ```
