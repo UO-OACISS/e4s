@@ -12,9 +12,9 @@ WORKDIR /base-env
 
 RUN spack gpg trust /e4s.pub \
  && spack mirror add E4S ${E4S_MIRROR} \
- && spack install --cache-only gcc \
+ && spack install gcc \
  && spack compiler add `spack location -i gcc` \
- && spack install --cache-only \
+ && spack install \
  && spack clean -a && rm -rf /tmp/root/spack-stage
 
 COPY setup /setup
