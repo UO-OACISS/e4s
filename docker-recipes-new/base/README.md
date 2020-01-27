@@ -16,12 +16,13 @@
 
 ### Pre-Built Images
 * all targets listed here are available as pre-built Docker images on Docker Hub
+* it is not necessary to specify the architecture as part of the image name if you are using the pre-built images on Docker Hub, as Docker can automatically detect your architecture and pull the appropriate image variant
 ```
-Download centos7-base image (v 0.13.3) -- will pull down either x86_64 or ppc64le variant depending on host arch
-$> docker pull ecpe4s/centos7-base:0.13.3
+Download centos7-base image -- will pull down either x86_64 or ppc64le variant depending on host arch
+$> docker pull ecpe4s/centos7-base
 
-Download ubuntu18.04-base image (v 0.13.3) -- will pull down either x86_64 or ppc64le variant depending on host arch
-$> docker pull ecpe4s/ubuntu18.04-base:0.13.3
+Download ubuntu18.04-base image -- will pull down either x86_64 or ppc64le variant depending on host arch
+$> docker pull ecpe4s/ubuntu18.04-base
 ```
 
 ### Architecture Support
@@ -44,7 +45,12 @@ $> docker pull ecpe4s/ubuntu18.04-base:0.13.3
 ### Build Your Own Images
 ```
 Usage: ./build-docker-image.sh <target>
-Targets: centos7-x86_64-base:0.13.3, centos7-ppc64le-base:0.13.3, etc...
+
+Target values:
+  centos7-x86_64-base:0.13.3
+  centos7-ppc64le-base:0.13.3
+  rhel7-x86_64-base:0.13.3
+  ...
 
 1) Build the image
 $> ./build-docker-image centos7-x86_64-base:0.13.3
