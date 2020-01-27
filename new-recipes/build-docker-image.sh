@@ -21,7 +21,7 @@ tag="${tag}"
 
 docker_namespace="ecpe4s"
 
-baseimg="${docker_namespace}/${os}-${arch}:${tag}-new"
+baseimg="${docker_namespace}/${os}-${arch}:${tag}"
 outputimg="${docker_namespace}/${os}-${arch}-${env}:${tag}"
 
 . "${name}.vars"
