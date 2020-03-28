@@ -6,7 +6,7 @@
 1. Clone <b>New Spack</b> in $HOME
 ```
 $> cd
-$> git clone https://github.com/spack/spack.git --branch develop
+$> git clone https://github.com/spack/spack.git
 ```
 
 <br>
