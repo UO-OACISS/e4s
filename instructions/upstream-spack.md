@@ -1,4 +1,7 @@
-### Using a New Spack alongside and Old Spack
+### Connect a New Spack to an Old Spack
+
+<br>
+
 
 1. Clone <b>New Spack</b> in $HOME
 ```
