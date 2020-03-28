@@ -11,7 +11,7 @@ $> git clone https://github.com/spack/spack.git
 
 <br>
 
-2. Launch <b>E4S Singularity Image</b> and change to $HOME
+2. Launch <b>E4S Singularity Image</b>
 ```
 $> singularity exec --nv e4s_ubuntu1804_gpu_ppc64le_1.1.simg /bin/bash
 ```
