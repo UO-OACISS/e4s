@@ -37,6 +37,7 @@ Singularity> . spack/share/spack/setup-env.sh
 
 5. <b>Connect</b> New Spack to Old Spack ( <i>upstreams: https://spack.readthedocs.io/en/latest/chain.html</i> )
 ```
+Singularity> mkdir -p ~/.spack
 Singularity> cat > ~/.spack/upstreams.yaml << EOF
 upstreams:
   e4s:
