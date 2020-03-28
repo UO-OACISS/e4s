@@ -1,5 +1,5 @@
 ### Connect a New Spack to an Old Spack
-
+#### How to use the features of a New Spack while keeping your favorite Old Spack packages
 <br>
 
 0. Start in $HOME
