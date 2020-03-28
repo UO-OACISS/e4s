@@ -45,4 +45,4 @@ EOF
 
 <br>
 
-You can now use all the features of New Spack while keeping your Old favorite Spack packages!
+You can now use all the features of New Spack while keeping your favorite Old Spack packages!
