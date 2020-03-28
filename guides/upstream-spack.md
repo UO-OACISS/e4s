@@ -2,10 +2,13 @@
 
 <br>
 
+0. Start in $HOME
+```
+$> cd
+```
 
 1. Clone <b>New Spack</b>
 ```
-$> cd
 $> git clone https://github.com/spack/spack.git
 ```
 
@@ -27,7 +30,6 @@ Singularity> export OLD_SPACK_PREFIX=$SPACK_ROOT
 
 4. Source the <b>setup script</b> for New Spack
 ```
-Singularity> cd
 Singularity> . spack/share/spack/setup-env.sh
 ```
 
