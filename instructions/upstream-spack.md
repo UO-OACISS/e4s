@@ -3,7 +3,7 @@
 <br>
 
 
-1. Clone <b>New Spack</b> in $HOME
+1. Clone <b>New Spack</b>
 ```
 $> cd
 $> git clone https://github.com/spack/spack.git
@@ -45,4 +45,4 @@ EOF
 
 <br>
 
-You are now able to use all the new features of Spack while preserving your access to pre-built E4S packages built with Old Spack!
+You can now use all the features of New Spack while keeping your Old favorite Spack packages!
