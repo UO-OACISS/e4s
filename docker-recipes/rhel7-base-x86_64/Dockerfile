@@ -30,8 +30,7 @@ RUN yum update -y \
     pciutils \
     iputils \
     && yum clean all \
-    && rm -rf /var/cache/yum/* \
-    && cd / && rm -f /*.rpm
+    && rm -rf /var/cache/yum/*
 
 RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
  && tar xzf Python-3.7.4.tgz \

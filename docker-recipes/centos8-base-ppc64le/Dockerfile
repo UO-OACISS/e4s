@@ -28,7 +28,6 @@ RUN yum update -y \
   python3-devel \
   && yum clean all \
   && rm -rf /var/cache/yum/* \
-  && cd / && rm -f *.rpm \
   && ln -s `which python3` /usr/bin/python
 
 RUN python3 -m pip install --upgrade pip setuptools wheel \

@@ -27,8 +27,7 @@ RUN yum update -y \
   iputils \
   python3-devel \
   && yum clean all \
-  && rm -rf /var/cache/yum/* \
-  && cd / && rm -f *.rpm
+  && rm -rf /var/cache/yum/*
 
 RUN python3 -m pip install --upgrade pip setuptools wheel \
  && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests \
