@@ -11,7 +11,8 @@
 - e4s_product: kokkos-kernels
   type: Math Library
   repo_url: https://github.com/kokkos/kokkos-kernels/blob/master
-  docs: [README, CHANGELOG.md, LICENSE]
+  raw_url: https://raw.githubusercontent.com/kokkos/kokkos-kernels/master
+  docs: [README.md, CHANGELOG.md, LICENSE]
 - e4s_product: libensemble
   spack_name: py-libensemble
   type: Math Library
@@ -29,6 +30,7 @@
 - e4s_product: petsc
   type: Framework
   repo_url: https://gitlab.com/petsc/petsc/blob/master
+  raw_url: https://gitlab.com/petsc/petsc/-/raw/master
   docs: [README.md, LICENSE]
 - e4s_product: slate
   type: Math Library
@@ -129,7 +131,7 @@
   spack_name: kokkos
   type: PMR
   repo_url: https://github.com/kokkos/kokkos/blob/master
-  docs: [README, CHANGELOG.md, LICENSE]
+  docs: [README.md, CHANGELOG.md, LICENSE]
 - e4s_product: openmpi
   type: PMR
   repo_url: https://github.com/open-mpi/ompi/blob/master

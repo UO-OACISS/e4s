@@ -3,6 +3,7 @@
 """e4sListPage.py: Generates web pages listing e4s products from e4s_products.yaml"""
 __author__ = "Wyatt Spear"
 
+import urllib.request
 from urllib.request import urlopen
 import yaml
 import subprocess
@@ -149,7 +150,10 @@ def getSpackInfo(name):
 
 def getURLHead(url, numChars=200):
     #masteryaml_url="https://raw.githubusercontent.com/UO-OACISS/e4s/master/docker-recipes/ubi7/x86_64/e4s/spack.yaml"
-    with urlopen(url) as f:
+    #print("Reading URL: "+url)
+    browserHeaders={'User-Agent' : "Magic Browser"}
+    req=urllib.request.Request(url,None,browserHeaders)
+    with urlopen(req) as f:
         head=html.escape(f.read(numChars).decode("utf-8"))
         return head
     #    yamlMap=yaml.safe_load(url)
@@ -190,19 +194,25 @@ with open(output_prefix+'E4S-Products.html', "a") as listPage:
                 print(spackInfo)
 
             appendRaw=""
+            rawFileURL = product['repo_url']
+            if 'raw_url' in product:
+                rawFileURL = product['raw_url']
+
             if 'raw_append' in product:
                 appendRaw=product['raw_append']
-                rawFileURL = product['repo_url']
+                #rawFileURL = product['repo_url']
             else:
                 fromRaw="/blob/"
                 toRaw="/raw/"
                 if 'raw_replace' in product:
                     fromRaw=product['raw_replace'][0]
                     toRaw=product['raw_replace'][1]
-                rawFileURL = product['repo_url'].replace(fromRaw,toRaw)
+                rawFileURL = rawFileURL.replace(fromRaw,toRaw)
             print(rawFileURL)
             for doc in product['docs']:
-                docHead=getURLHead(rawFileURL+"/"+doc+appendRaw)
+                docURL=rawFileURL+"/"+doc+appendRaw
+                #print(docURL)
+                docHead=getURLHead(docURL)
                 docFix = docBlock.replace("***DOCNAME***",doc).replace("***DOCTEXT***",docHead).replace("***DOCURL***",product['repo_url']+"/"+doc)
                 print(docFix, file=ppage)
             #.replace('***DESCRIPTION***',"N/A").replace("***SITEADDRESS***","N/A").replace("***SPACKVERSION***","N/A")
