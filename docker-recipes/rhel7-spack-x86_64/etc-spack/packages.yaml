@@ -11,3 +11,6 @@ packages:
     variants: ~wrapperrpath
   gcc:
     version: [7.3.0]
+  patchelf:
+    version: [0.10.0]
+    compiler: [gcc@7.3.0]
