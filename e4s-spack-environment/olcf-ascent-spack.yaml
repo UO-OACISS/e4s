@@ -80,6 +80,7 @@ spack:
   #- faodel
   config:
     misc_cache: $spack/cache
+    build_stage: $spack/build-stage
     install_tree: $spack/$padding:512
   view: false
   concretization: separately
