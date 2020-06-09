@@ -1,0 +1,85 @@
+spack:
+  packages:
+    all:
+      providers:
+        mpi: [spectrum-mpi]
+      target: [ppc64le]
+      version: []
+      compiler: []
+      buildable: true
+      modules: {}
+      paths: {}
+    cuda:
+      buildable: false
+      version: [10.1.243]
+      modules:
+        cuda@10.1.243: cuda/10.1.243
+      target: []
+      compiler: []
+      providers: {}
+      paths: {}
+    spectrum-mpi:
+      buildable: false
+      version:
+      - 10.3.1.2
+      modules:
+        spectrum-mpi@10.3.1.2: spectrum-mpi/10.3.1.2-20200121
+      target: []
+      compiler: []
+      providers: {}
+      paths: {}
+  specs:
+  - openpmd-api
+  - py-libensemble^python@3.7.3
+  - hypre
+  - mfem
+  - trilinos@12.14.1+dtk+intrepid2+shards
+  - sundials
+  - strumpack
+  - superlu-dist
+  - superlu
+  - tasmanian
+  - mercury
+  - hdf5
+  - adios2
+  - adios
+  - darshan-runtime
+  - darshan-util
+  - veloc
+  - scr
+  - parallel-netcdf
+  - qthreads
+  - papyrus@develop
+  - bolt
+  - raja
+  - upcxx
+  - kokkos+openmp
+  - openmpi
+  - umpire
+  - libquo
+  - globalarrays
+  - pdt
+  - tau
+  - hpctoolkit
+  - dyninst
+  - gotcha
+  - caliper
+  - papi
+  - py-jupyterhub
+  - zfp
+  - sz
+  - libnrm
+  - rempi
+  - ninja
+  - kokkos-kernels
+  #- turbine
+  #- aml
+  #- unifyfs -- unable to use local cache for git-based bmi dependency
+  #- flecsi+cinch
+  #- petsc
+  #- faodel
+  config:
+    misc_cache: $spack/cache
+    install_tree: $spack/$padding:512
+  view: false
+  concretization: separately

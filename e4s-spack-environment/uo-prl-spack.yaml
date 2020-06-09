@@ -1,0 +1,84 @@
+spack:
+  concretization: separately
+  definitions:
+  - e4s:
+    - magma cuda_arch=70
+    - openpmd-api
+    - slate
+    - stc
+    - py-libensemble^python@3.7.3
+    - flecsi+cinch
+    - hypre
+    - mfem
+    - trilinos@12.14.1+dtk+intrepid2+shards
+    - sundials
+    - petsc ^superlu-dist@6.3.0
+    - strumpack
+    - superlu-dist
+    - superlu
+    - tasmanian
+    - faodel
+    - mercury
+    - hdf5
+    - adios2
+    - adios
+    - darshan-runtime
+    - darshan-util
+    - veloc
+    - scr
+    - parallel-netcdf
+    - unifyfs
+    - qthreads
+    - papyrus@develop
+    - bolt
+    - raja
+    - upcxx
+    - aml
+    - kokkos+openmp
+    - openmpi
+    - umpire
+    - libquo
+    - globalarrays
+    - turbine
+    - pdt
+    - tau
+    - hpctoolkit
+    - dyninst
+    - gotcha
+    - caliper
+    - papi
+    - py-jupyterhub
+    - zfp
+    - sz
+    - libnrm
+    - mpifileutils@develop~xattr
+    - rempi
+    - ninja
+    - kokkos-kernels
+  - arch:
+    - '%gcc@7.3.0 arch=linux-ubuntu18.04-x86_64'
+  config:
+    install_tree: $spack/$padding:512
+  packages:
+    all:
+      providers:
+        blas:
+        - openblas
+        mpi:
+        - mpich
+      variants: +mpi
+    binutils:
+      variants: +gold+headers+libiberty~nls
+      version:
+      - 2.33.1
+    gcc:
+      variants: +strip
+    mpich:
+      variants: ~wrapperrpath
+      version:
+      - 3.2.1
+  specs:
+  - matrix:
+    - - $e4s
+    - - $arch
+  view: false
