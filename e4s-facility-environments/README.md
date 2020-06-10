@@ -14,8 +14,8 @@ For general information on Spack Environments and External Packages, refer to th
 - Status: <em>all specs successfully build</em>
 - `RHEL7, ppc64le, gcc@6.4.0`
 - External packages:
-  - `CUDA 10.1.243` loaded via module: `cuda/10.1.243`
-  - `Spectrum-MPI 10.3.1.2` loaded via module: `spectrum-mpi/10.3.1.2-20200121`
+  - `CUDA 10.1.243` loaded via module: cuda/10.1.243
+  - `Spectrum-MPI 10.3.1.2` loaded via module: spectrum-mpi/10.3.1.2-20200121
 
 #### University of Oregon, Performance Research Lab
 - `uo-prl-spack.yaml`
@@ -29,5 +29,5 @@ For general information on Spack Environments and External Packages, refer to th
 - Status: <em>environment concretizes, specs not all built successfully</em>
 - `Cray cnl7, x86_64, gcc@8.3.0`
 - External packages:
-  - `CUDA 10.1.243` loaded via module: `cuda/10.1.243`
-  - `mpich@3.3.1` loaded via module: `mpich/3.3.1-debug`
+  - `CUDA 10.1.243` loaded via module: cuda/10.1.243
+  - `mpich@3.3.1` loaded via module: mpich/3.3.1-debug
