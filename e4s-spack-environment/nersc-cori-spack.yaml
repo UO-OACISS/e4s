@@ -1,33 +1,4 @@
 spack:
-  packages:
-    all:
-      providers:
-        mpi: [mpich@3.3.1]
-      target: [x86_64]
-      version: []
-      compiler: [gcc@8.3.0]
-      buildable: true
-      modules: {}
-      paths: {}
-    cuda:
-      buildable: false
-      version: [10.1.243]
-      modules:
-        cuda@10.1.243: cuda/10.1.243
-      target: []
-      compiler: []
-      providers: {}
-      paths: {}
-    mpich:
-      buildable: false
-      version:
-      - 3.3.1
-      modules:
-        mpich@3.3.1: mpich/3.3.1-debug
-      target: []
-      compiler: []
-      providers: {}
-      paths: {}
   specs:
   - openpmd-api
   - py-libensemble^python@3.7.3
@@ -78,9 +49,41 @@ spack:
   #- flecsi+cinch
   #- petsc
   #- faodel
+
+  packages:
+    all:
+      providers:
+        mpi: [mpich@3.3.1]
+      target: [x86_64]
+      version: []
+      compiler: [gcc@8.3.0]
+      buildable: true
+      modules: {}
+      paths: {}
+    cuda:
+      buildable: false
+      version: [10.1.243]
+      modules:
+        cuda@10.1.243: cuda/10.1.243
+      target: []
+      compiler: []
+      providers: {}
+      paths: {}
+    mpich:
+      buildable: false
+      version:
+      - 3.3.1
+      modules:
+        mpich@3.3.1: mpich/3.3.1-debug
+      target: []
+      compiler: []
+      providers: {}
+      paths: {}
+
   config:
     misc_cache: $spack/cache
     build_stage: $spack/build-stage
     install_tree: $spack/$padding:640
+
   view: false
   concretization: separately

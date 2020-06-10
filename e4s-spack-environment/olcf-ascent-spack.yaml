@@ -1,33 +1,4 @@
 spack:
-  packages:
-    all:
-      providers:
-        mpi: [spectrum-mpi]
-      target: [ppc64le]
-      version: []
-      compiler: []
-      buildable: true
-      modules: {}
-      paths: {}
-    cuda:
-      buildable: false
-      version: [10.1.243]
-      modules:
-        cuda@10.1.243: cuda/10.1.243
-      target: []
-      compiler: []
-      providers: {}
-      paths: {}
-    spectrum-mpi:
-      buildable: false
-      version:
-      - 10.3.1.2
-      modules:
-        spectrum-mpi@10.3.1.2: spectrum-mpi/10.3.1.2-20200121
-      target: []
-      compiler: []
-      providers: {}
-      paths: {}
   specs:
   - openpmd-api
   - py-libensemble^python@3.7.3
@@ -78,9 +49,41 @@ spack:
   #- flecsi+cinch
   #- petsc
   #- faodel
+
+  packages:
+    all:
+      providers:
+        mpi: [spectrum-mpi]
+      target: [ppc64le]
+      version: []
+      compiler: []
+      buildable: true
+      modules: {}
+      paths: {}
+    cuda:
+      buildable: false
+      version: [10.1.243]
+      modules:
+        cuda@10.1.243: cuda/10.1.243
+      target: []
+      compiler: []
+      providers: {}
+      paths: {}
+    spectrum-mpi:
+      buildable: false
+      version:
+      - 10.3.1.2
+      modules:
+        spectrum-mpi@10.3.1.2: spectrum-mpi/10.3.1.2-20200121
+      target: []
+      compiler: []
+      providers: {}
+      paths: {}
+
   config:
     misc_cache: $spack/cache
     build_stage: $spack/build-stage
     install_tree: $spack/$padding:512
+
   view: false
   concretization: separately
