@@ -3,9 +3,9 @@
 Here you will find E4S environment files designed to be used with Spack at the different facilities. Each environment file consists of mostly the same E4S Spack packages. Where the environments differ is in how external packages, compilers, and architecture targets are configured.
 
 For general information on Spack Environments and External Packages, refer to the Official Spack documentation:
-- Spack Tutorial, Environments - https://spack-tutorial.readthedocs.io/en/latest/tutorial_environments.html
-- Spack Environments - https://spack.readthedocs.io/en/latest/environments.html
-- Spack External Packages- https://spack.readthedocs.io/en/latest/build_settings.html
+- Spack Tutorial on Environments - https://spack-tutorial.readthedocs.io/en/latest/tutorial_environments.html
+- Spack Environments Reference - https://spack.readthedocs.io/en/latest/environments.html
+- Spack External Packages - https://spack.readthedocs.io/en/latest/build_settings.html
 
 ### Facility Environments
 
