@@ -1,6 +1,7 @@
 spack:
   definitions:
   - e4s:
+    - axom
     - magma cuda_arch=70
     - openpmd-api
     - slate
