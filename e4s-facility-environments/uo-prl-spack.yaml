@@ -10,7 +10,7 @@ spack:
     - flecsi+cinch
     - hypre
     - mfem
-    - trilinos@12.14.1+dtk+intrepid2+shards
+    - trilinos
     - sundials
     - petsc ^superlu-dist@6.3.0
     - strumpack
