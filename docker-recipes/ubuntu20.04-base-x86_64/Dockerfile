@@ -1,4 +1,12 @@
+ARG DATE
+ARG REPO
+ARG COMMIT
+
 FROM ubuntu:20.04
+
+ARG DATE
+ARG REPO
+ARG COMMIT
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
@@ -50,3 +58,7 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 WORKDIR /
+
+LABEL io.e4s.repo=${REPO}
+LABEL io.e4s.commit=${COMMIT}
+LABEL io.e4s.build-date=${DATE}
