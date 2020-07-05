@@ -1,4 +1,12 @@
+ARG DATE
+ARG REPO
+ARG COMMIT
+
 FROM registry.access.redhat.com/ubi7/ubi:7.6-239
+
+ARG DATE
+ARG REPO
+ARG COMMIT
 
 RUN yum update -y \
  && yum install -y \
@@ -48,3 +56,7 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 WORKDIR /
+
+LABEL io.e4s.repo=${REPO}
+LABEL io.e4s.commit=${COMMIT}
+LABEL io.e4s.build-date=${DATE}
