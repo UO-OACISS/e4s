@@ -1,4 +1,12 @@
+ARG DATE
+ARG REPO
+ARG COMMIT
+
 FROM centos:7
+
+ARG DATE
+ARG REPO
+ARG COMMIT
 
 RUN yum update -y \
  && yum install -y \
@@ -38,3 +46,7 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 WORKDIR /
+
+LABEL io.e4s.repo=${REPO}
+LABEL io.e4s.commit=${COMMIT}
+LABEL io.e4s.build-date=${DATE}
