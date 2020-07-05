@@ -1,4 +1,12 @@
+ARG DATE
+ARG REPO
+ARG COMMIT
+
 FROM ubuntu:18.04
+
+ARG DATE
+ARG REPO
+ARG COMMIT
 
 RUN apt update -y \
   && apt upgrade -y \
@@ -45,3 +53,7 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 WORKDIR /
+
+LABEL io.e4s.repo=${REPO}
+LABEL io.e4s.commit=${COMMIT}
+LABEL io.e4s.build-date=${DATE}
