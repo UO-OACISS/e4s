@@ -2,7 +2,7 @@ ARG DATE
 ARG REPO
 ARG COMMIT
 
-FROM registry.access.redhat.com/ubi8/ubi
+FROM registry.access.redhat.com/ubi8/ubi:8.2
 
 ARG DATE
 ARG REPO
