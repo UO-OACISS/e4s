@@ -65,6 +65,7 @@ spack:
   
   config:
     install_tree: $spack/$padding:512
+    misc_cache: $spack/misc_cache
 
   packages:
     all:
