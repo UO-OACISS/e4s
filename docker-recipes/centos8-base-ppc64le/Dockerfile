@@ -34,6 +34,9 @@ RUN yum update -y \
   pciutils \
   iputils \
   python3-devel \
+  glibc-locale-source \
+  glibc-langpack-en \
+  emacs-nox \
   && yum clean all \
   && rm -rf /var/cache/yum/* \
   && ln -s `which python3` /usr/bin/python
