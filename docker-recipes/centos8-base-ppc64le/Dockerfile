@@ -46,7 +46,10 @@ RUN python3 -m pip install --upgrade pip setuptools wheel \
  && rm -rf ~/.cache
  
 ENV NVIDIA_VISIBLE_DEVICES=all \
-    NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
+    LANGUAGE=en_US:en \
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
 
 WORKDIR /
 
