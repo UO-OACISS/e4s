@@ -10,33 +10,33 @@ ARG COMMIT
 
 RUN yum update -y \
  && yum install -y \
-    git \
+    autoconf \
+    automake \
+    bzip2 \
+    crontabs \
+    curl \
+    file \
+    findutils \
     gcc \
     gcc-c++ \
     gcc-gfortran \
-    patch \
-    xz \
-    bzip2 \
-    findutils \
-    which \
-    automake \
-    autoconf \
-    make \
-    m4 \
-    unzip \
-    vim \
-    file \
-    wget \
-    curl \
+    git \
+    hostname \
+    iputils \
     libffi-devel \
-    zlib-devel \
+    m4 \
+    make \
+    ncurses-devel \
     nproc \
     openssl-devel \
-    hostname \
-    crontabs \
-    ncurses-devel \
+    patch \
     pciutils \
-    iputils \
+    unzip \
+    vim \
+    wget \
+    which \
+    xz \
+    zlib-devel \
     && yum clean all \
     && rm -rf /var/cache/yum/*
 

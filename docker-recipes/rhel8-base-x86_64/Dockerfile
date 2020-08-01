@@ -10,30 +10,30 @@ ARG COMMIT
 
 RUN yum update -y \
  && yum install -y \
-    git \
+    autoconf \
+    automake \
+    bzip2 \
+    curl \
+    file \
+    findutils \
     gcc \
     gcc-c++ \
     gcc-gfortran \
-    patch \
-    xz \
-    bzip2 \
-    findutils \
-    which \
-    automake \
-    autoconf \
-    make \
+    git \
+    hostname \
+    iputils \
     m4 \
+    make \
+    ncurses-devel \
+    patch \
+    pciutils \
+    procps \
+    python3-devel \
     unzip \
     vim \
-    file \
     wget \
-    curl \
-    hostname \
-    ncurses-devel \
-    pciutils \
-    iputils \
-    python3-devel \
-    procps \
+    which \
+    xz \
     && yum clean all \
     && rm -rf /var/cache/yum/* \
     && ln -s `which python3` /usr/bin/python

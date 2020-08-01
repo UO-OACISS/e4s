@@ -11,37 +11,37 @@ ARG COMMIT
 RUN apt update -y \
   && apt upgrade -y \
   && apt install -y \
-  git \
-  gcc \
-  g++ \
-  gfortran \ 
-  patch \
-  bzip2 \
-  findutils \
-  automake \
   autoconf \
-  make \
-  m4 \
-  unzip \
-  vim \
-  file \
-  wget \
-  curl \
-  mercurial \
+  automake \
+  bzip2 \
   cpio \
+  curl \
+  emacs-nox \
+  file \
+  findutils \
+  g++ \
+  gcc \
+  gfortran \ 
+  git \
   gpg \
-  zlib1g-dev \
+  iputils-ping \
   libffi-dev \
   libssl-dev \
   libxml2-dev \
-  rsync \
-  locate \
-  pciutils \
-  iputils-ping \
-  ncurses-dev \
-  python3-pip \
-  emacs-nox \
   locales \
+  locate \
+  m4 \
+  make \
+  mercurial \
+  ncurses-dev \
+  patch \
+  pciutils \
+  python3-pip \
+  rsync \
+  unzip \
+  vim \
+  wget \
+  zlib1g-dev \
   && apt autoremove --purge \
   && apt clean \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
