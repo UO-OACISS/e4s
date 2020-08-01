@@ -40,6 +40,8 @@ RUN apt update -y \
   iputils-ping \
   ncurses-dev \
   python3-pip \
+  emacs-nox \
+  locales \
   && apt autoremove --purge \
   && apt clean \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
@@ -50,7 +52,13 @@ RUN python3 -m pip install --upgrade pip setuptools wheel \
  && rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
  
 ENV NVIDIA_VISIBLE_DEVICES=all \
-    NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
+    LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en
+
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
+ && locale-gen
 
 WORKDIR /
 

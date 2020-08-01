@@ -1,5 +1,5 @@
 #!/bin/bash
-DATE=`printf '%(%Y%m%d)T' -1`
+DATE=`printf '%(%-Y-%m-%d)T' -1`
 REPO=`git config --get remote.origin.url`
 COMMIT=`git log -1 --format="%H"`
 
