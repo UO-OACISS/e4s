@@ -1,27 +1,40 @@
-FROM ecpe4s/centos7-base-x86_64:1.0
+ARG BASE_IMAGE
+ARG BUILD_DATE
+ARG BUILD_REPO
+ARG BUILD_REPO_REF
+ARG SPACK_REPO
+ARG SPACK_REPO_REF
+ARG SPACK_ROOT
 
-ARG SPACK_ROOT=/opt/spack
-ARG SPACK_MIRROR
-ARG SPACK_REF=develop
+FROM ${BASE_IMAGE}
 
-COPY /etc-spack/ /etc/spack
+ARG BASE_IMAGE
+ARG BUILD_DATE
+ARG BUILD_REPO
+ARG BUILD_REPO_REF
+ARG SPACK_REPO
+ARG SPACK_REPO_REF
+ARG SPACK_ROOT
 
-WORKDIR ${SPACK_ROOT}
-RUN git init && git remote add origin https://github.com/spack/spack.git \
- && git fetch --depth=1 origin ${SPACK_REF} \
- && git checkout FETCH_HEAD \
- && echo ". ${SPACK_ROOT}/share/spack/setup-env.sh" >> /etc/bashrc
+COPY e4s.pub /
 
-WORKDIR /
+RUN mkdir ${SPACK_ROOT} \
+ && cd ${SPACK_ROOT} \
+ && git init \
+ && git remote add origin ${SPACK_REPO} \
+ && git fetch --depth=1 origin ${SPACK_REPO_REF} \
+ && git reset --hard FETCH_HEAD \
+ && cd / \
+ && . ${SPACK_ROOT}/share/spack/setup-env.sh \
+ && spack gpg trust /e4s.pub \
+ && spack mirror add e4s https://cache.e4s.io/e4s \
+ && sed -i '$ d' /entrypoint.sh \
+ && echo ". ${SPACK_ROOT}/share/spack/setup-env.sh" >> /entrypoint.sh \
+ && echo exec \"'$@'\" >> /entrypoint.sh
 
-ENV PATH=${SPACK_ROOT}/bin:${PATH} \
-    FORCE_UNSAFE_CONFIGURE=1
-
-COPY /e4s.pub /
-
-RUN spack mirror add e4s ${SPACK_MIRROR} \
- && spack gpg trust e4s.pub \
- && spack install gcc@7.3.0+strip \
- && spack compiler add `spack location -i gcc` \
- && spack install patchelf \
- && spack clean -a && rm -rf /tmp/root/spack-stage
+LABEL io.e4s.spack.spack-repo=${SPACK_REPO}
+LABEL io.e4s.spack.spack-repo-ref=${SPACK_REPO_REF}
+LABEL io.e4s.spack.build-date=${BUILD_DATE}
+LABEL io.e4s.spack.repo=${BUILD_REPO}
+LABEL io.e4s.spack.repo-ref=${BUILD_REPO_REF}
+LABEL io.e4s.spack.base-img=${BASE_IMAGE}
