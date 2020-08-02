@@ -1,12 +1,14 @@
-ARG DATE
-ARG REPO
-ARG COMMIT
+ARG BUILD_DATE
+ARG BUILD_REPO
+ARG BUILD_REPO_REF
+ARG BASE_IMAGE=centos:7.6.1810
 
-FROM centos:7.6.1810
+FROM ${BASE_IMAGE}
 
-ARG DATE
-ARG REPO
-ARG COMMIT
+ARG BASE_IMAGE
+ARG BUILD_DATE
+ARG BUILD_REPO
+ARG BUILD_REPO_REF
 
 RUN yum update -y \
  && yum install -y \
@@ -52,6 +54,7 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
 
 WORKDIR /
 
-LABEL io.e4s.repo=${REPO}
-LABEL io.e4s.commit=${COMMIT}
-LABEL io.e4s.build-date=${DATE}
+LABEL io.e4s.base.build-date=${BUILD_DATE}
+LABEL io.e4s.base.repo=${BUILD_REPO}
+LABEL io.e4s.base.repo-ref=${BUILD_REPO_REF}
+LABEL io.e4s.base.base-img=${BASE_IMAGE}

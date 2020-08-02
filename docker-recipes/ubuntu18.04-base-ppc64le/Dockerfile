@@ -1,12 +1,14 @@
-ARG DATE
-ARG REPO
-ARG COMMIT
+ARG BUILD_DATE
+ARG BUILD_REPO
+ARG BUILD_REPO_REF
+ARG BASE_IMAGE=ubuntu:18.04
 
-FROM ubuntu:18.04
+FROM ${BASE_IMAGE}
 
-ARG DATE
-ARG REPO
-ARG COMMIT
+ARG BASE_IMAGE
+ARG BUILD_DATE
+ARG BUILD_REPO
+ARG BUILD_REPO_REF
 
 RUN apt update -y \
   && apt upgrade -y \
@@ -62,6 +64,7 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
 
 WORKDIR /
 
-LABEL io.e4s.repo=${REPO}
-LABEL io.e4s.commit=${COMMIT}
-LABEL io.e4s.build-date=${DATE}
+LABEL io.e4s.base.build-date=${BUILD_DATE}
+LABEL io.e4s.base.repo=${BUILD_REPO}
+LABEL io.e4s.base.repo-ref=${BUILD_REPO_REF}
+LABEL io.e4s.base.base-img=${BASE_IMAGE}
