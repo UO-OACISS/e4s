@@ -7,9 +7,9 @@
 
   packages:
     all:
-      target: [x86_64]
+      target: [arm64]
 
   specs: []
 
   mirrors:
-    prl: https://cache.e4s.io/e4s
+    prl: https://cache.e4s.io
