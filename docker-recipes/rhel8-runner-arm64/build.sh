@@ -5,7 +5,7 @@ BUILD_REPO=$(git config --get remote.origin.url)
 BUILD_REPO_REF=$(git log -1 --format="%H")
 
 REGISTRY=${REGISTRY:-ecpe4s}
-BASE_IMAGE="${BASE_REGISTRY:-$REGISTRY}/rhel8-base-arm64:2020-08-30"
+BASE_IMAGE="${BASE_REGISTRY:-$REGISTRY}/rhel8-base-arm64:2020-09-01"
 OUTPUT_IMAGE="${OUTPUT_REGISTRY:-$REGISTRY}/rhel8-runner-arm64:${BUILD_DATE}"
 
 docker build \
