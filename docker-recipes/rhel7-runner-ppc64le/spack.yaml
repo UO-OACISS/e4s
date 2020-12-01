@@ -13,4 +13,4 @@
   - gcc@8.1.0+strip
 
   mirrors:
-    prl: https://cache.e4s.io
+    E4S: https://cache.e4s.io

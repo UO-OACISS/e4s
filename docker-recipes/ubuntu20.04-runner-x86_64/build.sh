@@ -5,7 +5,7 @@ BUILD_REPO=$(git config --get remote.origin.url)
 BUILD_REPO_REF=$(git log -1 --format="%H")
 
 REGISTRY=${REGISTRY:-ecpe4s}
-BASE_IMAGE="${BASE_REGISTRY:-$REGISTRY}/ubuntu20.04-base-x86_64:2020-09-01"
+BASE_IMAGE="${BASE_REGISTRY:-$REGISTRY}/ubuntu20.04-base-x86_64:2020-12-01"
 OUTPUT_IMAGE="${OUTPUT_REGISTRY:-$REGISTRY}/ubuntu20.04-runner-x86_64:${BUILD_DATE}"
 
 docker build \

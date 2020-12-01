@@ -5,7 +5,7 @@ BUILD_REPO=$(git config --get remote.origin.url)
 BUILD_REPO_REF=$(git log -1 --format="%H")
 
 REGISTRY=${REGISTRY:-ecpe4s}
-BASE_IMAGE="${BASE_REGISTRY:-$REGISTRY}/ubuntu18.04-base-x86_64:2020-09-01"
+BASE_IMAGE="${BASE_REGISTRY:-$REGISTRY}/ubuntu18.04-base-x86_64:2020-12-01"
 OUTPUT_IMAGE="${OUTPUT_REGISTRY:-$REGISTRY}/ubuntu18.04-runner-x86_64:${BUILD_DATE}"
 
 docker build \
@@ -13,7 +13,7 @@ docker build \
  --build-arg COMPILER_FROM_SYSTEM="gcc@7.5.0" \
  --build-arg COMPILER_FROM_SPACK="" \
  --build-arg SPACK_REPO=https://github.com/spack/spack.git \
- --build-arg SPACK_REPO_REF=7c9fe7bcbdb656573d4266cba3e8fa475ba5544e \
+ --build-arg SPACK_REPO_REF=77fc458d2964490c83863d667df10b9a740ce05e \
  --build-arg SPACK_ROOT=/opt/spack \
  --build-arg BUILD_DATE="${BUILD_DATE}" \
  --build-arg BUILD_REPO="${BUILD_REPO}" \
