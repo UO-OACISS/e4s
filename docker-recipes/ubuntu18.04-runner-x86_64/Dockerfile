@@ -27,7 +27,6 @@ RUN mkdir ${SPACK_ROOT} \
  && cd / \
  && . ${SPACK_ROOT}/share/spack/setup-env.sh \
  && spack gpg trust /e4s.pub \
- && spack -e . install --cache-only \
  && spack clean -a \
  && rm -rf /tmp/root/spack-stage
 
