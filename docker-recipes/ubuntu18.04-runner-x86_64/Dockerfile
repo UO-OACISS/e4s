@@ -28,13 +28,15 @@ RUN mkdir ${SPACK_ROOT} \
  && . ${SPACK_ROOT}/share/spack/setup-env.sh \
  && spack gpg trust /e4s.pub \
  && spack -e . install --cache-only \
- && spack -e . install patchelf \
  && spack clean -a \
  && rm -rf /tmp/root/spack-stage
 
 RUN . ${SPACK_ROOT}/share/spack/setup-env.sh \
  && echo '#!/bin/bash -e' > /entrypoint.sh \
- && spack env activate --sh -d . | sed '/SPACK_ENV/d' >> /entrypoint.sh \
+ && spack env activate --sh -d . \
+  | sed '/SPACK_ENV/d' \
+  | sed '/despacktivate/d' \
+  | sed 's/:\/opt\/spack\/bin:/:/g' >> /entrypoint.sh \
  && echo exec \"'$@'\" >> /entrypoint.sh \
  && chmod +x /entrypoint.sh
 
@@ -50,7 +52,6 @@ ARG COMPILER_FROM_SPACK
 ARG COMPILER_FROM_SYSTEM
 
 COPY --from=stage0 /opt/software /opt/software
-COPY --from=stage0 /opt/view /opt/view
 COPY --from=stage0 /entrypoint.sh /entrypoint.sh
 
 LABEL io.e4s.runner.spack-repo=${SPACK_REPO}
