@@ -51,7 +51,6 @@ ARG COMPILER_FROM_SPACK
 ARG COMPILER_FROM_SYSTEM
 
 COPY --from=stage0 /opt/software /opt/software
-COPY --from=stage0 /opt/view /opt/view
 COPY --from=stage0 /entrypoint.sh /entrypoint.sh
 
 LABEL io.e4s.runner.spack-repo=${SPACK_REPO}
