@@ -37,6 +37,7 @@ RUN apt update -y \
   mercurial \
   ncurses-dev \
   patch \
+  patchelf \
   pciutils \
   python3-pip \
   rsync \
