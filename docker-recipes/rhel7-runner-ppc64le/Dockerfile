@@ -34,7 +34,10 @@ RUN mkdir ${SPACK_ROOT} \
 
 RUN . ${SPACK_ROOT}/share/spack/setup-env.sh \
  && echo '#!/bin/bash -e' > /entrypoint.sh \
- && spack env activate --sh -d . | sed '/SPACK_ENV/d' >> /entrypoint.sh \
+ && spack env activate --sh -d . \
+  | sed '/SPACK_ENV/d' \
+  | sed '/despacktivate/d' \
+  | sed 's/:\/opt\/spack\/bin:/:/g' >> /entrypoint.sh \
  && echo exec \"'$@'\" >> /entrypoint.sh \
  && chmod +x /entrypoint.sh
 
