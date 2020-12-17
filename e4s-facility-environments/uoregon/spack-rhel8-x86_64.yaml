@@ -8,6 +8,7 @@ spack:
       padded_length: 64
   packages:
     all:
+      compiler: [gcc@8.3.1]
       target: [x86_64]
       providers:
         blas:
@@ -127,7 +128,6 @@ spack:
   - axom
   - bolt
   - caliper
-  - chai~benchmarks+rocm amdgpu_target=gfx906 ^hip@3.9.0
   - darshan-runtime
   - darshan-util
   - dyninst
@@ -143,9 +143,9 @@ spack:
   - hpx
   - hypre
   - kokkos-kernels+openmp
+  - kokkos+openmp
   - kokkos+cuda cuda_arch=70 ^cuda@10.2.89
   - kokkos+hip amd_gpu_arch=gfx901
-  - kokkos+openmp
   - legion
   - libnrm
   - libquo
@@ -194,5 +194,6 @@ spack:
   - upcxx
   - veloc
   - zfp
+  - chai~benchmarks+rocm amdgpu_target=gfx906 ^hip@3.9.0
   #- amrex
   #- dealii

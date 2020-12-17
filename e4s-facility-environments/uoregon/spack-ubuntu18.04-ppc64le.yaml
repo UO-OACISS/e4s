@@ -8,6 +8,7 @@ spack:
       padded_length: 64
   packages:
     all:
+      compiler: [gcc@7.5.0]
       target: [ppc64le]
       providers:
         blas:
