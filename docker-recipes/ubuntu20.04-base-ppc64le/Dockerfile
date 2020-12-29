@@ -26,11 +26,11 @@ RUN apt update -y \
   findutils \
   g++ \
   gcc \
-  gfortran \ 
-  git \
+  gfortran \
   git \
   gpg \
   iputils-ping \
+  jq \
   libffi-dev \
   libssl-dev \
   libxml2-dev \
@@ -41,6 +41,7 @@ RUN apt update -y \
   mercurial \
   ncurses-dev \
   patch \
+  patchelf \
   pciutils \
   python3-pip \
   rsync \
@@ -55,8 +56,7 @@ RUN apt update -y \
 
 RUN python3 -m pip install --upgrade pip setuptools wheel \
  && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests \
- && rm -rf ~/.cache \
- && ln -s `which python3` /usr/bin/python
+ && rm -rf ~/.cache
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility \

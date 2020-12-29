@@ -28,9 +28,9 @@ RUN apt update -y \
   gcc \
   gfortran \ 
   git \
-  git \
   gpg \
   iputils-ping \
+  jq \
   libffi-dev \
   libssl-dev \
   libxml2-dev \
