@@ -27,6 +27,7 @@ RUN apt update -y \
   git \
   gpg \
   iputils-ping \
+  jq \
   libffi-dev \
   libssl-dev \
   libxml2-dev \
@@ -51,8 +52,7 @@ RUN apt update -y \
 
 RUN python3 -m pip install --upgrade pip setuptools wheel \
  && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests \
- && rm -rf ~/.cache \
- && rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
+ && rm -rf ~/.cache
  
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility \
