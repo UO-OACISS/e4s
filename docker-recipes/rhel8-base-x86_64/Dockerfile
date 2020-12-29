@@ -21,9 +21,11 @@ RUN yum update -y \
     gcc \
     gcc-c++ \
     gcc-gfortran \
+    gettext \
     git \
     hostname \
     iputils \
+    jq \
     m4 \
     make \
     ncurses-devel \
