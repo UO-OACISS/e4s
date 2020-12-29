@@ -23,11 +23,11 @@ RUN apt update -y \
   findutils \
   g++ \
   gcc \
-  gfortran \ 
-  git \
+  gfortran \
   git \
   gpg \
   iputils-ping \
+  jq \
   libffi-dev \
   libssl-dev \
   libxml2-dev \
