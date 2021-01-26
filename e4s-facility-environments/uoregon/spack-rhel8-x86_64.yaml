@@ -62,7 +62,7 @@ spack:
         - 1.47.11
     hip:
       version:
-        - 3.9.0
+        - 4.0.0
     libbsd:
       version:
         - 0.10.0
@@ -128,6 +128,7 @@ spack:
   - axom
   - bolt
   - caliper
+  - chai~benchmarks+rocm amdgpu_target=gfx906
   - darshan-runtime
   - darshan-util
   - dyninst
@@ -143,9 +144,9 @@ spack:
   - hpx
   - hypre
   - kokkos-kernels+openmp
-  - kokkos+openmp
   - kokkos+cuda cuda_arch=70 ^cuda@10.2.89
-  - kokkos+hip amd_gpu_arch=gfx901
+  - kokkos+rocm amdgpu_target=gfx906
+  - kokkos+openmp
   - legion
   - libnrm
   - libquo
@@ -171,13 +172,14 @@ spack:
   - py-petsc4py
   - qthreads scheduler=distrib
   - raja
-  - raja+rocm~openmp amdgpu_target=gfx906 ^hip@3.9.0
+  - raja+rocm~openmp amdgpu_target=gfx906
   - rempi
   - scr
   - slate ^openblas@0.3.5 ^cuda@10.2.89
   - slepc
   - stc
   - strumpack
+  - strumpack+rocm amdgpu_target=gfx906
   - sundials
   - superlu
   - superlu-dist
@@ -189,11 +191,10 @@ spack:
   - turbine
   - umap
   - umpire
-  - umpire+rocm amdgpu_target=gfx906 ^hip@3.9.0
+  - umpire+rocm amdgpu_target=gfx906
   - unifyfs
   - upcxx
   - veloc
   - zfp
-  - chai~benchmarks+rocm amdgpu_target=gfx906 ^hip@3.9.0
   #- amrex
   #- dealii

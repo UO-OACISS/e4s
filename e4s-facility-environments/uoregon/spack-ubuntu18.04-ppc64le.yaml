@@ -62,7 +62,7 @@ spack:
         - 1.47.11
     hip:
       version:
-        - 3.9.0
+        - 4.0.0
     libbsd:
       version:
         - 0.10.0
@@ -172,6 +172,7 @@ spack:
   - rempi
   - scr
   - slepc
+  - stc
   - strumpack
   - sundials
   - superlu

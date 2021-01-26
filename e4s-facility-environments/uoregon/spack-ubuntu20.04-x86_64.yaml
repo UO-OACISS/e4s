@@ -62,7 +62,7 @@ spack:
         - 1.47.11
     hip:
       version:
-        - 3.9.0
+        - 4.0.0
     libbsd:
       version:
         - 0.10.0
@@ -129,6 +129,7 @@ spack:
   - axom
   - bolt
   - caliper
+  - chai~benchmarks+rocm amdgpu_target=gfx906
   - darshan-runtime
   - darshan-util
   - dyninst
@@ -144,8 +145,8 @@ spack:
   - hpx
   - hypre
   - kokkos-kernels+openmp
+  - kokkos+rocm amdgpu_target=gfx906
   - kokkos+openmp
-  - kokkos+hip amd_gpu_arch=gfx901
   - legion
   - libnrm
   - libquo
@@ -170,12 +171,13 @@ spack:
   - py-petsc4py
   - qthreads scheduler=distrib
   - raja
-  - raja+rocm~openmp amdgpu_target=gfx906 ^hip@3.9.0
+  - raja+rocm~openmp amdgpu_target=gfx906
   - rempi
   - scr
   - slepc
   - stc
   - strumpack
+  - strumpack+rocm amdgpu_target=gfx906
   - sundials
   - superlu
   - superlu-dist
@@ -187,13 +189,12 @@ spack:
   - turbine
   - umap
   - umpire
-  - umpire+rocm amdgpu_target=gfx906 ^hip@3.9.0
+  - umpire+rocm amdgpu_target=gfx906
   - unifyfs
   - upcxx
   - veloc
   - zfp
-  - chai~benchmarks+rocm amdgpu_target=gfx906 ^hip@3.9.0
-  # - slate ^openblas@0.3.5 ^cuda@10.2.89
-  # - kokkos+cuda cuda_arch=70 ^cuda@10.2.89
-  # - magma cuda_arch=70 ^cuda@10.2.89
   # - dealii
+  #- kokkos+cuda cuda_arch=70 ^cuda@10.2.89 # cuda conflict with %gcc@9
+  # - magma cuda_arch=70 ^cuda@10.2.89
+  # - slate ^openblas@0.3.5 ^cuda@10.2.89
