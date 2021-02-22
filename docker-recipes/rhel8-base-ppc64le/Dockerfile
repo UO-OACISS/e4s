@@ -38,7 +38,8 @@ RUN yum update -y \
     which \
     xz \
     && yum clean all \
-    && rm -rf /var/cache/yum/*
+    && rm -rf /var/cache/yum/* \
+    && ln -s `which python3` /usr/bin/python
 
 RUN python3 -m pip install --upgrade pip setuptools wheel \
  && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests \

@@ -52,10 +52,11 @@ RUN apt update -y \
   && locale-gen en_US.UTF-8 \
   && apt autoremove --purge \
   && apt clean \
-  && ln -s /usr/bin/gpg /usr/bin/gpg2
+  && ln -s /usr/bin/gpg /usr/bin/gpg2 \
+  && ln -s `which python3` /usr/bin/python
 
-RUN python3 -m pip install --upgrade pip setuptools wheel \
- && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests \
+RUN python -m pip install --upgrade pip setuptools wheel \
+ && python -m pip install gnureadline boto3 pyyaml pytz minio requests \
  && rm -rf ~/.cache
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
