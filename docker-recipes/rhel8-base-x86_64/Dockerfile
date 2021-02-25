@@ -26,6 +26,7 @@ RUN yum update -y \
     hostname \
     iputils \
     jq \
+    libatomic \
     m4 \
     make \
     ncurses-devel \
