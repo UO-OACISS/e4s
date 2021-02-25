@@ -21,6 +21,7 @@ RUN yum update -y \
     gcc \
     gcc-c++ \
     gcc-gfortran \
+    gettext \
     git \
     hostname \
     iputils \
