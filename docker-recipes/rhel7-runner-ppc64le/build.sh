@@ -14,7 +14,7 @@ docker build \
  --build-arg COMPILER_FROM_SYSTEM="gcc@4.8.5" \
  --build-arg COMPILER_FROM_SPACK="gcc@8.1.0" \
  --build-arg SPACK_REPO=https://github.com/spack/spack.git \
- --build-arg SPACK_REPO_REF=32e23f5324985697a7bdba8decf103765d70e50f \
+ --build-arg SPACK_REPO_REF=55eae72bb0a2c58cd15fc43d8ca23e90cd84cdfe \
  --build-arg SPACK_ROOT=/opt/spack \
  --build-arg BUILD_DATE="${BUILD_DATE}" \
  --build-arg BUILD_REPO="${BUILD_REPO}" \

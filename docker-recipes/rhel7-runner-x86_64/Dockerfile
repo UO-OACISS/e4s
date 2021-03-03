@@ -65,5 +65,8 @@ LABEL io.e4s.runner.base-img=${BASE_IMAGE}
 LABEL io.e4s.runner.compiler-from-spack=${COMPILER_FROM_SPACK}
 LABEL io.e4s.runner.compiler-from-system=${COMPILER_FROM_SYSTEM}
 
+RUN echo /opt/view/lib64 > /etc/ld.so.conf.d/spack-gcc8-1-0.conf \
+ && ldconfig -v
+
 CMD ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]
