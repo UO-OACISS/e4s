@@ -1,44 +1,7 @@
-ARG BASE_IMAGE
 ARG BUILD_DATE
 ARG BUILD_REPO
 ARG BUILD_REPO_REF
-ARG COMPILER_FROM_SYSTEM
-ARG COMPILER_FROM_SPACK
-ARG SPACK_REPO
-ARG SPACK_REPO_REF
-ARG SPACK_ROOT
-
-FROM ${BASE_IMAGE} as stage0
-
-ARG BASE_IMAGE
-ARG SPACK_REPO
-ARG SPACK_REPO_REF
-ARG SPACK_ROOT
-
-COPY e4s.pub /
-COPY spack.yaml /
-
-RUN mkdir ${SPACK_ROOT} \
- && cd ${SPACK_ROOT} \
- && git init \
- && git remote add origin ${SPACK_REPO} \
- && git fetch origin ${SPACK_REPO_REF} \
- && git reset --hard FETCH_HEAD \
- && cd / \
- && . ${SPACK_ROOT}/share/spack/setup-env.sh \
- && spack gpg trust /e4s.pub \
- && spack -e . install patchelf \
- && spack clean -a \
- && rm -rf /tmp/root/spack-stage
-
-RUN . ${SPACK_ROOT}/share/spack/setup-env.sh \
- && echo '#!/bin/bash -e' > /entrypoint.sh \
- && spack env activate --sh -d . \
-  | sed '/SPACK_ENV/d' \
-  | sed '/despacktivate/d' \
-  | sed 's/:\/opt\/spack\/bin:/:/g' >> /entrypoint.sh \
- && echo exec \"'$@'\" >> /entrypoint.sh \
- && chmod +x /entrypoint.sh
+ARG BASE_IMAGE=registry.access.redhat.com/ubi8/ubi:8.2
 
 FROM ${BASE_IMAGE}
 
@@ -46,23 +9,52 @@ ARG BASE_IMAGE
 ARG BUILD_DATE
 ARG BUILD_REPO
 ARG BUILD_REPO_REF
-ARG SPACK_REPO
-ARG SPACK_REPO_REF
-ARG COMPILER_FROM_SPACK
-ARG COMPILER_FROM_SYSTEM
 
-COPY --from=stage0 /opt/software /opt/software
-COPY --from=stage0 /opt/view /opt/view
-COPY --from=stage0 /entrypoint.sh /entrypoint.sh
+RUN yum update -y \
+ && yum install -y \
+    autoconf \
+    automake \
+    bzip2 \
+    curl \
+    file \
+    findutils \
+    gcc \
+    gcc-c++ \
+    gcc-gfortran \
+    gettext \
+    git \
+    hostname \
+    iputils \
+    jq \
+    libatomic \
+    m4 \
+    make \
+    ncurses-devel \
+    patch \
+    pciutils \
+    procps \
+    python3-devel \
+    unzip \
+    vim \
+    wget \
+    which \
+    xz \
+    && yum clean all \
+    && rm -rf /var/cache/yum/* \
+    && ln -s `which python3` /usr/bin/python
 
-LABEL io.e4s.runner.spack-repo=${SPACK_REPO}
-LABEL io.e4s.runner.spack-repo-ref=${SPACK_REPO_REF}
-LABEL io.e4s.runner.build-date=${BUILD_DATE}
-LABEL io.e4s.runner.repo=${BUILD_REPO}
-LABEL io.e4s.runner.repo-ref=${BUILD_REPO_REF}
-LABEL io.e4s.runner.base-img=${BASE_IMAGE}
-LABEL io.e4s.runner.compiler-from-spack=${COMPILER_FROM_SPACK}
-LABEL io.e4s.runner.compiler-from-system=${COMPILER_FROM_SYSTEM}
+RUN python3 -m pip install --upgrade pip setuptools wheel \
+ && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
+ && rm -rf ~/.cache
+
+ENV NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+WORKDIR /
+
+LABEL io.e4s.build-date=${BUILD_DATE}
+LABEL io.e4s.repo=${BUILD_REPO}
+LABEL io.e4s.repo-ref=${BUILD_REPO_REF}
+LABEL io.e4s.base-img=${BASE_IMAGE}
 
 CMD ["/bin/bash"]
-ENTRYPOINT ["/entrypoint.sh"]
