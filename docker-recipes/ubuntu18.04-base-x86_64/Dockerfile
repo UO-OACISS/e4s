@@ -53,7 +53,7 @@ RUN apt update -y \
   && ln -s /usr/bin/gpg /usr/bin/gpg2
 
 RUN python3 -m pip install --upgrade pip setuptools wheel \
- && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests \
+ && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
  && rm -rf ~/.cache
 
 ENV NVIDIA_VISIBLE_DEVICES=all \

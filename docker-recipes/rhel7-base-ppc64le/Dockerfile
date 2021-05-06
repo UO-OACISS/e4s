@@ -51,7 +51,7 @@ RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
  && ln -s /usr/local/bin/python3.7 /usr/local/bin/python3 \
  && cd / && rm -rf /Python-3.7.4* \
  && python3 -m pip install --upgrade pip setuptools wheel \
- && python3 -m pip install gnureadline pyyaml boto3 pytz minio requests \
+ && python3 -m pip install gnureadline pyyaml boto3 pytz minio requests clingo \
  && rm -rf ~/.cache
 
 ENV NVIDIA_VISIBLE_DEVICES=all \

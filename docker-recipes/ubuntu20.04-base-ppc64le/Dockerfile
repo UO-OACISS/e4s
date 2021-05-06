@@ -57,7 +57,7 @@ RUN apt update -y \
   && ln -s `which python3` /usr/bin/python
 
 RUN python -m pip install --upgrade pip setuptools wheel \
- && python -m pip install gnureadline boto3 pyyaml pytz minio requests \
+ && python -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
  && rm -rf ~/.cache
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
