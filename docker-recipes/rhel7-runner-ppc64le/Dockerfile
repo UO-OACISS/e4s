@@ -1,72 +1,94 @@
-ARG BASE_IMAGE
 ARG BUILD_DATE
 ARG BUILD_REPO
 ARG BUILD_REPO_REF
-ARG COMPILER_FROM_SYSTEM
-ARG COMPILER_FROM_SPACK
 ARG SPACK_REPO
 ARG SPACK_REPO_REF
-ARG SPACK_ROOT
-
-FROM ${BASE_IMAGE} as stage0
-
-ARG BASE_IMAGE
-ARG SPACK_REPO
-ARG SPACK_REPO_REF
-ARG SPACK_ROOT
-
-COPY e4s.pub /
-COPY spack.yaml /
-
-RUN mkdir ${SPACK_ROOT} \
- && cd ${SPACK_ROOT} \
- && git init \
- && git remote add origin ${SPACK_REPO} \
- && git fetch origin ${SPACK_REPO_REF} \
- && git reset --hard FETCH_HEAD \
- && cd / \
- && . ${SPACK_ROOT}/share/spack/setup-env.sh \
- && spack gpg trust /e4s.pub \
- && spack -e . install --cache-only \
- && spack -e . install patchelf \
- && spack clean -a \
- && rm -rf /tmp/root/spack-stage
-
-RUN . ${SPACK_ROOT}/share/spack/setup-env.sh \
- && echo '#!/bin/bash -e' > /entrypoint.sh \
- && spack env activate --sh -d . \
-  | sed '/SPACK_ENV/d' \
-  | sed '/despacktivate/d' \
-  | sed 's/:\/opt\/spack\/bin:/:/g' >> /entrypoint.sh \
- && echo exec \"'$@'\" >> /entrypoint.sh \
- && chmod +x /entrypoint.sh
+ARG BASE_IMAGE=registry.access.redhat.com/ubi7/ubi:7.9-372
 
 FROM ${BASE_IMAGE}
 
-ARG BASE_IMAGE
 ARG BUILD_DATE
 ARG BUILD_REPO
 ARG BUILD_REPO_REF
 ARG SPACK_REPO
 ARG SPACK_REPO_REF
-ARG COMPILER_FROM_SPACK
-ARG COMPILER_FROM_SYSTEM
+ARG BASE_IMAGE
 
-COPY --from=stage0 /opt/software /opt/software
-COPY --from=stage0 /opt/view /opt/view
-COPY --from=stage0 /entrypoint.sh /entrypoint.sh
+RUN yum update -y \
+ && yum install -y \
+    autoconf \
+    automake \
+    bzip2 \
+    crontabs \
+    curl \
+    file \
+    findutils \
+    gcc \
+    gcc-c++ \
+    gcc-gfortran \
+    gettext \
+    git \
+    hostname \
+    iputils \
+    libffi-devel \
+    m4 \
+    make \
+    ncurses-devel \
+    nproc \
+    openssl-devel \
+    patch \
+    pciutils \
+    unzip \
+    vim \
+    wget \
+    which \
+    xz \
+    zlib-devel \
+    && yum clean all \
+    && rm -rf /var/cache/yum/*
 
-LABEL io.e4s.runner.spack-repo=${SPACK_REPO}
-LABEL io.e4s.runner.spack-repo-ref=${SPACK_REPO_REF}
-LABEL io.e4s.runner.build-date=${BUILD_DATE}
-LABEL io.e4s.runner.repo=${BUILD_REPO}
-LABEL io.e4s.runner.repo-ref=${BUILD_REPO_REF}
-LABEL io.e4s.runner.base-img=${BASE_IMAGE}
-LABEL io.e4s.runner.compiler-from-spack=${COMPILER_FROM_SPACK}
-LABEL io.e4s.runner.compiler-from-system=${COMPILER_FROM_SYSTEM}
+RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
+ && tar xzf Python-3.7.4.tgz \
+ && cd Python-3.7.4 \
+ && ./configure --enable-optimizations \
+ && if [[ `nproc` -gt 16 ]]; then make -j16 altinstall; else make -j`nproc` altinstall; fi \
+ && ln -s /usr/local/bin/python3.7 /usr/local/bin/python3 \
+ && cd / && rm -rf /Python-3.7.4* \
+ && python3 -m pip install --upgrade pip setuptools wheel \
+ && python3 -m pip install gnureadline pyyaml boto3 pytz minio requests clingo \
+ && rm -rf ~/.cache
 
-RUN echo /opt/view/lib64 > /etc/ld.so.conf.d/spack-gcc8-1-0.conf \
+COPY spack.yaml /
+
+RUN git clone ${SPACK_REPO} /tmp/spack \
+ && (cd /tmp/spack && git checkout ${SPACK_REPO_REF}) \
+ && . /tmp/spack/share/spack/setup-env.sh \
+ && spack env activate -d . \
+ && spack buildcache keys -it \
+ && spack install --cache-only \
+ && spack install patchelf \
+ && spack env deactivate \
+ && spack clean -a \
+ && rm -rf /tmp/root/spack-stage \
+ && echo '#!/bin/bash' > /entrypoint.sh \
+ && spack env activate --sh -d . \
+  | sed '/SPACK_ENV/d' \
+  | sed '/despacktivate/d' \
+  | sed 's/:\/tmp\/spack\/bin:/:/g' >> /entrypoint.sh \
+ && echo exec \"'$@'\" >> /entrypoint.sh \
+ && chmod +x /entrypoint.sh \
+ && rm -rf /spack.yaml /tmp/spack
+
+RUN echo /bootstrap/view/lib64 > /etc/ld.so.conf.d/spack-gcc8-1-0.conf \
  && ldconfig -v
+
+ENV NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 CMD ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]
+
+LABEL io.e4s.build-date=${BUILD_DATE}
+LABEL io.e4s.repo=${BUILD_REPO}
+LABEL io.e4s.repo-ref=${BUILD_REPO_REF}
+LABEL io.e4s.base-img=${BASE_IMAGE}

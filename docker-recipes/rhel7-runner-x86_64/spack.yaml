@@ -1,9 +1,9 @@
  spack:
-  view: /opt/view
+  view: /bootstrap/view
   concretization: separately
 
   config:
-    install_tree: /opt/software
+    install_tree: /bootstrap/install
 
   packages:
     all:
