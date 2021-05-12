@@ -12,5 +12,7 @@ docker build \
   --build-arg BUILD_REPO="${BUILD_REPO}" \
   --build-arg BUILD_REPO_REF="${BUILD_REPO_REF}" \
   --build-arg SPACK_REPO=https://github.com/spack/spack.git \
-  --build-arg SPACK_REPO_REF=3d2b1277e973b7267c9200631e24a6df38ff9b4b \
+  --build-arg SPACK_REPO_REF=d19d81a3f4451af5911ad46d24754268ba5137d6 \
   -t "${OUTPUT_IMAGE}" .
+
+ #3d2b1277e973b7267c9200631e24a6df38ff9b4b \

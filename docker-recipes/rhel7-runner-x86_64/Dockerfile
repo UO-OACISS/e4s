@@ -84,7 +84,7 @@ RUN git clone ${SPACK_REPO} /tmp/spack \
  && echo exec \"'$@'\" >> /entrypoint.sh \
  && chmod +x /entrypoint.sh
 
-RUN echo /bootstrap/view/lib64 > /etc/ld.so.conf.d/spack-gcc8-1-0.conf \
+RUN echo /bootstrap/view/lib64 > /etc/ld.so.conf.d/spack-gcc-bootstrap.conf \
  && ldconfig -v
 
 CMD ["/bin/bash"]

@@ -10,7 +10,7 @@
       target: [x86_64]
 
   specs:
-  - gcc@8.1.0+strip
+  - gcc@9.3.0+strip
 
   mirrors:
     E4S: https://cache.e4s.io
