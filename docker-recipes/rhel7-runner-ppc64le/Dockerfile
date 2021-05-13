@@ -79,7 +79,7 @@ RUN git clone ${SPACK_REPO} /tmp/spack \
  && chmod +x /entrypoint.sh \
  && rm -rf /spack.yaml /tmp/spack
 
-RUN echo /bootstrap/view/lib64 > /etc/ld.so.conf.d/spack-gcc8-1-0.conf \
+RUN echo /bootstrap/view/lib64 > /etc/ld.so.conf.d/spack-gcc.conf \
  && ldconfig -v
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
