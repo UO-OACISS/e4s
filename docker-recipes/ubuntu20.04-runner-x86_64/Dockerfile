@@ -26,6 +26,7 @@ RUN apt update -y \
   findutils \
   g++ \
   gcc \
+  gcc-multilib \
   gettext \
   gfortran \ 
   git \

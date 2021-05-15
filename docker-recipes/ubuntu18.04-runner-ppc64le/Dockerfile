@@ -62,7 +62,11 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     LANGUAGE=en_US:en
 
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
- && locale-gen
+ && locale-gen \
+ && ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
+ && ln -s /usr/include/powerpc64le-linux-gnu/bits /usr/include/bits \
+ && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
+ && ln -s /usr/include/powerpc64le-linux-gnu/sys /usr/include/sys
 
 WORKDIR /
 

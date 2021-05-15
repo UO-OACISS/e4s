@@ -66,6 +66,11 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 
 
+RUN ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
+ && ln -s /usr/include/powerpc64le-linux-gnu/bits /usr/include/bits \
+ && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
+ && ln -s /usr/include/powerpc64le-linux-gnu/sys /usr/include/sys
+
 WORKDIR /
 
 LABEL io.e4s.base.build-date=${BUILD_DATE}
