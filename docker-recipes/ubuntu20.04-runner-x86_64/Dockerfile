@@ -61,17 +61,15 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
  && rm -rf ~/.cache
 
+CMD ["/bin/bash"]
+
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility \
     LANGUAGE=en_US:en \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
-WORKDIR /
-
 LABEL io.e4s.build-date=${BUILD_DATE}
 LABEL io.e4s.repo=${BUILD_REPO}
 LABEL io.e4s.repo-ref=${BUILD_REPO_REF}
 LABEL io.e4s.base-img=${BASE_IMAGE}
-
-CMD ["/bin/bash"]

@@ -60,22 +60,20 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
  && rm -rf ~/.cache
 
+RUN ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
+ && ln -s /usr/include/powerpc64le-linux-gnu/bits /usr/include/bits \
+ && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
+ && ln -s /usr/include/powerpc64le-linux-gnu/sys /usr/include/sys
+
+CMD ["/bin/bash"]
+
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility \
     LANGUAGE=en_US:en \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 
 
-RUN ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
- && ln -s /usr/include/powerpc64le-linux-gnu/bits /usr/include/bits \
- && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
- && ln -s /usr/include/powerpc64le-linux-gnu/sys /usr/include/sys
-
-WORKDIR /
-
 LABEL io.e4s.base.build-date=${BUILD_DATE}
 LABEL io.e4s.base.repo=${BUILD_REPO}
 LABEL io.e4s.base.repo-ref=${BUILD_REPO_REF}
 LABEL io.e4s.base.base-img=${BASE_IMAGE}
-
-CMD ["/bin/bash"]

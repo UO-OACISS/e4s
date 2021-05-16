@@ -65,8 +65,8 @@ RUN git clone ${SPACK_REPO} /tmp/spack \
  && . /tmp/spack/share/spack/setup-env.sh \
  && spack env activate -d . \
  && spack buildcache keys -it \
- && spack install --cache-only \
  && spack install patchelf \
+ && spack install --cache-only \
  && spack env deactivate \
  && spack clean -a \
  && rm -rf /tmp/root/spack-stage \
@@ -77,16 +77,16 @@ RUN git clone ${SPACK_REPO} /tmp/spack \
   | sed 's/:\/tmp\/spack\/bin:/:/g' >> /entrypoint.sh \
  && echo exec \"'$@'\" >> /entrypoint.sh \
  && chmod +x /entrypoint.sh \
- && rm -rf /spack.yaml /tmp/spack
+ && rm -rf /spack.yaml /spack.lock /.spack-env /tmp/spack
 
 RUN echo /bootstrap/view/lib64 > /etc/ld.so.conf.d/spack-gcc.conf \
  && ldconfig -v
 
-ENV NVIDIA_VISIBLE_DEVICES=all \
-    NVIDIA_DRIVER_CAPABILITIES=compute,utility
-
 CMD ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]
+
+ENV NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 LABEL io.e4s.build-date=${BUILD_DATE}
 LABEL io.e4s.repo=${BUILD_REPO}

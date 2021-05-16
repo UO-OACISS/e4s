@@ -58,12 +58,6 @@ RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
  && python3 -m pip install gnureadline pyyaml boto3 pytz minio requests clingo \
  && rm -rf /root/.cache
 
-ENV NVIDIA_VISIBLE_DEVICES=all \
-    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
-    LANGUAGE=en_US:en \
-    LANG=en_US.UTF-8 \
-    LC_ALL=en_US.UTF-8
-
 COPY spack.yaml /
 
 RUN git clone ${SPACK_REPO} /tmp/spack \
@@ -71,8 +65,8 @@ RUN git clone ${SPACK_REPO} /tmp/spack \
  && . /tmp/spack/share/spack/setup-env.sh \
  && spack env activate -d . \
  && spack buildcache keys -it \
- && spack install --cache-only \
  && spack install patchelf \
+ && spack install --cache-only \
  && spack env deactivate \
  && spack clean -a \
  && rm -rf /tmp/root/spack-stage \
@@ -82,13 +76,20 @@ RUN git clone ${SPACK_REPO} /tmp/spack \
   | sed '/despacktivate/d' \
   | sed 's/:\/tmp\/spack\/bin:/:/g' >> /entrypoint.sh \
  && echo exec \"'$@'\" >> /entrypoint.sh \
- && chmod +x /entrypoint.sh
+ && chmod +x /entrypoint.sh \
+ && rm -rf /spack.yaml /spack.lock /.spack-env /tmp/spack
 
 RUN echo /bootstrap/view/lib64 > /etc/ld.so.conf.d/spack-gcc-bootstrap.conf \
  && ldconfig -v
 
 CMD ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]
+
+ENV NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
+    LANGUAGE=en_US:en \
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8
 
 LABEL io.e4s.spack-repo=${SPACK_REPO}
 LABEL io.e4s.spack-repo-ref=${SPACK_REPO_REF}

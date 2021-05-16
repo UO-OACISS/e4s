@@ -55,12 +55,6 @@ RUN python3 -m pip install --upgrade pip setuptools wheel \
  && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
  && rm -rf ~/.cache
  
-ENV NVIDIA_VISIBLE_DEVICES=all \
-    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
-    LC_ALL=en_US.UTF-8 \
-    LANG=en_US.UTF-8 \
-    LANGUAGE=en_US:en
-
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && locale-gen \
  && ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
@@ -68,11 +62,15 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/powerpc64le-linux-gnu/sys /usr/include/sys
 
-WORKDIR /
+CMD ["/bin/bash"]
+
+ENV NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
+    LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en
 
 LABEL io.e4s.build-date=${BUILD_DATE}
 LABEL io.e4s.repo=${BUILD_REPO}
 LABEL io.e4s.repo-ref=${BUILD_REPO_REF}
 LABEL io.e4s.base-img=${BASE_IMAGE}
-
-CMD ["/bin/bash"]

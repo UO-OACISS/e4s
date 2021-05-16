@@ -3,7 +3,8 @@
   concretization: separately
 
   config:
-    install_tree: /bootstrap/install
+    install_tree:
+      root: /bootstrap/install
 
   packages:
     all:
