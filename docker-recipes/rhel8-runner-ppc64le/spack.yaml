@@ -1,0 +1,14 @@
+ spack:
+  view: /bootstrap/view
+  concretization: separately
+
+  config:
+    install_tree:
+      root: /bootstrap/install
+
+  packages:
+    all:
+      target: [ppc64le]
+
+  specs:
+  - patchelf

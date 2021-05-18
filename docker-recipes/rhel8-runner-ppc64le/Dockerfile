@@ -47,14 +47,29 @@ RUN python3 -m pip install --upgrade pip setuptools wheel \
  && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
  && rm -rf ~/.cache
 
+#COPY spack.yaml /
+#
+#RUN git clone https://github.com/spack/spack /tmp/spack \
+# && . /tmp/spack/share/spack/setup-env.sh \
+# && spack -e . install \
+# && spack clean -a \
+# && rm -rf /tmp/root/spack-stage \
+# && echo '#!/bin/bash' > /entrypoint.sh \
+# && spack env activate --sh -d . \
+#  | sed '/SPACK_ENV/d' \
+#  | sed '/despacktivate/d' \
+#  | sed 's/:\/tmp\/spack\/bin:/:/g' >> /entrypoint.sh \
+# && echo exec \"'$@'\" >> /entrypoint.sh \
+# && chmod +x /entrypoint.sh \
+# && rm -rf /spack.yaml /spack.lock /.spack-env /tmp/spack
+
+CMD ["/bin/bash"]
+#ENTRYPOINT ["/entrypoint.sh"]
+
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility
-
-WORKDIR /
 
 LABEL io.e4s.build-date=${BUILD_DATE}
 LABEL io.e4s.repo=${BUILD_REPO}
 LABEL io.e4s.repo-ref=${BUILD_REPO_REF}
 LABEL io.e4s.base-img=${BASE_IMAGE}
-
-CMD ["/bin/bash"]
