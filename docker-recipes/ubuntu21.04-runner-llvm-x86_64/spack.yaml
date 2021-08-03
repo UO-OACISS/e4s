@@ -1,0 +1,17 @@
+ spack:
+  view: /bootstrap/view
+  concretization: separately
+
+  config:
+    install_tree:
+      root: /bootstrap/install
+
+  packages:
+    all:
+      target: [x86_64]
+
+  specs:
+  - gcc@9.3.0+strip
+
+  mirrors:
+    E4S: https://cache.e4s.io
