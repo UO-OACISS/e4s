@@ -61,7 +61,30 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
  && rm -rf ~/.cache
 
+RUN git clone https://github.com/spack/spack /tmp/spack \
+ && (cd /tmp/spack && git checkout ${SPACK_COMMIT}) \
+ && . /tmp/spack/share/spack/setup-env.sh \
+ && spack env activate -d . \
+ && spack buildcache keys -it \
+ && spack install patchelf \
+ && spack install --cache-only \
+ && despacktivate \
+ && spack clean -a \
+ && rm -rf /tmp/root \
+ && echo '#!/bin/bash' > /entrypoint.sh \
+ && spack env activate --sh -d . \
+  | sed '/SPACK_ENV/d' \
+  | sed '/despacktivate/d' \
+  | sed 's/:\/tmp\/spack\/bin:/:/g' >> /entrypoint.sh \
+ && echo exec \"'$@'\" >> /entrypoint.sh \
+ && chmod +x /entrypoint.sh \
+ && rm -rf /spack.yaml /spack.lock /.spack-env /tmp/spack
+
+RUN echo /bootstrap/view/lib64 > /etc/ld.so.conf.d/spack-gcc-bootstrap.conf \
+ && ldconfig -v
+
 CMD ["/bin/bash"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility \
