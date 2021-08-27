@@ -11,7 +11,7 @@
       target: [x86_64]
 
   specs:
-  - gcc@9.3.0+strip
+  - gcc@11.2.0+strip
 
   mirrors:
-    E4S: https://cache.e4s.io
+    E4S: https://cache.e4s.io/uo-containers

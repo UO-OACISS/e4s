@@ -47,13 +47,13 @@ RUN yum update -y \
     && yum clean all \
     && rm -rf /var/cache/yum/*
 
-RUN wget https://www.python.org/ftp/python/3.7.4/Python-3.7.4.tgz \
- && tar xzf Python-3.7.4.tgz \
- && cd Python-3.7.4 \
+RUN wget https://www.python.org/ftp/python/3.8.11/Python-3.8.11.tgz \
+ && tar xzf Python-3.8.11.tgz \
+ && cd Python-3.8.11 \
  && ./configure --enable-optimizations \
  && if [[ `nproc` -gt 16 ]]; then make -j16 altinstall; else make -j`nproc` altinstall; fi \
- && ln -s /usr/local/bin/python3.7 /usr/local/bin/python3 \
- && cd / && rm -rf /Python-3.7.4* \
+ && ln -s /usr/local/bin/python3.8 /usr/local/bin/python3 \
+ && cd / && rm -rf /Python-3.8.11* \
  && python3 -m pip install --upgrade pip setuptools wheel \
  && python3 -m pip install gnureadline pyyaml boto3 pytz minio requests clingo \
  && rm -rf /root/.cache
@@ -70,20 +70,13 @@ RUN git clone ${SPACK_REPO} /tmp/spack \
  && spack env deactivate \
  && spack clean -a \
  && rm -rf /tmp/root/spack-stage \
- && echo '#!/bin/bash' > /entrypoint.sh \
- && spack env activate --sh -d . \
-  | sed '/SPACK_ENV/d' \
-  | sed '/despacktivate/d' \
-  | sed 's/:\/tmp\/spack\/bin:/:/g' >> /entrypoint.sh \
- && echo exec \"'$@'\" >> /entrypoint.sh \
- && chmod +x /entrypoint.sh \
  && rm -rf /spack.yaml /spack.lock /.spack-env /tmp/spack
 
-RUN echo /bootstrap/view/lib64 > /etc/ld.so.conf.d/spack-gcc-bootstrap.conf \
+RUN echo 'export PATH="/bootstrap/view/bin:${PATH}"' >> /etc/bashrc \
+ && echo /bootstrap/view/lib64 > /etc/ld.so.conf.d/spack-gcc-bootstrap.conf \
  && ldconfig -v
 
 CMD ["/bin/bash"]
-ENTRYPOINT ["/entrypoint.sh"]
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility \
