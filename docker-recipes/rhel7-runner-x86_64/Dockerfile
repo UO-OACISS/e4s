@@ -3,7 +3,7 @@ ARG BUILD_REPO
 ARG BUILD_REPO_REF
 ARG SPACK_REPO
 ARG SPACK_REPO_REF
-ARG BASE_IMAGE=registry.access.redhat.com/ubi7/ubi:7.9-372
+ARG BASE_IMAGE=registry.access.redhat.com/ubi7/ubi:7.9-441
 
 FROM ${BASE_IMAGE}
 
