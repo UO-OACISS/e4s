@@ -10,9 +10,21 @@ ARG BUILD_DATE
 ARG BUILD_REPO
 ARG BUILD_REPO_REF
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/Los_Angeles
+
 RUN apt update -y \
-  && apt upgrade -y \
-  && apt install -y \
+ && apt upgrade -y \
+ && apt clean -y
+
+RUN apt update -y \
+ && apt install -y \
+  gcc \
+  gcc-multilib \
+  g++ \
+  gfortran \
+  lmod \
+  uuid-runtime \
   autoconf \
   automake \
   bzip2 \
@@ -21,11 +33,7 @@ RUN apt update -y \
   emacs-nox \
   file \
   findutils \
-  g++ \
-  gcc \
-  gcc-multilib \
-  gettext \
-  gfortran \
+  gettext \ 
   git \
   gpg \
   iputils-ping \
@@ -48,14 +56,35 @@ RUN apt update -y \
   vim \
   wget \
   zlib1g-dev \
-  && locale-gen en_US.UTF-8 \
   && apt autoremove --purge \
-  && apt clean \
-  && ln -s /usr/bin/gpg /usr/bin/gpg2
+  && apt clean
+
+RUN locale-gen en_US.UTF-8 \
+ && ln -s /usr/bin/gpg /usr/bin/gpg2 \
+ && rm -f /usr/bin/python \
+ && ln -s `which python3` /usr/bin/python 
 
 RUN python3 -m pip install --upgrade pip setuptools wheel \
  && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
  && rm -rf ~/.cache
+
+RUN apt update -y \
+ && apt install -y software-properties-common \
+ && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+ && apt install -y \
+    gcc-11 \
+    g++-11 \
+    gfortran-11 \
+ && rm -rf /etc/apt/trusted.gpg.d/ubuntu-toolchain-r_ubuntu_test.gpg \
+ && rm -rf /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-bionic.list \
+ && apt remove -y software-properties-common \
+ && apt autoremove -y \
+ && apt clean -y
+
+RUN ln -s /usr/lib/x86_64-linux-gnu/lua /usr/lib/lua \
+ && ln -s /usr/lib/x86_64-linux-gnu/liblua5.2-posix.so.1 /usr/lib/x86_64-linux-gnu/lua/5.2/posix.so \
+ && echo . /etc/profile.d/lmod.sh >> /etc/bash.bashrc \
+ && sed -i '$ d' /etc/lmod/modulespath
 
 CMD ["/bin/bash"]
 
