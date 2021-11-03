@@ -40,12 +40,22 @@ RUN yum update -y \
     which \
     xz \
     && yum clean all \
-    && rm -rf /var/cache/yum/* \
-    && ln -s `which python3` /usr/bin/python
+    && rm -rf /var/cache/yum/*
 
 RUN python3 -m pip install --upgrade pip setuptools wheel \
  && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
  && rm -rf ~/.cache
+
+COPY /spack.yaml /
+
+RUN git clone https://github.com/spack/spack /tmp/spack \
+ && . /tmp/spack/share/spack/setup-env.sh \
+ && spack -e . install \
+ && spack clean -a \
+ && rm -rf /tmp/spack /spack.yaml
+
+RUN ln -s `which python3` /usr/bin/python \
+ && echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bashrc
 
 CMD ["/bin/bash"]
 
