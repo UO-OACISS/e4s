@@ -1,10 +1,10 @@
  spack:
-  view: /bootstrap/view
+  view: /bootstrap/runner/view
   concretization: separately
 
   config:
     install_tree:
-      root: /bootstrap/install
+      root: /bootstrap/runner/install
 
   packages:
     all:
