@@ -79,6 +79,11 @@ RUN apt update -y \
  && apt autoremove -y \
  && apt clean -y
 
+RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
+ && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
+ && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
+ && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
+
 RUN echo . /etc/profile.d/lmod.sh >> /etc/bash.bashrc \
  && sed -i '$ d' /etc/lmod/modulespath
 
