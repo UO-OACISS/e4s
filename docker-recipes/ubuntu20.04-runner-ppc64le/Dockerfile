@@ -19,9 +19,6 @@ RUN apt update -y \
 
 RUN apt update -y \
  && apt install -y \
-  gcc \
-  g++ \
-  gfortran \
   autoconf \
   automake \
   bzip2 \
@@ -30,14 +27,19 @@ RUN apt update -y \
   emacs-nox \
   file \
   findutils \
+  g++ \
+  gcc \
   gettext \
+  gfortran \
   git \
   gpg \
   iputils-ping \
   jq \
   libffi-dev \
   libssl-dev \
+  libudev-dev \
   libxml2-dev \
+  lmod \
   locales \
   locate \
   m4 \
@@ -50,11 +52,10 @@ RUN apt update -y \
   python3-pip \
   rsync \
   unzip \
+  uuid-runtime \
   vim \
   wget \
   zlib1g-dev \
-  uuid-runtime \
-  lmod \
   && apt autoremove --purge \
   && apt clean
 
