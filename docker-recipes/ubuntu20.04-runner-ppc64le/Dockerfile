@@ -47,7 +47,6 @@ RUN apt update -y \
   mercurial \
   ncurses-dev \
   patch \
-  patchelf \
   pciutils \
   python3-pip \
   rsync \
@@ -64,7 +63,8 @@ RUN locale-gen en_US.UTF-8 \
  && ln -s `which python3` /usr/bin/python
 
 RUN python -m pip install --upgrade pip setuptools wheel \
- && python -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
+ && python -m pip install gnureadline pyyaml pytz minio requests clingo \
+ && python -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
 RUN apt update -y \
@@ -80,6 +80,14 @@ RUN apt update -y \
  && apt autoremove -y \
  && apt clean -y
 
+COPY /spack.yaml /
+
+RUN git clone https://github.com/spack/spack /tmp/spack \
+ && . /tmp/spack/share/spack/setup-env.sh \
+ && spack -e . install \
+ && spack clean -a \
+ && rm -rf /tmp/spack /spack.yaml
+
 RUN ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/powerpc64le-linux-gnu/bits /usr/include/bits \
  && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
@@ -87,7 +95,8 @@ RUN ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
 
 RUN ln -s /usr/lib/powerpc64le-linux-gnu/lua /usr/lib/lua \
  && echo . /etc/profile.d/lmod.sh >> /etc/bash.bashrc \
- && sed -i '$ d' /etc/lmod/modulespath
+ && sed -i '$ d' /etc/lmod/modulespath \
+ && echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
 

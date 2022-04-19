@@ -43,7 +43,8 @@ RUN yum update -y \
     && rm -rf /var/cache/yum/*
 
 RUN python3 -m pip install --upgrade pip setuptools wheel \
- && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
+ && python3 -m pip install gnureadline pyyaml pytz minio requests clingo \
+ && python3 -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
 COPY /spack.yaml /
@@ -54,7 +55,7 @@ RUN git clone https://github.com/spack/spack /tmp/spack \
  && spack clean -a \
  && rm -rf /tmp/spack /spack.yaml
 
-RUN echo export PATH=/bootstrap/runner/bin:'${PATH}' >> /etc/bashrc \
+RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bashrc \
  && ln -s `which python3` /usr/bin/python
 
 CMD ["/bin/bash"]
