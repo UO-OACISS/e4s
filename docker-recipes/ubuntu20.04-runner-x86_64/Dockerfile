@@ -87,7 +87,7 @@ RUN git clone https://github.com/spack/spack /tmp/spack \
  && . /tmp/spack/share/spack/setup-env.sh \
  && spack -e . install \
  && spack clean -a \
- && rm -rf /tmp/spack /spack.yaml
+ && rm -rf /tmp/spack /spack.yaml /spack.lock /.spack-env
 
 RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \

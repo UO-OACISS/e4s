@@ -53,7 +53,7 @@ RUN git clone https://github.com/spack/spack /tmp/spack \
  && . /tmp/spack/share/spack/setup-env.sh \
  && spack -e . install \
  && spack clean -a \
- && rm -rf /tmp/spack /spack.yaml
+ && rm -rf /tmp/spack /spack.yaml /spack.lock /.spack-env
 
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bashrc \
  && ln -s `which python3` /usr/bin/python
