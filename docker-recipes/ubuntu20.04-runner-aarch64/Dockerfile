@@ -62,10 +62,6 @@ RUN locale-gen en_US.UTF-8 \
  && ln -s /usr/bin/gpg /usr/bin/gpg2 \
  && ln -s `which python3` /usr/bin/python
 
-RUN python -m pip install --upgrade pip setuptools wheel \
- && python -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
- && rm -rf ~/.cache
-
 RUN apt update -y \
  && apt install -y software-properties-common \
  && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
@@ -78,6 +74,11 @@ RUN apt update -y \
  && apt remove -y software-properties-common \
  && apt autoremove -y \
  && apt clean -y
+
+RUN python -m pip install --upgrade pip setuptools wheel \
+ && python -m pip install gnureadline pyyaml pytz minio requests clingo \
+ && python -m pip install boto3==1.20.35 botocore==1.23.42 \
+ && rm -rf ~/.cache
 
 RUN ln -s /usr/include/aarch64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/aarch64-linux-gnu/bits /usr/include/bits \
