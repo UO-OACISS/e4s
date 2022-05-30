@@ -69,10 +69,11 @@ RUN python3 -m pip install --upgrade pip setuptools wheel \
  && rm -rf ~/.cache
 
 RUN git clone https://github.com/spack/spack \
- && (cd spack && git checkout v0.17.1 && rm -rf .git) \
+ && (cd spack && git checkout v0.18.0 && rm -rf .git) \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
- && export SPACK_USER_CACHE_PATH=/tmp/_spack_cache \
  && . /spack/share/spack/setup-env.sh \
+ && spack mirror add E4S https://cache.e4s.io \
+ && spack buildcache keys -it \
  && spack compiler find \
  && spack clean -a
 
@@ -81,7 +82,6 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/lua /usr/lib/lua \
  && echo . /etc/profile.d/lmod.sh >> /etc/bash.bashrc \
  && sed -i '$ d' /etc/lmod/modulespath \
  && echo export SPACK_DISABLE_LOCAL_CONFIG=1 >> /etc/bash.bashrc \
- && echo export SPACK_USER_CACHE_PATH=/tmp/_spack_cache >> /etc/bash.bashrc \
  && echo . /spack/share/spack/setup-env.sh >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
