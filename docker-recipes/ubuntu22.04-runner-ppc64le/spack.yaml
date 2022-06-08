@@ -1,0 +1,16 @@
+ spack:
+  view: /bootstrap/runner/view
+
+  concretizer:
+    unify: false
+
+  config:
+    install_tree:
+      root: /bootstrap/runner/install
+
+  packages:
+    all:
+      target: [ppc64le]
+
+  specs:
+  - patchelf
