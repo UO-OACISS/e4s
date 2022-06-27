@@ -3,6 +3,7 @@ FROM ecpe4s/ubuntu20.04-runner-ppc64le:2022-07-01
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack --branch v0.18.0 /spack \
+ && rm -rf /spack/.git \
  && . /spack/share/spack/setup-env.sh \
  && spack mirror add uo https://cache.e4s.io/uo-containers \
  && spack buildcache keys -it \
