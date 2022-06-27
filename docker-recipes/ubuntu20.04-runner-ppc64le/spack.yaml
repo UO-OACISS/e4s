@@ -1,14 +1,33 @@
- spack:
+spack:
   view: /bootstrap/runner/view
-  concretization: separately
-
+  
   config:
     install_tree:
       root: /bootstrap/runner/install
+  
+  concretizer:
+    unify: false
+   
+  compilers:
+  - compiler:
+      spec: gcc@9.4.0
+      paths:
+        cc: /usr/bin/gcc
+        cxx: /usr/bin/g++
+        f77: /usr/bin/gfortran
+        fc: /usr/bin/gfortran
+      flags: {}
+      operating_system: ubuntu20.04
+      target: ppc64le
+      modules: []
+      environment: {}
+      extra_rpaths: []
 
   packages:
     all:
-      target: [x86_64]
+      compiler: [gcc@9.4.0]
+      target: [ppc64le]
 
   specs:
   - patchelf
+  - lmod
