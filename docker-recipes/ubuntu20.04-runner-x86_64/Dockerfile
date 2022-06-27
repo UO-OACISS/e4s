@@ -39,7 +39,6 @@ RUN apt update -y \
   libssl-dev \
   libudev-dev \
   libxml2-dev \
-  lmod \
   locales \
   locate \
   m4 \
@@ -47,7 +46,6 @@ RUN apt update -y \
   mercurial \
   ncurses-dev \
   patch \
-  patchelf \
   pciutils \
   python3-pip \
   rsync \
@@ -84,8 +82,12 @@ RUN apt update -y \
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack /tmp/spack \
+ && (cd /tmp/spack && git checkout 569884661992bd1dad39b1abb0b26167d6063baf) \
  && . /tmp/spack/share/spack/setup-env.sh \
- && spack -e . install \
+ && spack mirror add uo https://cache.e4s.io/uo-containers \
+ && spack buildcache keys -it \
+ && spack -e . install --fresh \
+ && spack mirror rm uo \
  && spack clean -a \
  && rm -rf /tmp/spack /spack.yaml /spack.lock /.spack-env
 
@@ -94,9 +96,10 @@ RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
 
-RUN echo . /etc/profile.d/lmod.sh >> /etc/bash.bashrc \
- && sed -i '$ d' /etc/lmod/modulespath \
- && echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc
+RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
+ && echo . /bootstrap/runner/install/linux-ubuntu20.04-x86_64/gcc-9.4.0/lmod-8.7.2-eptyzfzomg6f4q3ktvj7crhdgkb7vehq/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
+ && mkdir -p /modules \
+ && echo module use /modules >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
 
@@ -105,8 +108,3 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     LANGUAGE=en_US:en \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
-
-LABEL io.e4s.build-date=${BUILD_DATE}
-LABEL io.e4s.repo=${BUILD_REPO}
-LABEL io.e4s.repo-ref=${BUILD_REPO_REF}
-LABEL io.e4s.base-img=${BASE_IMAGE}
