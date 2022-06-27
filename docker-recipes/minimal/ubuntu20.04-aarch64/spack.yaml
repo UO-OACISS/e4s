@@ -1,0 +1,53 @@
+spack:
+  view: false
+  
+  concretizer:
+    unify: false
+
+  config:
+    concretizer: clingo
+
+  compilers:
+  - compiler:
+      spec: gcc@9.4.0
+      paths:
+        cc: /usr/bin/gcc
+        cxx: /usr/bin/g++
+        f77: /usr/bin/gfortran
+        fc: /usr/bin/gfortran
+      flags: {}
+      operating_system: ubuntu20.04
+      target: aarch64
+      modules: []
+      environment: {}
+      extra_rpaths: []
+
+  modules:
+    default:
+      'enable:': [lmod]
+      lmod:
+        core_compilers: [gcc@9.4.0]
+        blacklist_implicits: true
+        verbose: true
+        hash_length: 0
+        whitelist: [mpich, cmake]
+        hierarchy: [mpi]
+        projections: {}
+        core_specs: []
+        all:
+          autoload: direct
+          environment:
+            set:
+              ${PACKAGE}_ROOT: ${PREFIX}
+          suffixes:
+            +cuda: cuda
+            +openmp: openmp
+
+  packages:
+    all:
+      compiler: [gcc@9.4.0]
+      target: [aarch64]
+
+  specs:
+  - cmake
+  - mpich ~wrapperrpath
