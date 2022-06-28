@@ -75,7 +75,10 @@ RUN ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/powerpc64le-linux-gnu/sys /usr/include/sys
 
-RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc
+RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
+ && echo . /bootstrap/runner/install/linux-ubuntu22.04-ppc64le/gcc-11.2.0/lmod-8.7.2-wotnmzxiby533au5y2lq43ppxtkmyniz/lmod/8.7.2/init/bash >> /etc/bash.bashrc >> /etc/bash.bashrc \
+ && mkdir -p /modules \
+ && echo module use /modules >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
 
