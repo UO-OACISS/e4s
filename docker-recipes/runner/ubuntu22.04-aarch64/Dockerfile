@@ -74,10 +74,7 @@ RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
 
-RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . /bootstrap/runner/install/linux-ubuntu22.04-x86_64/gcc-11.2.0/lmod-8.7.2-4hrhncqfxwmhndc7foi3gl5mbkkbmvtk/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
- && mkdir -p /modules \
- && echo module use /modules >> /etc/bash.bashrc
+RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
 

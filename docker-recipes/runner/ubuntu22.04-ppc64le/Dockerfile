@@ -1,14 +1,4 @@
-ARG BUILD_DATE
-ARG BUILD_REPO
-ARG BUILD_REPO_REF
-ARG BASE_IMAGE=ubuntu:22.04
-
-FROM ${BASE_IMAGE}
-
-ARG BASE_IMAGE
-ARG BUILD_DATE
-ARG BUILD_REPO
-ARG BUILD_REPO_REF
+FROM ubuntu:22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
@@ -71,8 +61,12 @@ RUN python -m pip install --upgrade pip setuptools wheel \
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack /tmp/spack \
+ && (cd /tmp/spack && git checkout 569884661992bd1dad39b1abb0b26167d6063baf) \
  && . /tmp/spack/share/spack/setup-env.sh \
+ && spack mirror add uo https://cache.e4s.io/uo-containers \
+ && spack buildcache keys -it \
  && spack -e . install \
+ && spack mirror rm uo \
  && spack clean -a \
  && rm -rf /tmp/spack /spack.yaml /spack.lock /.spack-env
 
@@ -81,9 +75,7 @@ RUN ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/powerpc64le-linux-gnu/sys /usr/include/sys
 
-RUN echo . /etc/profile.d/lmod.sh >> /etc/bash.bashrc \
- && sed -i '$ d' /etc/lmod/modulespath \
- && echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc
+RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
 
@@ -92,8 +84,3 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     LANGUAGE=en_US:en \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
-
-LABEL io.e4s.build-date=${BUILD_DATE}
-LABEL io.e4s.repo=${BUILD_REPO}
-LABEL io.e4s.repo-ref=${BUILD_REPO_REF}
-LABEL io.e4s.base-img=${BASE_IMAGE}
