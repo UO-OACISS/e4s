@@ -1,14 +1,4 @@
-ARG BUILD_DATE
-ARG BUILD_REPO
-ARG BUILD_REPO_REF
-ARG BASE_IMAGE=ubuntu:18.04
-
-FROM ${BASE_IMAGE}
-
-ARG BASE_IMAGE
-ARG BUILD_DATE
-ARG BUILD_REPO
-ARG BUILD_REPO_REF
+FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
@@ -23,7 +13,6 @@ RUN apt update -y \
   gcc-multilib \
   g++ \
   gfortran \
-  lmod \
   uuid-runtime \
   autoconf \
   automake \
@@ -81,10 +70,22 @@ RUN apt update -y \
  && apt autoremove -y \
  && apt clean -y
 
-RUN ln -s /usr/lib/x86_64-linux-gnu/lua /usr/lib/lua \
- && ln -s /usr/lib/x86_64-linux-gnu/liblua5.2-posix.so.1 /usr/lib/x86_64-linux-gnu/lua/5.2/posix.so \
- && echo . /etc/profile.d/lmod.sh >> /etc/bash.bashrc \
- && sed -i '$ d' /etc/lmod/modulespath
+COPY /spack.yaml /
+
+RUN git clone https://github.com/spack/spack /spack \
+ && (cd /spack && git checkout 6cbcc94fc941e913878bd0f8eb29556f0b59e44f) \
+ && . /spack/share/spack/setup-env.sh \
+ && spack mirror add uo https://cache.e4s.io/uo-containers \
+ && spack buildcache keys -it \
+ && spack -e . install --fresh \
+ && spack mirror rm uo \
+ && spack clean -a \
+ && rm -rf /spack /spack.yaml /spack.lock /.spack-env
+
+RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
+ && echo . /bootstrap/runner/install/linux-ubuntu18.04-x86_64/gcc-7.5.0/lmod-8.7.2-kqfubxrvdz6twi7alrlchykceb5ugnov/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
+ && mkdir -p /modules \
+ && echo module use /modules >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
 
@@ -93,8 +94,3 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     LANGUAGE=en_US:en \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
-
-LABEL io.e4s.build-date=${BUILD_DATE}
-LABEL io.e4s.repo=${BUILD_REPO}
-LABEL io.e4s.repo-ref=${BUILD_REPO_REF}
-LABEL io.e4s.base-img=${BASE_IMAGE}
