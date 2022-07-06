@@ -69,12 +69,15 @@ RUN git clone https://github.com/spack/spack /tmp/spack \
  && spack clean -a \
  && rm -rf /tmp/spack /spack.yaml /spack.lock /.spack-env
 
-RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
- && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
- && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
- && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
+RUN ln -s /usr/include/aarch64-linux-gnu/asm /usr/include/asm \
+ && ln -s /usr/include/aarch64-linux-gnu/bits /usr/include/bits \
+ && ln -s /usr/include/aarch64-linux-gnu/gnu /usr/include/gnu \
+ && ln -s /usr/include/aarch64-linux-gnu/sys /usr/include/sys
 
-RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc
+RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
+ && echo . /bootstrap/runner/install/linux-ubuntu22.04-aarch64/gcc-11.2.0/lmod-8.7.2-ocshy6h2sfgcwzfj5tmp455phfshozvy/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
+ && mkdir -p /modules \
+ && echo module use /modules >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
 
