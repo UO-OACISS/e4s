@@ -86,10 +86,22 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/powerpc64le-linux-gnu/sys /usr/include/sys
 
-RUN ln -s /usr/lib/powerpc64le-linux-gnu/lua /usr/lib/lua \
- && ln -s /usr/lib/powerpc64le-linux-gnu/liblua5.2-posix.so.1 /usr/lib/powerpc64le-linux-gnu/lua/5.2/posix.so \
- && echo . /etc/profile.d/lmod.sh >> /etc/bash.bashrc \
- && sed -i '$ d' /etc/lmod/modulespath
+COPY /spack.yaml /
+
+RUN git clone https://github.com/spack/spack /spack \
+ && (cd /spack && git checkout 6cbcc94fc941e913878bd0f8eb29556f0b59e44f) \
+ && . /spack/share/spack/setup-env.sh \
+ && spack mirror add uo https://cache.e4s.io/uo-containers \
+ && spack buildcache keys -it \
+ && spack -e . install --fresh \
+ && spack mirror rm uo \
+ && spack clean -a \
+ && rm -rf /spack /spack.yaml /spack.lock /.spack-env
+
+RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
+ && echo . /bootstrap/runner/install/linux-ubuntu18.04-ppc64le/gcc-7.5.0/lmod-8.7.2-aea42ky4xqpmghn2qm3ie4mlswpdxmef/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
+ && mkdir -p /modules \
+ && echo module use /modules >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
 
@@ -98,8 +110,3 @@ ENV NVIDIA_VISIBLE_DEVICES=all \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8 \
     LANGUAGE=en_US:en
-
-LABEL io.e4s.build-date=${BUILD_DATE}
-LABEL io.e4s.repo=${BUILD_REPO}
-LABEL io.e4s.repo-ref=${BUILD_REPO_REF}
-LABEL io.e4s.base-img=${BASE_IMAGE}
