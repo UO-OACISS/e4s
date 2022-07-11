@@ -1,0 +1,56 @@
+spack:
+  view: false
+  
+  concretizer:
+    reuse: false
+    unify: false
+
+  config:
+    concretizer: clingo
+
+  compilers:
+  - compiler:
+      spec: gcc@11.2.0
+      paths:
+        cc: /usr/bin/gcc
+        cxx: /usr/bin/g++
+        f77: /usr/bin/gfortran
+        fc: /usr/bin/gfortran
+      flags: {}
+      operating_system: ubuntu22.04
+      target: x86_64
+      modules: []
+      environment: {}
+      extra_rpaths: []
+
+  modules:
+    default:
+      'enable:': [lmod]
+      lmod:
+        core_compilers: [gcc@11.2.0]
+        blacklist_implicits: true
+        verbose: true
+        hash_length: 0
+        whitelist: [mpich, cmake]
+        hierarchy: [mpi]
+        projections: {}
+        core_specs: []
+        all:
+          autoload: direct
+          environment:
+            set:
+              ${PACKAGE}_ROOT: ${PREFIX}
+          suffixes:
+            +cuda: cuda
+            +openmp: openmp
+
+  packages:
+    all:
+      compiler: [gcc@11.2.0]
+      target: [x86_64]
+    openssl:
+      variants: certs=system
+
+  specs:
+  - cmake
+  - mpich ~wrapperrpath
