@@ -2,7 +2,9 @@ FROM ecpe4s/ubuntu22.04-runner-aarch64:2022-07-01
 
 COPY /spack.yaml /
 
-RUN git clone https://github.com/spack/spack --branch v0.18.0 /spack \
+RUN git clone https://github.com/spack/spack /spack \
+ && (cd /spack && git checkout v0.18.0) \
+ && (cd /spack && git -c user.name=eugeneswalker -c user.email=eugenesunsetwalker@gmail.com cherry-pick 7ef52acfce812942df37e421e1c4283b67233e2b) \
  && rm -rf /spack/.git \
  && . /spack/share/spack/setup-env.sh \
  && spack mirror add uo https://cache.e4s.io/uo-containers \
