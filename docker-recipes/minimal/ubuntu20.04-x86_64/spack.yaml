@@ -2,6 +2,7 @@ spack:
   view: false
   
   concretizer:
+    reuse: false
     unify: false
 
   config:
@@ -47,6 +48,8 @@ spack:
     all:
       compiler: [gcc@9.4.0]
       target: [x86_64]
+    openssl:
+      variants: certs=system
 
   specs:
   - cmake
