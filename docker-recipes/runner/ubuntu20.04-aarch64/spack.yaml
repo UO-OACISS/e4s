@@ -6,6 +6,7 @@
       root: /bootstrap/runner/install
 
   concretizer:
+    reuse: false
     unify: false
 
   compilers:
@@ -27,6 +28,8 @@
     all:
       compiler: [gcc@9.4.0]
       target: [aarch64]
+    openssl:
+      variants: certs=system
 
   specs:
   - patchelf
