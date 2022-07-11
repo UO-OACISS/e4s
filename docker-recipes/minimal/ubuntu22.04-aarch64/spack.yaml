@@ -10,14 +10,14 @@ spack:
 
   compilers:
   - compiler:
-      spec: gcc@9.4.0
+      spec: gcc@11.2.0
       paths:
         cc: /usr/bin/gcc
         cxx: /usr/bin/g++
         f77: /usr/bin/gfortran
         fc: /usr/bin/gfortran
       flags: {}
-      operating_system: ubuntu20.04
+      operating_system: ubuntu22.04
       target: aarch64
       modules: []
       environment: {}
@@ -27,7 +27,7 @@ spack:
     default:
       'enable:': [lmod]
       lmod:
-        core_compilers: [gcc@9.4.0]
+        core_compilers: [gcc@11.2.0]
         blacklist_implicits: true
         verbose: true
         hash_length: 0
@@ -46,7 +46,7 @@ spack:
 
   packages:
     all:
-      compiler: [gcc@9.4.0]
+      compiler: [gcc@11.2.0]
       target: [aarch64]
     openssl:
       variants: certs=system
