@@ -28,6 +28,8 @@
     all:
       compiler: [gcc@11.2.0]
       target: [aarch64]
+    openssl:
+      variants: certs=system
 
   specs:
   - patchelf
