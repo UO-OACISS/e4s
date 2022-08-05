@@ -72,7 +72,7 @@ RUN apt update -y \
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack /spack \
- && (cd /spack && git checkout 6cbcc94fc941e913878bd0f8eb29556f0b59e44f) \
+ && (cd /spack && git checkout 519a2d2b154263a14c8c24a9d7f12167bad7295e) \
  && . /spack/share/spack/setup-env.sh \
  && spack mirror add uo https://cache.e4s.io/uo-containers \
  && spack buildcache keys -it \
@@ -87,7 +87,7 @@ RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
 
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . /bootstrap/runner/install/linux-ubuntu20.04-x86_64/gcc-9.4.0/lmod-8.7.2-ri26z7qy6ixtgpsqinswx3w6tuggluv5/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
+ && echo . /bootstrap/runner/install/linux-ubuntu20.04-x86_64/gcc-9.4.0/lmod-8.7.2-hlrwtvjmsyluu6p5affwd7w54dw7sz45/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bash.bashrc
 

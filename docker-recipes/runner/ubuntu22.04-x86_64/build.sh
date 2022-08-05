@@ -6,4 +6,4 @@ BUILD_TAG=${BUILD_TAG:-${BUILD_DATE}}
 REGISTRY=${REGISTRY:-ecpe4s}
 OUTPUT_IMAGE="${REGISTRY}/ubuntu22.04-runner-x86_64:${BUILD_TAG}"
 
-docker build -t "${OUTPUT_IMAGE}" .
+docker build -t "${OUTPUT_IMAGE}"  .
