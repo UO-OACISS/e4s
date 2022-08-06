@@ -60,7 +60,7 @@ RUN python -m pip install --upgrade pip setuptools wheel \
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack /tmp/spack \
- && (cd /tmp/spack && git checkout 6cbcc94fc941e913878bd0f8eb29556f0b59e44f) \
+ && (cd /tmp/spack && git checkout 86be4666fcd5c036e90a335be68b0641a4b5cf3a) \
  && . /tmp/spack/share/spack/setup-env.sh \
  && spack mirror add uo https://cache.e4s.io/uo-containers \
  && spack buildcache keys -it \
@@ -75,7 +75,7 @@ RUN ln -s /usr/include/aarch64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/aarch64-linux-gnu/sys /usr/include/sys
 
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . /bootstrap/runner/install/linux-ubuntu22.04-aarch64/gcc-11.2.0/lmod-8.7.2-4q73kl35zsquwkxvfy72ppsofjmlcdhl/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
+ && echo . /bootstrap/runner/install/linux-ubuntu22.04-aarch64/gcc-11.2.0/lmod-8.7.2-fwv3wx5xk7d7deeihm5eazfogepen3nr/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bash.bashrc
 
