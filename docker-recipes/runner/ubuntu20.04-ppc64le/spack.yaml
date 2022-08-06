@@ -28,8 +28,6 @@ spack:
     all:
       compiler: [gcc@9.4.0]
       target: [ppc64le]
-    openssl:
-      variants: certs=system
 
   specs:
   - patchelf
