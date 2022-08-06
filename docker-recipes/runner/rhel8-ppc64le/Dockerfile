@@ -1,4 +1,4 @@
-FROM redhat/ubi8:8.4-203.1622660121 
+FROM redhat/ubi8:8.6-903
 
 RUN yum update -y \
  && yum install -y \
@@ -41,18 +41,18 @@ RUN python3 -m pip install --upgrade pip setuptools wheel \
 
 COPY /spack.yaml /
 
-RUN git clone https://github.com/spack/spack /spack \
- && (cd /spack && git checkout 6cbcc94fc941e913878bd0f8eb29556f0b59e44f) \
- && . /spack/share/spack/setup-env.sh \
+RUN git clone https://github.com/spack/spack /tmp/spack \
+ && (cd /tmp/spack && git checkout 75d1cb469f4a5853ef4554efec8170ec7caf3770) \
+ && . /tmp/spack/share/spack/setup-env.sh \
  && spack mirror add uo https://cache.e4s.io/uo-containers \
  && spack buildcache keys -it \
- && spack -e . install --fresh \
+ && spack -e . install \
  && spack mirror rm uo \
  && spack clean -a \
- && rm -rf /spack /spack.yaml /spack.lock /.spack-env
+ && rm -rf /tmp/spack /spack.yaml /spack.lock /.spack-env
 
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bashrc \
- && echo . /bootstrap/runner/install/linux-rhel8-ppc64le/gcc-8.5.0/lmod-8.7.2-zzmmcgxpatfso36euhokkrormoz4m5rq/lmod/8.7.2/init/bash >> /etc/bashrc \
+ && echo . /bootstrap/runner/install/linux-rhel8-ppc64le/gcc-8.5.0/lmod-8.7.2-3waz4lqkvigumj2wrg75y6rtdcmtyyhp/lmod/8.7.2/init/bash >> /etc/bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bashrc
 
