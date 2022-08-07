@@ -1,14 +1,15 @@
-FROM ecpe4s/ubuntu20.04-runner-x86_64:2022-07-01
+FROM ecpe4s/ubuntu20.04-runner-x86_64:2022-08-01
 
 COPY /spack.yaml /
 
-RUN git clone https://github.com/spack/spack --branch v0.18.0 /spack \
+RUN git clone https://github.com/spack/spack /spack \
+ && (cd spack && git checkout v0.18.1) \
  && rm -rf /spack/.git \
  && . /spack/share/spack/setup-env.sh \
  && spack mirror add uo https://cache.e4s.io/uo-containers \
  && spack buildcache keys -it \
- && spack -e . concretize --fresh -f | tee concretize.log \
- && spack -e . install --fresh --cache-only --include-build-deps \
+ && spack -e . concretize -f | tee concretize.log \
+ && spack -e . install --cache-only --include-build-deps \
  && spack -e . module lmod refresh --delete-tree -y \
  && spack mirror rm uo \
  && spack clean -a
