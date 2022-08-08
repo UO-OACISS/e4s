@@ -1,0 +1,50 @@
+spack:
+  view: false
+  
+  concretizer:
+    reuse: false
+    unify: when_possible
+
+  compilers:
+  - compiler:
+      spec: gcc@8.5.0
+      paths:
+        cc: /usr/bin/gcc
+        cxx: /usr/bin/g++
+        f77: /usr/bin/gfortran
+        fc: /usr/bin/gfortran
+      flags: {}
+      operating_system: rhel8
+      target: ppc64le
+      modules: []
+      environment: {}
+      extra_rpaths: []
+
+  modules:
+    default:
+      'enable:': [lmod]
+      lmod:
+        core_compilers: [gcc@8.5.0]
+        blacklist_implicits: true
+        verbose: true
+        hash_length: 0
+        whitelist: [mpich, cmake]
+        hierarchy: [mpi]
+        projections: {}
+        core_specs: []
+        all:
+          autoload: direct
+          environment:
+            set:
+              ${PACKAGE}_ROOT: ${PREFIX}
+
+  packages:
+    all:
+      compiler: [gcc@8.5.0]
+      target: [ppc64le]
+    openssl:
+      variants: certs=system
+
+  specs:
+  - cmake
+  - mpich ~wrapperrpath
