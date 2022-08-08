@@ -1,0 +1,34 @@
+ spack:
+  view: /bootstrap/runner/view
+  
+  config:
+    install_tree:
+      root: /bootstrap/runner/install
+
+  concretizer:
+    reuse: false
+    unify: false
+
+  compilers:
+  - compiler:
+      spec: gcc@8.5.0
+      paths:
+        cc: /usr/bin/gcc
+        cxx: /usr/bin/g++
+        f77: /usr/bin/gfortran
+        fc: /usr/bin/gfortran
+      flags: {}
+      operating_system: rhel8
+      target: aarch64
+      modules: []
+      environment: {}
+      extra_rpaths: [] 
+
+  packages:
+    all:
+      compiler: [gcc@8.5.0]
+      target: [aarch64]
+
+  specs:
+  - patchelf
+  - lmod
