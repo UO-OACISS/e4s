@@ -1,29 +1,52 @@
 spack:
   view: false
-  
+
   concretizer:
+    unify: false
     reuse: false
-    unify: when_possible
 
-  config:
-    concretizer: clingo
-
-  compilers:
-  - compiler:
-      spec: gcc@9.4.0
-      paths:
-        cc: /usr/bin/gcc
-        cxx: /usr/bin/g++
-        f77: /usr/bin/gfortran
-        fc: /usr/bin/gfortran
-      flags: {}
-      operating_system: ubuntu20.04
-      target: x86_64
-      modules: []
-      environment: {}
-      extra_rpaths: []
+  packages:
+    all:
+      compiler: [gcc@9.4.0]
+      providers:
+        blas: [openblas]
+        mpi: [mpich]
+      target: [x86_64]
+      variants: +mpi
+    binutils:
+      variants: +ld +gold +headers +libiberty ~nls
+    elfutils:
+      variants: +bzip2 ~nls +xz
+    hdf5:
+      variants: +fortran +hl +shared
+    libfabric:
+      variants: fabrics=sockets,tcp,udp,rxm
+    libunwind:
+      variants: +pic +xz
+    mpich:
+      variants: ~wrapperrpath
+    ncurses:
+      variants: +termlib
+    openblas:
+      variants: threads=openmp
+    python:
+      version: [3.8.13]
+    trilinos:
+      variants: +amesos +amesos2 +anasazi +aztec +belos +boost +epetra +epetraext
+        +ifpack +ifpack2 +intrepid +intrepid2 +isorropia +kokkos +ml +minitensor +muelu
+        +nox +piro +phalanx +rol +rythmos +sacado +stk +shards +shylu +stokhos +stratimikos
+        +teko +tempus +tpetra +trilinoscouplings +zoltan +zoltan2 +superlu-dist gotype=long_long
+    xz:
+      variants: +pic
+    mesa:
+      version: [21.3.8]
 
   modules:
+    prefix_inspections:
+      ./lib:
+      - LD_LIBRARY_PATH
+      ./lib64:
+      - LD_LIBRARY_PATH
     default:
       'enable:': [lmod]
       lmod:
@@ -31,7 +54,7 @@ spack:
         blacklist_implicits: true
         verbose: true
         hash_length: 0
-        whitelist: [mpich, cmake]
+        whitelist: [mpich]
         hierarchy: [mpi]
         projections: {}
         core_specs: []
@@ -40,17 +63,7 @@ spack:
           environment:
             set:
               ${PACKAGE}_ROOT: ${PREFIX}
-          suffixes:
-            +cuda: cuda
-            +openmp: openmp
-
-  packages:
-    all:
-      compiler: [gcc@9.4.0]
-      target: [x86_64]
-    openssl:
-      variants: certs=system
 
   specs:
-  - cmake
-  - mpich ~wrapperrpath
+  - cmake@3.23.3
+  - mpich@4.0.2 ~wrapperrpath
