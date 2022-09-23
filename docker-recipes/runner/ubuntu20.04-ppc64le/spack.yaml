@@ -32,3 +32,4 @@ spack:
   specs:
   - patchelf
   - lmod
+  - libtree
