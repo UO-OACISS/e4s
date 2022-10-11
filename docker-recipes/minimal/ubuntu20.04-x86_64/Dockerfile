@@ -1,4 +1,4 @@
-FROM ecpe4s/ubuntu20.04-runner-x86_64:2022-08-01
+FROM ecpe4s/ubuntu20.04-runner-x86_64:2022-10-01
 
 COPY /spack.yaml /
 
@@ -18,6 +18,9 @@ RUN echo . /spack/share/spack/setup-env.sh >> /etc/bash.bashrc \
  && echo module load cmake >> /etc/bash.bashrc \
  && echo module load mpich >> /etc/bash.bashrc
 
-COPY /entry.sh /
+RUN echo /installs/lib > /etc/ld.so.conf.d/01-ecp.conf \
+ && ldconfig
+
+ENV PATH=$PATH:/installs/bin
 
 RUN updatedb

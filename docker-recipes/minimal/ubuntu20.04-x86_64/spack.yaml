@@ -1,5 +1,5 @@
 spack:
-  view: false
+  view: /installs
 
   concretizer:
     unify: false
