@@ -76,10 +76,6 @@ RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18703/l_for
  && sh ./l_fortran-compiler_p_2022.1.0.134_offline.sh -a --silent --eula accept \
  && rm -f l_fortran-compiler_p_2022.1.0.134_offline.sh
 
-#RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18714/l_mpi_oneapi_p_2021.6.0.602_offline.sh \
-# && sh ./l_mpi_oneapi_p_2021.6.0.602_offline.sh -a --silent --eula accept \
-# && rm -f l_mpi_oneapi_p_2021.6.0.602_offline.sh
-
 RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18752/l_oneDPL_p_2021.7.0.631_offline.sh \
  && sh ./l_oneDPL_p_2021.7.0.631_offline.sh -a --silent --eula accept \
  && rm -f l_oneDPL_p_2021.7.0.631_offline.sh
