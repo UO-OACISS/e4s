@@ -76,7 +76,7 @@ RUN git clone https://github.com/spack/spack /spack \
  && . /spack/share/spack/setup-env.sh \
  && spack mirror add uo https://cache.e4s.io/uo-containers \
  && spack buildcache keys -it \
- && spack -e . install --fresh \
+ && spack -e . install \
  && spack mirror rm uo \
  && spack clean -a \
  && rm -rf /spack /spack.yaml /spack.lock /.spack-env
