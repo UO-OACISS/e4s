@@ -68,17 +68,17 @@ RUN git clone https://github.com/spack/spack /spack \
  && spack clean -a \
  && rm -rf /spack /spack.yaml /spack.lock /.spack-env
 
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18717/l_dpcpp-cpp-compiler_p_2022.1.0.137_offline.sh \
- && sh ./l_dpcpp-cpp-compiler_p_2022.1.0.137_offline.sh -a --silent --eula accept \
- && rm -f l_dpcpp-cpp-compiler_p_2022.1.0.137_offline.sh
+RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18849/l_dpcpp-cpp-compiler_p_2022.2.0.8772_offline.sh \
+ && sh ./l_dpcpp-cpp-compiler_p_2022.2.0.8772_offline.sh -a --silent --eula accept \
+ && rm -f l_dpcpp-cpp-compiler_p_2022.2.0.8772_offline.sh
 
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18703/l_fortran-compiler_p_2022.1.0.134_offline.sh \
- && sh ./l_fortran-compiler_p_2022.1.0.134_offline.sh -a --silent --eula accept \
- && rm -f l_fortran-compiler_p_2022.1.0.134_offline.sh
+RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18909/l_fortran-compiler_p_2022.2.0.8773_offline.sh \
+ && sh ./l_fortran-compiler_p_2022.2.0.8773_offline.sh -a --silent --eula accept \
+ && rm -f l_fortran-compiler_p_2022.2.0.8773_offline.sh
 
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18752/l_oneDPL_p_2021.7.0.631_offline.sh \
- && sh ./l_oneDPL_p_2021.7.0.631_offline.sh -a --silent --eula accept \
- && rm -f l_oneDPL_p_2021.7.0.631_offline.sh
+RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18846/l_oneDPL_p_2021.7.1.8713_offline.sh \
+ && sh ./l_oneDPL_p_2021.7.1.8713_offline.sh -a --silent --eula accept \
+ && rm -f l_oneDPL_p_2021.7.1.8713_offline.sh
 
 RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
