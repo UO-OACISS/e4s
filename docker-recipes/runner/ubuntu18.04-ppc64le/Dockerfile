@@ -89,17 +89,14 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack /tmp/spack \
- && (cd /tmp/spack && git checkout 75d1cb469f4a5853ef4554efec8170ec7caf3770) \
  && . /tmp/spack/share/spack/setup-env.sh \
- && spack mirror add uo https://cache.e4s.io/uo-containers \
- && spack buildcache keys -it \
  && spack -e . install \
- && spack mirror rm uo \
+ && spack gc -y \ 
  && spack clean -a \
  && rm -rf /tmp/spack /spack.yaml /spack.lock /.spack-env
 
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . /bootstrap/runner/install/linux-ubuntu18.04-ppc64le/gcc-7.5.0/lmod-8.7.2-2e46g6mjmc2t2nsoqxt3zfkav4grhhi4/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
+ && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bash.bashrc
 

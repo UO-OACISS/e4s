@@ -60,12 +60,9 @@ RUN python -m pip install --upgrade pip setuptools wheel \
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack /tmp/spack \
- && (cd /tmp/spack && git checkout 519a2d2b154263a14c8c24a9d7f12167bad7295e) \
  && . /tmp/spack/share/spack/setup-env.sh \
- && spack mirror add uo https://cache.e4s.io/uo-containers \
- && spack buildcache keys -it \
  && spack -e . install \
- && spack mirror rm uo \
+ && spack gc -y \ 
  && spack clean -a \
  && rm -rf /tmp/spack /spack.yaml /spack.lock /.spack-env
 
@@ -75,7 +72,7 @@ RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
 
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . /bootstrap/runner/install/linux-ubuntu22.04-x86_64/gcc-11.2.0/lmod-8.7.2-lw5536iyifbbjxhocvraxxpqoabkvtmw/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
+ && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bash.bashrc
 

@@ -73,17 +73,14 @@ RUN apt update -y \
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack /spack \
- && (cd /spack && git checkout 519a2d2b154263a14c8c24a9d7f12167bad7295e) \
  && . /spack/share/spack/setup-env.sh \
- && spack mirror add uo https://cache.e4s.io/uo-containers \
- && spack buildcache keys -it \
- && spack -e . install --fresh \
- && spack mirror rm uo \
+ && spack -e . install \
+ && spack gc -y \
  && spack clean -a \
  && rm -rf /spack /spack.yaml /spack.lock /.spack-env
 
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . /bootstrap/runner/install/linux-ubuntu18.04-x86_64/gcc-7.5.0/lmod-8.7.2-utpmwrlicldrqym7hff6egxbhh7vmc5e/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
+ && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bash.bashrc
 
