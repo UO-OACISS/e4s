@@ -62,7 +62,7 @@ COPY /spack.yaml /
 RUN git clone https://github.com/spack/spack /tmp/spack \
  && . /tmp/spack/share/spack/setup-env.sh \
  && spack -e . install \
- && spack gc -y \
+ && spack -e . gc -y \
  && spack clean -a \
  && rm -rf /tmp/spack /spack.yaml /spack.lock /.spack-env
 
