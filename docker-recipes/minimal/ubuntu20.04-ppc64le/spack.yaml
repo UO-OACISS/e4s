@@ -1,20 +1,28 @@
 spack:
   view: false
+
   concretizer:
-    unify: false
     reuse: false
+    unify: false
+
   packages:
     all:
+      require: "%gcc@9.4.0"
       compiler: [gcc@9.4.0]
       providers:
         blas: [openblas]
         mpi: [mpich]
       target: [ppc64le]
       variants: +mpi
-    cuda:
-      version: [11.0.3]
+    tbb:
+      require: intel-tbb
     binutils:
       variants: +ld +gold +headers +libiberty ~nls
+    cuda:
+      version: [11.2.2, 11.4.4]
+      externals:
+      - spec: cuda@11.2.2
+        prefix: /usr/local/cuda
     elfutils:
       variants: +bzip2 ~nls +xz
     hdf5:
@@ -23,14 +31,8 @@ spack:
       variants: fabrics=sockets,tcp,udp,rxm
     libunwind:
       variants: +pic +xz
-    mpich:
-      variants: ~wrapperrpath
-    ncurses:
-      variants: +termlib
     openblas:
       variants: threads=openmp
-    python:
-      version: [3.8.13]
     trilinos:
       variants: +amesos +amesos2 +anasazi +aztec +belos +boost +epetra +epetraext
         +ifpack +ifpack2 +intrepid +intrepid2 +isorropia +kokkos +ml +minitensor +muelu
@@ -40,28 +42,86 @@ spack:
       variants: +pic
     mesa:
       version: [21.3.8]
+    mpich:
+      require: '@4.0.2 ~wrapperrpath ~hwloc'
+    ncurses:
+      require: '@6.3 +termlib'
+    python:
+      require: '@3.7.15'
+    faodel:
+      require: "~tcmalloc"
+
   modules:
     prefix_inspections:
-      ./lib:
-      - LD_LIBRARY_PATH
-      ./lib64:
-      - LD_LIBRARY_PATH
+      lib: [LD_LIBRARY_PATH]
+      lib64: [LD_LIBRARY_PATH]
     default:
       'enable:': [lmod]
       lmod:
         core_compilers: [gcc@9.4.0]
-        blacklist_implicits: true
         verbose: true
         hash_length: 0
-        whitelist: [mpich, cmake]
         hierarchy: [mpi]
         projections: {}
         core_specs: []
+        exclude_implicits: true
+        include:
+        - adios2
+        - ascent
+        - autoconf
+        - automake
+        - cmake
+        - darshan-runtime
+        - darshan-util
+        - hdf5-vol-async
+        - mpich
+        - parallel-netcdf
+        - py-cinemasci
+        - sz
+        - unifyfs
+        - veloc
+        - vtk-m
+        - zfp
         all:
           autoload: direct
           environment:
             set:
               ${PACKAGE}_ROOT: ${PREFIX}
+          suffixes:
+            +cuda cuda_arch=70: cuda70
+            +cuda cuda_arch=80: cuda80
+            +openmp: openmp
+        cabana:
+          suffixes:
+            ^kokkos +cuda cuda_arch=70: cuda70
+            ^kokkos +cuda cuda_arch=80: cuda80
+        tau:
+          suffixes:
+            +cuda: cuda
+        hpctoolkit:
+          suffixes:
+            +cuda: cuda
+        bricks:
+          suffixes:
+            +cuda: cuda
+        flux-core:
+          suffixes:
+            +cuda: cuda
+        papi:
+          suffixes:
+            +cuda: cuda
+        mpich:
+          suffixes:
+            ^xz@5.2.6: xz5.2.6
+        sz:
+          suffixes:
+            ^zstd+programs: zstd-programs
+        py-warpx:
+          suffixes:
+            ^warpx dims=2: dims2
+            ^warpx dims=3: dims3
+            ^warpx dims=rz: dimsRZ
+
   specs:
-  - cmake@3.23.3
-  - mpich@4.0.2 ~wrapperrpath
+  - cmake
+  - mpich
