@@ -12,6 +12,7 @@ RUN git clone https://github.com/spack/spack /spack \
  && spack config --scope site add modules:prefix_inspections:lib:[LD_LIBRARY_PATH] \
  && spack -e . concretize -f | tee concretize.log \
  && spack -e . install --cache-only \
+ && spack -e . gc -y \
  && spack -e . module lmod refresh --delete-tree -y \
  && spack clean -a
 
