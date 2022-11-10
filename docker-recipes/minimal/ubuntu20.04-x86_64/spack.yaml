@@ -1,18 +1,20 @@
 spack:
-  view: /installs
+  view: /opt/bootstrap/view
 
   concretizer:
-    unify: false
     reuse: false
+    unify: false
 
   packages:
     all:
-      compiler: [gcc@9.4.0]
+      compiler: [gcc@11.1.0]
       providers:
         blas: [openblas]
         mpi: [mpich]
       target: [x86_64]
       variants: +mpi
+    tbb:
+      require: intel-tbb
     binutils:
       variants: +ld +gold +headers +libiberty ~nls
     elfutils:
@@ -23,14 +25,8 @@ spack:
       variants: fabrics=sockets,tcp,udp,rxm
     libunwind:
       variants: +pic +xz
-    mpich:
-      variants: ~wrapperrpath
-    ncurses:
-      variants: +termlib
     openblas:
       variants: threads=openmp
-    python:
-      version: [3.8.13]
     trilinos:
       variants: +amesos +amesos2 +anasazi +aztec +belos +boost +epetra +epetraext
         +ifpack +ifpack2 +intrepid +intrepid2 +isorropia +kokkos +ml +minitensor +muelu
@@ -40,30 +36,84 @@ spack:
       variants: +pic
     mesa:
       version: [21.3.8]
+    mpich:
+      require: '@4.0.2 ~wrapperrpath ~hwloc'
+    ncurses:
+      require: '@6.3 +termlib'
+    python:
+      require: '@3.7.15'
 
   modules:
     prefix_inspections:
-      ./lib:
-      - LD_LIBRARY_PATH
-      ./lib64:
-      - LD_LIBRARY_PATH
+      lib: [LD_LIBRARY_PATH]
+      lib64: [LD_LIBRARY_PATH]
     default:
       'enable:': [lmod]
       lmod:
-        core_compilers: [gcc@9.4.0]
-        blacklist_implicits: true
+        core_compilers: [gcc@11.1.0]
         verbose: true
         hash_length: 0
-        whitelist: [mpich]
         hierarchy: [mpi]
         projections: {}
         core_specs: []
+        exclude_implicits: true
+        include:
+        - adios2
+        - ascent
+        - autoconf
+        - automake
+        - cmake
+        - darshan-runtime
+        - darshan-util
+        - hdf5-vol-async
+        - mpich
+        - parallel-netcdf
+        - py-cinemasci
+        - sz
+        - unifyfs
+        - veloc
+        - vtk-m
+        - zfp
         all:
           autoload: direct
           environment:
             set:
               ${PACKAGE}_ROOT: ${PREFIX}
+          suffixes:
+            +cuda cuda_arch=70: cuda70
+            +cuda cuda_arch=80: cuda80
+            +openmp: openmp
+        cabana:
+          suffixes:
+            ^kokkos +cuda cuda_arch=70: cuda70
+            ^kokkos +cuda cuda_arch=80: cuda80
+        tau:
+          suffixes:
+            +cuda: cuda
+        hpctoolkit:
+          suffixes:
+            +cuda: cuda
+        bricks:
+          suffixes:
+            +cuda: cuda
+        flux-core:
+          suffixes:
+            +cuda: cuda
+        papi:
+          suffixes:
+            +cuda: cuda
+        mpich:
+          suffixes:
+            ^xz@5.2.6: xz5.2.6
+        adios2:
+          suffixes:
+            ~cuda+hdf5: hdf5
+        py-warpx:
+          suffixes:
+            ^warpx dims=2: dims2
+            ^warpx dims=3: dims3
+            ^warpx dims=rz: dimsRZ
 
   specs:
-  - cmake@3.23.3
-  - mpich@4.0.2 ~wrapperrpath
+  - cmake
+  - mpich
