@@ -2,7 +2,7 @@ FROM ecpe4s/ubuntu20.04-runner-x86_64:2022-11-01
 
 COPY /spack.yaml /
 
-RUN git clone --depth=1 https://github.com/spack/spack /spack \
+RUN git clone https://github.com/spack/spack /spack \
  && (cd spack && git checkout e4s-22.11) \
  && . /spack/share/spack/setup-env.sh \
  && spack mirror add E4S https://cache.e4s.io/22.11 \
