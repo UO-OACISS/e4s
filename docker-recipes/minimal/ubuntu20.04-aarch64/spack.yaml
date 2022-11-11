@@ -1,5 +1,5 @@
 spack:
-  view: false
+  view: /opt/bootstrap/view
 
   concretizer:
     reuse: false
