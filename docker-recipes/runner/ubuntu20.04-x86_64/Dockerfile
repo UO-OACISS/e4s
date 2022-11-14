@@ -83,6 +83,11 @@ RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
 
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+ && unzip awscliv2.zip \
+ && ./aws/install \
+ && rm -rf awscliv2.zip
+
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
  && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
  && mkdir -p /modules \
