@@ -53,8 +53,9 @@ RUN locale-gen en_US.UTF-8 \
  && rm -f /usr/bin/python \
  && ln -s `which python3` /usr/bin/python 
 
-RUN python3 -m pip install --upgrade pip setuptools wheel \
- && python3 -m pip install gnureadline boto3 pyyaml pytz minio requests clingo \
+RUN python -m pip install --upgrade pip setuptools wheel \
+ && python -m pip install gnureadline pyyaml pytz minio requests clingo \
+ && python -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
 RUN apt update -y \
@@ -65,10 +66,17 @@ RUN apt update -y \
     g++-11 \
     gfortran-11 \
  && rm -rf /etc/apt/trusted.gpg.d/ubuntu-toolchain-r_ubuntu_test.gpg \
- && rm -rf /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-bionic.list \
+ && rm -rf /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list \
  && apt remove -y software-properties-common \
  && apt autoremove -y \
- && apt clean -y
+ && apt clean -y \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
+ && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 30 \
+ && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-11 30 \
+ && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
+ && update-alternatives --set cc /usr/bin/gcc \
+ && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
+ && update-alternatives --set c++ /usr/bin/g++
 
 COPY /spack.yaml /
 
