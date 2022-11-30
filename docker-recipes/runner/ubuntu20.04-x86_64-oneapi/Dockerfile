@@ -59,34 +59,35 @@ RUN python -m pip install --upgrade pip setuptools wheel \
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack /spack \
- && (cd /spack && git checkout 6cbcc94fc941e913878bd0f8eb29556f0b59e44f) \
  && . /spack/share/spack/setup-env.sh \
- && spack mirror add uo https://cache.e4s.io/uo-containers \
- && spack buildcache keys -it \
- && spack -e . install --fresh \
- && spack mirror rm uo \
+ && spack -e . install \
  && spack clean -a \
  && rm -rf /spack /spack.yaml /spack.lock /.spack-env
 
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18849/l_dpcpp-cpp-compiler_p_2022.2.0.8772_offline.sh \
- && sh ./l_dpcpp-cpp-compiler_p_2022.2.0.8772_offline.sh -a --silent --eula accept \
- && rm -f l_dpcpp-cpp-compiler_p_2022.2.0.8772_offline.sh
+RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19049/l_dpcpp-cpp-compiler_p_2022.2.1.16991_offline.sh \
+ && sh ./l_dpcpp-cpp-compiler_p_2022.2.1.16991_offline.sh -a --silent --eula accept \
+ && rm -f l_dpcpp-cpp-compiler_p_2022.2.1.16991_offline.sh
 
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18909/l_fortran-compiler_p_2022.2.0.8773_offline.sh \
- && sh ./l_fortran-compiler_p_2022.2.0.8773_offline.sh -a --silent --eula accept \
- && rm -f l_fortran-compiler_p_2022.2.0.8773_offline.sh
+RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18998/l_fortran-compiler_p_2022.2.1.16992_offline.sh \
+ && sh ./l_fortran-compiler_p_2022.2.1.16992_offline.sh -a --silent --eula accept \
+ && rm -f l_fortran-compiler_p_2022.2.1.16992_offline.sh
 
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18846/l_oneDPL_p_2021.7.1.8713_offline.sh \
- && sh ./l_oneDPL_p_2021.7.1.8713_offline.sh -a --silent --eula accept \
- && rm -f l_oneDPL_p_2021.7.1.8713_offline.sh
+RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19046/l_oneDPL_p_2021.7.2.15007_offline.sh \
+ && sh ./l_oneDPL_p_2021.7.2.15007_offline.sh -a --silent --eula accept \
+ && rm -f l_oneDPL_p_2021.7.2.15007_offline.sh
 
 RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
  && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
 
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+ && unzip awscliv2.zip \
+ && ./aws/install \
+ && rm -rf awscliv2.zip
+
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . /bootstrap/runner/install/linux-ubuntu20.04-x86_64/gcc-9.4.0/lmod-8.7.2-ri26z7qy6ixtgpsqinswx3w6tuggluv5/lmod/8.7.2/init/bash >> /etc/bash.bashrc \
+ && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bash.bashrc
 
