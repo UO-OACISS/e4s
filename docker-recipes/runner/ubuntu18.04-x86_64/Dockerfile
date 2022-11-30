@@ -87,6 +87,11 @@ RUN git clone https://github.com/spack/spack /spack \
  && spack clean -a \
  && rm -rf /spack /spack.yaml /spack.lock /.spack-env
 
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+ && unzip awscliv2.zip \
+ && ./aws/install \
+ && rm -rf awscliv2.zip
+
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
  && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
  && mkdir -p /modules \
