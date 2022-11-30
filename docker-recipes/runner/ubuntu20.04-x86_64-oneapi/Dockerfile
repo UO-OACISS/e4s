@@ -56,6 +56,26 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
+RUN apt update -y \
+ && apt install -y software-properties-common \
+ && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+ && apt install -y \
+    gcc-11 \
+    g++-11 \
+    gfortran-11 \
+ && rm -rf /etc/apt/trusted.gpg.d/ubuntu-toolchain-r_ubuntu_test.gpg \
+ && rm -rf /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list \
+ && apt remove -y software-properties-common \
+ && apt autoremove -y \
+ && apt clean -y \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
+ && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 30 \
+ && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-11 30 \
+ && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
+ && update-alternatives --set cc /usr/bin/gcc \
+ && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
+ && update-alternatives --set c++ /usr/bin/g++
+
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack /spack \
