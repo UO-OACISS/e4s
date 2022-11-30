@@ -9,27 +9,12 @@
     reuse: false
     unify: false
 
-  compilers:
-  - compiler:
-      spec: gcc@8.5.0
-      paths:
-        cc: /usr/bin/gcc
-        cxx: /usr/bin/g++
-        f77: /usr/bin/gfortran
-        fc: /usr/bin/gfortran
-      flags: {}
-      operating_system: rhel8
-      target: ppc64le
-      modules: []
-      environment: {}
-      extra_rpaths: [] 
-
   packages:
     all:
-      compiler: [gcc@8.5.0]
+      compiler: [gcc]
       target: [ppc64le]
 
   specs:
-  - patchelf
-  - lmod
   - libtree
+  - lmod
+  - patchelf
