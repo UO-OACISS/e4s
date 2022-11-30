@@ -9,27 +9,12 @@
     reuse: false
     unify: false
 
-  compilers:
-  - compiler:
-      spec: gcc@11.2.0
-      paths:
-        cc: /usr/bin/gcc
-        cxx: /usr/bin/g++
-        f77: /usr/bin/gfortran
-        fc: /usr/bin/gfortran
-      flags: {}
-      operating_system: ubuntu22.04
-      target: aarch64
-      modules: []
-      environment: {}
-      extra_rpaths: [] 
-
   packages:
     all:
-      compiler: [gcc@11.2.0]
+      compiler: [gcc]
       target: [aarch64]
 
   specs:
-  - patchelf
-  - lmod
   - libtree
+  - lmod
+  - patchelf

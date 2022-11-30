@@ -61,7 +61,14 @@ RUN apt update -y \
  && rm -rf /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list \
  && apt remove -y software-properties-common \
  && apt autoremove -y \
- && apt clean -y
+ && apt clean -y \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
+ && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 30 \
+ && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-11 30 \
+ && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
+ && update-alternatives --set cc /usr/bin/gcc \
+ && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
+ && update-alternatives --set c++ /usr/bin/g++
 
 RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install gnureadline pyyaml pytz minio requests clingo \
@@ -81,6 +88,11 @@ RUN ln -s /usr/include/aarch64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/aarch64-linux-gnu/bits /usr/include/bits \
  && ln -s /usr/include/aarch64-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/aarch64-linux-gnu/sys /usr/include/sys
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" \
+ && unzip awscliv2.zip \
+ && ./aws/install \
+ && rm -rf awscliv2.zip
 
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
  && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
