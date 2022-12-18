@@ -84,17 +84,29 @@ RUN git clone https://github.com/spack/spack /spack \
  && spack clean -a \
  && rm -rf /spack /spack.yaml /spack.lock /.spack-env
 
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19049/l_dpcpp-cpp-compiler_p_2022.2.1.16991_offline.sh \
- && sh ./l_dpcpp-cpp-compiler_p_2022.2.1.16991_offline.sh -a --silent --eula accept \
- && rm -f l_dpcpp-cpp-compiler_p_2022.2.1.16991_offline.sh
+RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19123/l_dpcpp-cpp-compiler_p_2023.0.0.25393_offline.sh \
+ && sh ./l_dpcpp-cpp-compiler_p_2023.0.0.25393_offline.sh -a --silent --eula accept \
+ && rm -f l_dpcpp-cpp-compiler_p_2023.0.0.25393_offline.sh
 
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18998/l_fortran-compiler_p_2022.2.1.16992_offline.sh \
- && sh ./l_fortran-compiler_p_2022.2.1.16992_offline.sh -a --silent --eula accept \
- && rm -f l_fortran-compiler_p_2022.2.1.16992_offline.sh
+#RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19049/l_dpcpp-cpp-compiler_p_2022.2.1.16991_offline.sh \
+# && sh ./l_dpcpp-cpp-compiler_p_2022.2.1.16991_offline.sh -a --silent --eula accept \
+# && rm -f l_dpcpp-cpp-compiler_p_2022.2.1.16991_offline.sh
 
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19046/l_oneDPL_p_2021.7.2.15007_offline.sh \
- && sh ./l_oneDPL_p_2021.7.2.15007_offline.sh -a --silent --eula accept \
- && rm -f l_oneDPL_p_2021.7.2.15007_offline.sh
+RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19105/l_fortran-compiler_p_2023.0.0.25394_offline.sh \
+ && sh ./l_fortran-compiler_p_2023.0.0.25394_offline.sh -a --silent --eula accept \
+ && rm -f l_fortran-compiler_p_2023.0.0.25394_offline.sh
+
+#RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/18998/l_fortran-compiler_p_2022.2.1.16992_offline.sh \
+# && sh ./l_fortran-compiler_p_2022.2.1.16992_offline.sh -a --silent --eula accept \
+# && rm -f l_fortran-compiler_p_2022.2.1.16992_offline.sh
+
+RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19133/l_oneDPL_p_2022.0.0.25335_offline.sh \
+ && sh ./l_oneDPL_p_2022.0.0.25335_offline.sh -a --silent --eula accept \
+ && rm -f l_oneDPL_p_2022.0.0.25335_offline.sh
+
+#RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19046/l_oneDPL_p_2021.7.2.15007_offline.sh \
+# && sh ./l_oneDPL_p_2021.7.2.15007_offline.sh -a --silent --eula accept \
+# && rm -f l_oneDPL_p_2021.7.2.15007_offline.sh
 
 RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
@@ -114,6 +126,11 @@ RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
 RUN /opt/intel/oneapi/modulefiles-setup.sh \
  && echo module use /opt/intel/oneapi/modulefiles >> /etc/bash.bashrc \
  && echo module load compiler >> /etc/bash.bashrc
+
+RUN echo /bootstrap/runner/view/lib > /etc/ld.so.conf.d/spack-runner-bootstrap.conf \
+ && ldconfig
+
+ENV PATH=$PATH:/bootstrap/runner/view/bin
 
 CMD ["/bin/bash"]
 
