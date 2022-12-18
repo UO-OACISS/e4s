@@ -1,4 +1,4 @@
-FROM redhat/ubi8:8.6-903
+FROM redhat/ubi8:8.7-1037
 
 RUN yum update -y \
  && yum install -y \
@@ -52,6 +52,11 @@ RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bashrc \
  && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bashrc
+
+RUN echo /bootstrap/runner/view/lib > /etc/ld.so.conf.d/spack-runner-bootstrap.conf \
+ && ldconfig
+
+ENV PATH=$PATH:/bootstrap/runner/view/bin
 
 CMD ["/bin/bash"]
 
