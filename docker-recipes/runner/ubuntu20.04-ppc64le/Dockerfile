@@ -95,6 +95,11 @@ RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bash.bashrc
 
+RUN echo /bootstrap/runner/view/lib > /etc/ld.so.conf.d/spack-runner-bootstrap.conf \
+ && ldconfig
+
+ENV PATH=$PATH:/bootstrap/runner/view/bin
+
 CMD ["/bin/bash"]
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
