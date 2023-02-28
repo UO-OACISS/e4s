@@ -1,11 +1,11 @@
-FROM ecpe4s/ubuntu20.04-runner-x86_64:2022-11-01
+FROM ecpe4s/ubuntu20.04-runner-x86_64:2023-01-01
 
 COPY /spack.yaml /
 
 RUN git clone https://github.com/spack/spack /spack \
- && (cd spack && git checkout e4s-22.11) \
+ && (cd spack && git checkout e4s-23.02) \
  && . /spack/share/spack/setup-env.sh \
- && spack mirror add E4S https://cache.e4s.io/22.11 \
+ && spack mirror add E4S https://cache.e4s.io/23.02 \
  && spack buildcache keys -it \
  && spack config --scope site add modules:prefix_inspections:lib64:[LD_LIBRARY_PATH] \
  && spack config --scope site add modules:prefix_inspections:lib:[LD_LIBRARY_PATH] \
