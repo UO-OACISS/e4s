@@ -1,4 +1,4 @@
-FROM ecpe4s/ubuntu20.04-runner-aarch64:2023-03-01
+FROM ecpe4s/ubuntu20.04-runner-aarch64:2023-02-01
 
 COPY /spack.yaml /
 
