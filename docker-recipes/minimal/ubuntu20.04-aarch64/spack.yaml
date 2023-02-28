@@ -10,11 +10,9 @@ spack:
       compiler: [gcc@11.1.0]
       providers:
         blas: [openblas]
-        mpi: [mpich]
+        mpi: [mpich] 
       target: [aarch64]
       variants: +mpi
-    tbb:
-      require: intel-tbb
     binutils:
       variants: +ld +gold +headers +libiberty ~nls
     elfutils:
@@ -42,6 +40,25 @@ spack:
       require: '@6.3 +termlib'
     python:
       require: '@3.7.15'
+    tbb:
+      require: intel-tbb
+    cuda:
+      require: "@11.8.0"
+
+  compilers:
+  - compiler:
+      spec: gcc@11.1.0
+      paths:
+        cc: /usr/bin/gcc
+        cxx: /usr/bin/g++
+        f77: /usr/bin/gfortran
+        fc: /usr/bin/gfortran
+      flags: {}
+      operating_system: ubuntu20.04
+      target: aarch64
+      modules: []
+      environment: {}
+      extra_rpaths: []
 
   modules:
     prefix_inspections:
@@ -58,23 +75,10 @@ spack:
         core_specs: []
         exclude_implicits: true
         include:
-        - adios2
-        - ascent
         - autoconf
         - automake
         - cmake
-        - cusz
-        - darshan-runtime
-        - darshan-util
-        - hdf5-vol-async
         - mpich
-        - parallel-netcdf
-        - py-cinemasci
-        - sz
-        - unifyfs
-        - veloc
-        - vtk-m
-        - zfp
         all:
           autoload: direct
           environment:
@@ -82,13 +86,13 @@ spack:
               ${PACKAGE}_ROOT: ${PREFIX}
           suffixes:
             +cuda cuda_arch=70: cuda70
-            +cuda cuda_arch=70: cuda75
+            +cuda cuda_arch=75: cuda75
             +cuda cuda_arch=80: cuda80
             +openmp: openmp
         cabana:
           suffixes:
             ^kokkos +cuda cuda_arch=70: cuda70
-            ^kokkos +cuda cuda_arch=70: cuda75
+            ^kokkos +cuda cuda_arch=75: cuda75
             ^kokkos +cuda cuda_arch=80: cuda80
         tau:
           suffixes:
@@ -111,6 +115,9 @@ spack:
         adios2:
           suffixes:
             ~cuda+hdf5: hdf5
+        sz:
+          suffixes:
+            ^zstd+programs: zstd-programs
         py-warpx:
           suffixes:
             ^warpx dims=2: dims2
