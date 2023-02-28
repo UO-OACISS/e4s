@@ -15,6 +15,10 @@ RUN git clone https://github.com/spack/spack /spack \
  && spack -e . module lmod refresh --delete-tree -y \
  && spack clean -a
 
+RUN apt update -y \
+ && apt install -y valgrind \
+ && apt clean -y
+
 RUN echo . /spack/share/spack/setup-env.sh >> /etc/bash.bashrc \
  && echo module use /spack/share/spack/lmod/linux-ubuntu20.04-ppc64le/Core >> /etc/bash.bashrc \
  && echo module load cmake >> /etc/bash.bashrc \
