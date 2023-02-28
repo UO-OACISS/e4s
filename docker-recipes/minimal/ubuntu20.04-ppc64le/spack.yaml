@@ -1,5 +1,5 @@
 spack:
-  view: false
+  view: /opt/bootstrap/view
 
   concretizer:
     reuse: false
@@ -14,15 +14,8 @@ spack:
         mpi: [mpich]
       target: [ppc64le]
       variants: +mpi
-    tbb:
-      require: intel-tbb
     binutils:
       variants: +ld +gold +headers +libiberty ~nls
-    cuda:
-      version: [11.2.2, 11.4.4]
-      externals:
-      - spec: cuda@11.2.2
-        prefix: /usr/local/cuda
     elfutils:
       variants: +bzip2 ~nls +xz
     hdf5:
@@ -43,13 +36,32 @@ spack:
     mesa:
       version: [21.3.8]
     mpich:
-      require: '@4.0.2 ~wrapperrpath ~hwloc'
+      require: '@4.1 ~wrapperrpath ~hwloc'
     ncurses:
       require: '@6.3 +termlib'
     python:
       require: '@3.7.15'
     faodel:
       require: "~tcmalloc"
+    tbb:
+      require: intel-tbb
+    cuda:
+      require: "@11.4.4"
+
+  compilers:
+  - compiler:
+      spec: gcc@9.4.0
+      paths:
+        cc: /usr/bin/gcc
+        cxx: /usr/bin/g++
+        f77: /usr/bin/gfortran
+        fc: /usr/bin/gfortran
+      flags: {}
+      operating_system: ubuntu20.04
+      target: ppc64le
+      modules: []
+      environment: {}
+      extra_rpaths: []
 
   modules:
     prefix_inspections:
@@ -66,22 +78,10 @@ spack:
         core_specs: []
         exclude_implicits: true
         include:
-        - adios2
-        - ascent
         - autoconf
         - automake
         - cmake
-        - darshan-runtime
-        - darshan-util
-        - hdf5-vol-async
         - mpich
-        - parallel-netcdf
-        - py-cinemasci
-        - sz
-        - unifyfs
-        - veloc
-        - vtk-m
-        - zfp
         all:
           autoload: direct
           environment:
