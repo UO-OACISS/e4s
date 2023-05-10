@@ -53,6 +53,7 @@ RUN locale-gen en_US.UTF-8 \
 
 RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install gnureadline pyyaml pytz minio requests clingo \
+ && python -m pip install urllib3==1.26.15 \
  && python -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
