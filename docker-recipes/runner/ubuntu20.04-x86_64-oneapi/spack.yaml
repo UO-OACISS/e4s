@@ -1,20 +1,40 @@
- spack:
-  view: /bootstrap/runner/view
-  
+spack:
+  view: /opt/bootstrap/view
+
   config:
     install_tree:
-      root: /bootstrap/runner/install
+      root: /opt/bootstrap/install
 
   concretizer:
-    reuse: false
-    unify: false
+    reuse: true
+    unify: when_possible
 
   packages:
     all:
-      compiler: [gcc]
+      compiler: [gcc@9.4.0]
       target: [x86_64]
 
   specs:
   - libtree
-  - lmod
   - patchelf
+  - cmake
+  - gmake
+  - gnupg
+  - ninja
+  - ccache
+  - lmod ^lua@5.4.4
+
+  compilers:
+  - compiler:
+      spec: gcc@9.4.0
+      paths:
+        cc: /usr/bin/gcc-9
+        cxx: /usr/bin/g++-9
+        f77: /usr/bin/gfortran-9
+        fc: /usr/bin/gfortran-9
+      flags: {}
+      operating_system: ubuntu20.04
+      target: x86_64
+      modules: []
+      environment: {}
+      extra_rpaths: []
