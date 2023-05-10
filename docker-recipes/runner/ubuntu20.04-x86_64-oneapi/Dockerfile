@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM intel/oneapi-hpckit:2023.1.0-devel-ubuntu20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
@@ -56,6 +56,20 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
+COPY /spack.yaml /
+
+RUN  git clone https://github.com/spack/spack /tmp/spack \
+ && (cd /tmp/spack && git checkout 42ede698c26ccf9b1bae1daa2d9df68820191497) \
+ && . /tmp/spack/share/spack/setup-env.sh \
+ && spack -e . concretize -f | tee concretize.log \
+ && spack mirror add --scope site bootstrap https://cache.e4s.io/runner-bootstrap-2023.05.02/256 \
+ && spack buildcache keys -it \
+ && spack -e . install \
+ && spack -e . gc -y \
+ && spack clean -a \
+ && mv /spack.yaml /spack.lock /concretize.log /opt/bootstrap/ \
+ && rm -rf ~/.spack /.spack-env /tmp/spack
+
 RUN apt update -y \
  && apt install -y software-properties-common \
  && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
@@ -74,56 +88,22 @@ RUN apt update -y \
  && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
  && update-alternatives --set cc /usr/bin/gcc \
  && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
- && update-alternatives --set c++ /usr/bin/g++
-
-COPY /spack.yaml /
-
-RUN git clone https://github.com/spack/spack /spack \
- && . /spack/share/spack/setup-env.sh \
- && spack -e . install \
- && spack clean -a \
- && rm -rf /spack /spack.yaml /spack.lock /.spack-env
-
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19123/l_dpcpp-cpp-compiler_p_2023.0.0.25393_offline.sh \
- && sh ./l_dpcpp-cpp-compiler_p_2023.0.0.25393_offline.sh -a --silent --eula accept \
- && rm -f l_dpcpp-cpp-compiler_p_2023.0.0.25393_offline.sh
-
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19105/l_fortran-compiler_p_2023.0.0.25394_offline.sh \
- && sh ./l_fortran-compiler_p_2023.0.0.25394_offline.sh -a --silent --eula accept \
- && rm -f l_fortran-compiler_p_2023.0.0.25394_offline.sh
-
-RUN wget https://registrationcenter-download.intel.com/akdlm/irc_nas/19133/l_oneDPL_p_2022.0.0.25335_offline.sh \
- && sh ./l_oneDPL_p_2022.0.0.25335_offline.sh -a --silent --eula accept \
- && rm -f l_oneDPL_p_2022.0.0.25335_offline.sh
-
-RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
- && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
- && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
- && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
+ && update-alternatives --set c++ /usr/bin/g++ 
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
  && unzip awscliv2.zip \
  && ./aws/install \
  && rm -rf awscliv2.zip
 
-RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
+RUN echo export PATH=/opt/bootstrap/view/bin:'${PATH}' >> /etc/bash.bashrc \
+ && echo . $(find /opt/bootstrap -type f -name bash) >> /etc/bash.bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bash.bashrc
 
-RUN /opt/intel/oneapi/modulefiles-setup.sh \
- && echo module use /opt/intel/oneapi/modulefiles >> /etc/bash.bashrc \
- && echo module load compiler >> /etc/bash.bashrc
-
-RUN echo /bootstrap/runner/view/lib > /etc/ld.so.conf.d/spack-runner-bootstrap.conf \
- && ldconfig
-
-ENV PATH=$PATH:/bootstrap/runner/view/bin
+ENV PATH=/opt/bootstrap/view/bin:$PATH
 
 CMD ["/bin/bash"]
 
-ENV NVIDIA_VISIBLE_DEVICES=all \
-    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
-    LANGUAGE=en_US:en \
+ENV LANGUAGE=en_US:en \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
