@@ -35,8 +35,10 @@ spack:
       variants: +pic
     mesa:
       version: [21.3.8]
+    mpi:
+      require: mpich
     mpich:
-      require: '@4.1 ~wrapperrpath ~hwloc'
+      require: '@4.1.1 ~wrapperrpath ~hwloc'
     ncurses:
       require: '@6.3 +termlib'
     python:
@@ -45,6 +47,10 @@ spack:
       require: "~tcmalloc"
     tbb:
       require: intel-tbb
+    libffi:
+      require: "@3.4.4"
+    vtk-m:
+      require: "+examples"
     cuda:
       require: "@11.4.4"
 
@@ -70,31 +76,28 @@ spack:
     default:
       'enable:': [lmod]
       lmod:
-        core_compilers: [gcc@9.4.0]
+        core_compilers: [gcc@=9.4.0]
         verbose: true
-        hash_length: 0
+        hash_length: 5
         hierarchy: [mpi]
-        projections: {}
-        core_specs: []
-        exclude_implicits: true
-        include:
-        - autoconf
-        - automake
-        - cmake
-        - mpich
+        exclude_implicits: false
         all:
           autoload: direct
           environment:
             set:
-              ${PACKAGE}_ROOT: ${PREFIX}
+              '{name}_ROOT': '{PREFIX}'
           suffixes:
             +cuda cuda_arch=70: cuda70
+            +cuda cuda_arch=75: cuda75
             +cuda cuda_arch=80: cuda80
+            +cuda cuda_arch=90: cuda90
             +openmp: openmp
         cabana:
           suffixes:
             ^kokkos +cuda cuda_arch=70: cuda70
+            ^kokkos +cuda cuda_arch=75: cuda75
             ^kokkos +cuda cuda_arch=80: cuda80
+            ^kokkos +cuda cuda_arch=90: cuda90
         tau:
           suffixes:
             +cuda: cuda
@@ -110,12 +113,6 @@ spack:
         papi:
           suffixes:
             +cuda: cuda
-        mpich:
-          suffixes:
-            ^xz@5.2.6: xz5.2.6
-        sz:
-          suffixes:
-            ^zstd+programs: zstd-programs
         py-warpx:
           suffixes:
             ^warpx dims=2: dims2

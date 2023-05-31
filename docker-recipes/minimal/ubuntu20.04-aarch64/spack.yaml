@@ -7,10 +7,10 @@ spack:
 
   packages:
     all:
-      compiler: [gcc@11.1.0]
+      require: '%gcc@11.1.0'
       providers:
         blas: [openblas]
-        mpi: [mpich] 
+        mpi: [mpich]
       target: [aarch64]
       variants: +mpi
     binutils:
@@ -35,13 +35,25 @@ spack:
     mesa:
       version: [21.3.8]
     mpich:
-      require: '@4.0.2 ~wrapperrpath ~hwloc'
+      require: '@4.1.1 ~wrapperrpath ~hwloc'
     ncurses:
       require: '@6.3 +termlib'
     python:
       require: '@3.7.15'
     tbb:
       require: intel-tbb
+    boost:
+      version: [1.79.0]
+      variants: +atomic +chrono +container +date_time +exception +filesystem +graph
+        +iostreams +locale +log +math +mpi +multithreaded +program_options +random
+        +regex +serialization +shared +signals +stacktrace +system +test +thread +timer
+        cxxstd=17 visibility=global
+    libffi:
+      require: "@3.4.4"
+    vtk-m:
+      require: "+examples"
+
+    # EXTERNALS
     cuda:
       require: "@11.8.0"
 
@@ -67,33 +79,28 @@ spack:
     default:
       'enable:': [lmod]
       lmod:
-        core_compilers: [gcc@11.1.0]
+        core_compilers: [gcc@=11.1.0]
         verbose: true
-        hash_length: 0
+        hash_length: 5
         hierarchy: [mpi]
-        projections: {}
-        core_specs: []
-        exclude_implicits: true
-        include:
-        - autoconf
-        - automake
-        - cmake
-        - mpich
+        exclude_implicits: false
         all:
           autoload: direct
           environment:
             set:
-              ${PACKAGE}_ROOT: ${PREFIX}
+              '{name}_ROOT': '{PREFIX}'
           suffixes:
             +cuda cuda_arch=70: cuda70
             +cuda cuda_arch=75: cuda75
             +cuda cuda_arch=80: cuda80
+            +cuda cuda_arch=90: cuda90
             +openmp: openmp
         cabana:
           suffixes:
             ^kokkos +cuda cuda_arch=70: cuda70
             ^kokkos +cuda cuda_arch=75: cuda75
             ^kokkos +cuda cuda_arch=80: cuda80
+            ^kokkos +cuda cuda_arch=90: cuda90
         tau:
           suffixes:
             +cuda: cuda
@@ -109,15 +116,6 @@ spack:
         papi:
           suffixes:
             +cuda: cuda
-        mpich:
-          suffixes:
-            ^xz@5.2.6: xz5.2.6
-        adios2:
-          suffixes:
-            ~cuda+hdf5: hdf5
-        sz:
-          suffixes:
-            ^zstd+programs: zstd-programs
         py-warpx:
           suffixes:
             ^warpx dims=2: dims2
