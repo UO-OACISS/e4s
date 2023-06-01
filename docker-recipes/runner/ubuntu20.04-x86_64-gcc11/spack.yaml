@@ -24,6 +24,7 @@ spack:
   - ninja
   - ccache
   - lmod ^lua@5.4.4
+
   compilers:
   - compiler:
       spec: gcc@9.4.0

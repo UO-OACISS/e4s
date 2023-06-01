@@ -57,7 +57,6 @@ RUN python -m pip install --upgrade pip setuptools wheel \
 
 COPY /spack.yaml /
 
-#RUN --mount=type=bind,source=/ubuntu20.04-compilers/build_cache,target=/build_cache \
 RUN  git clone https://github.com/spack/spack /tmp/spack \
  && (cd /tmp/spack && git checkout 42ede698c26ccf9b1bae1daa2d9df68820191497) \
  && . /tmp/spack/share/spack/setup-env.sh \
@@ -91,7 +90,6 @@ RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
   && rm -rf awscliv2.zip
 
 RUN echo export PATH=/opt/bootstrap/view/bin:'${PATH}' >> /etc/bash.bashrc
-
 ENV PATH=/opt/bootstrap/view/bin:$PATH
 
 CMD ["/bin/bash"]
