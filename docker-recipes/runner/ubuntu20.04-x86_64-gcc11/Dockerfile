@@ -22,7 +22,6 @@ RUN apt update -y \
   gettext \
   gfortran \
   git \
-  gpg \
   iputils-ping \
   jq \
   libffi-dev \
@@ -63,8 +62,11 @@ RUN  git clone https://github.com/spack/spack /tmp/spack \
  && spack -e . concretize -f | tee concretize.log \
  && spack mirror add --scope site bootstrap https://cache.e4s.io/runner-bootstrap-2023.05.02/256 \
  && spack buildcache keys -it \
- && spack -e . install \
+ && spack -e . env depfile -o Makefile \
+ && export SPACK_INSTALL_FLAGS=--cache-only \
+ && make -j32 -k || make -j32 \
  && spack -e . gc -y \
+ && spack -e . concretize -f | tee concretize.log \
  && spack clean -a \
  && mv /spack.yaml /spack.lock /concretize.log /opt/bootstrap/ \
  && rm -rf ~/.spack /.spack-env /tmp/spack
