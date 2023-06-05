@@ -86,7 +86,7 @@ RUN export _SPACK=/tmp/spack \
  && spack buildcache keys -it \
  && spack -e . env depfile -o Makefile \
  && export SPACK_INSTALL_FLAGS=--cache-only \
- && make -j12 -k || make -j12
+ && make -j12 -k || make -j12 \
  && spack -e . gc -y \
  && spack clean -a \
  && rm -rf $_SPACK /spack.yaml /spack.lock /.spack-env /Makefile ~/.spack
