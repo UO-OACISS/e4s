@@ -84,6 +84,7 @@ RUN export _SPACK=/tmp/spack \
  && (cd $_SPACK && git checkout 19dac780e880acd35859b07150bf6bbf069e8c17) \
  && . $_SPACK/share/spack/setup-env.sh \
  && spack -e . env depfile -o Makefile \
+ && export SPACK_INSTALL_FLAGS=--cache-only \
  && make -j12 -k || make -j12
  && spack -e . gc -y \
  && spack clean -a \
