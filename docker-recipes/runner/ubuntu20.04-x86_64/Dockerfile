@@ -83,12 +83,14 @@ RUN export _SPACK=/tmp/spack \
  && git clone https://github.com/spack/spack $_SPACK \
  && (cd $_SPACK && git checkout 19dac780e880acd35859b07150bf6bbf069e8c17) \
  && . $_SPACK/share/spack/setup-env.sh \
+ && spack mirror add bootstrap https://cache.e4s.io/runner-bootstrap/2023.06.01 \
+ && spack buildcache keys -it \
  && spack -e . env depfile -o Makefile \
  && export SPACK_INSTALL_FLAGS=--cache-only \
  && make -j12 -k || make -j12
  && spack -e . gc -y \
  && spack clean -a \
- && rm -rf $_SPACK /spack.yaml /spack.lock /.spack-env /Makefile
+ && rm -rf $_SPACK /spack.yaml /spack.lock /.spack-env /Makefile ~/.spack
 
 RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
