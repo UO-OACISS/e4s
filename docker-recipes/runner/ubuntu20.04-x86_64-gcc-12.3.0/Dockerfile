@@ -57,7 +57,7 @@ RUN python -m pip install --upgrade pip setuptools wheel \
 COPY /spack.yaml /
 
 #RUN  git clone https://github.com/spack/spack /tmp/spack \
-# && (cd /tmp/spack && git checkout 42ede698c26ccf9b1bae1daa2d9df68820191497) \
+# && (cd /tmp/spack && git checkout 2aa35fef3ebe5e7511d4df11a5720718814298be) \
 # && . /tmp/spack/share/spack/setup-env.sh \
 # && spack -e . concretize -f | tee concretize.log \
 # && spack mirror add --scope site bootstrap https://cache.e4s.io/runner-bootstrap-2023.05.02/256 \
