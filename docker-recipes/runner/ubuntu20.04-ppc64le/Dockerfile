@@ -96,8 +96,8 @@ RUN ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
 
 RUN curl https://dl.min.io/client/mc/release/linux-ppc64le/mc \
   --create-dirs -o /usr/local/bin/mc \
-  chmod +x /usr/local/bin/mc \
-  mc config host ls
+  && chmod +x /usr/local/bin/mc \
+  && mc config host ls
 
 RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
  && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
