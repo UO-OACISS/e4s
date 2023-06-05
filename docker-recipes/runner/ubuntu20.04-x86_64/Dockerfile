@@ -102,6 +102,8 @@ RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
 
 ENV PATH=$PATH:/bootstrap/runner/view/bin
 
+RUN updatedb
+
 CMD ["/bin/bash"]
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
