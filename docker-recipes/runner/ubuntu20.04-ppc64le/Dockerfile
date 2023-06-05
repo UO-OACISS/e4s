@@ -77,27 +77,36 @@ RUN apt update -y \
  && update-alternatives --set c++ /usr/bin/g++
 
 COPY /spack.yaml /
+COPY /spack.lock /
 
-# RUN git clone https://github.com/spack/spack /tmp/spack \
-#  && . /tmp/spack/share/spack/setup-env.sh \
-#  && spack -e . install \
-#  && spack -e . gc -y \
-#  && spack clean -a \
-#  && rm -rf /tmp/spack /spack.yaml /spack.lock /.spack-env
+RUN export _SPACK=/tmp/spack \
+ && git clone https://github.com/spack/spack $_SPACK \
+ && (cd $_SPACK && git checkout 19dac780e880acd35859b07150bf6bbf069e8c17) \
+ && . $_SPACK/share/spack/setup-env.sh \
+ && spack -e . env depfile -o Makefile \
+ && make -j12 -k || make -j12
+ && spack -e . gc -y \
+ && spack clean -a \
+ && rm -rf $_SPACK /spack.yaml /spack.lock /.spack-env /Makefile
 
-# RUN ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
-#  && ln -s /usr/include/powerpc64le-linux-gnu/bits /usr/include/bits \
-#  && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
-#  && ln -s /usr/include/powerpc64le-linux-gnu/sys /usr/include/sys
+RUN ln -s /usr/include/powerpc64le-linux-gnu/asm /usr/include/asm \
+ && ln -s /usr/include/powerpc64le-linux-gnu/bits /usr/include/bits \
+ && ln -s /usr/include/powerpc64le-linux-gnu/gnu /usr/include/gnu \
+ && ln -s /usr/include/powerpc64le-linux-gnu/sys /usr/include/sys
 
-# RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
-#  && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
-#  && mkdir -p /modules \
-#  && echo module use /modules >> /etc/bash.bashrc
+RUN curl https://dl.min.io/client/mc/release/linux-ppc64le/mc \
+  --create-dirs -o /usr/local/bin/mc \
+  chmod +x /usr/local/bin/mc \
+  mc config host ls
 
-# ENV PATH=$PATH:/bootstrap/runner/view/bin
+RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
+ && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
+ && mkdir -p /modules \
+ && echo module use /modules >> /etc/bash.bashrc
 
-# RUN updatedb
+ENV PATH=$PATH:/bootstrap/runner/view/bin
+
+RUN updatedb
 
 CMD ["/bin/bash"]
 

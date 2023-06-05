@@ -77,13 +77,17 @@ RUN apt update -y \
  && update-alternatives --set c++ /usr/bin/g++
 
 COPY /spack.yaml /
+COPY /spack.lock /
 
-RUN git clone https://github.com/spack/spack /spack \ 
- && . /spack/share/spack/setup-env.sh \
- && spack -e . install \
+RUN export _SPACK=/tmp/spack \
+ && git clone https://github.com/spack/spack $_SPACK \
+ && (cd $_SPACK && git checkout 19dac780e880acd35859b07150bf6bbf069e8c17) \
+ && . $_SPACK/share/spack/setup-env.sh \
+ && spack -e . env depfile -o Makefile \
+ && make -j12 -k || make -j12
  && spack -e . gc -y \
  && spack clean -a \
- && rm -rf /spack /spack.yaml /spack.lock /.spack-env
+ && rm -rf $_SPACK /spack.yaml /spack.lock /.spack-env /Makefile
 
 RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
