@@ -55,21 +55,24 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && rm -rf ~/.cache
 
 COPY /spack.yaml /
+COPY /spack.lock /
 
-RUN  git clone https://github.com/spack/spack /tmp/spack \
- && (cd /tmp/spack && git checkout 42ede698c26ccf9b1bae1daa2d9df68820191497) \
- && . /tmp/spack/share/spack/setup-env.sh \
- && spack -e . concretize -f | tee concretize.log \
- && spack mirror add --scope site bootstrap https://cache.e4s.io/runner-bootstrap-2023.05.02/256 \
+RUN export _SPACK=/tmp/spack \
+ && git clone https://github.com/spack/spack $_SPACK \
+ && (cd $_SPACK && git checkout 19dac780e880acd35859b07150bf6bbf069e8c17) \
+ && . $_SPACK/share/spack/setup-env.sh \
+ && spack mirror add bootstrap https://cache.e4s.io/runner-bootstrap/2023.06.01 \
  && spack buildcache keys -it \
  && spack -e . env depfile -o Makefile \
  && export SPACK_INSTALL_FLAGS=--cache-only \
- && make -j32 -k || make -j32 \
+ && make -j12 -k || make -j12 \
  && spack -e . gc -y \
- && spack -e . concretize -f | tee concretize.log \
  && spack clean -a \
- && mv /spack.yaml /spack.lock /concretize.log /opt/bootstrap/ \
- && rm -rf ~/.spack /.spack-env /tmp/spack
+ && rm -rf $_SPACK /spack.yaml /spack.lock /.spack-env /Makefile ~/.spack
+
+RUN apt remove -y gpg \
+ && apt autoremove -y --purge \
+ && apt clean
 
 RUN update-alternatives --install /usr/bin/gcc gcc /opt/bootstrap/view/bin/gcc 30 \
  && update-alternatives --install /usr/bin/g++ g++ /opt/bootstrap/view/bin/g++ 30 \
@@ -93,6 +96,8 @@ RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
 
 RUN echo export PATH=/opt/bootstrap/view/bin:'${PATH}' >> /etc/bash.bashrc
 ENV PATH=/opt/bootstrap/view/bin:$PATH
+
+RUN updatedb
 
 CMD ["/bin/bash"]
 

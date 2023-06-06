@@ -70,6 +70,10 @@ COPY /spack.lock /
   && spack clean -a \
   && rm -rf $_SPACK /spack.yaml /spack.lock /.spack-env /Makefile ~/.spack
 
+RUN apt remove -y gpg \
+ && apt autoremove -y --purge \
+ && apt clean
+
 RUN update-alternatives --install /usr/bin/gcc gcc /opt/bootstrap/view/bin/gcc 30 \
  && update-alternatives --install /usr/bin/g++ g++ /opt/bootstrap/view/bin/g++ 30 \
  && update-alternatives --install /usr/bin/gfortran gfortran /opt/bootstrap/view/bin/gfortran 30 \
@@ -89,10 +93,6 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv
  && unzip awscliv2.zip \
  && ./aws/install \
  && rm -rf awscliv2.zip
-
-RUN apt remove -y gpg \
- && apt autoremove -y --purge \
- && apt clean
 
 RUN echo export PATH=/opt/bootstrap/view/bin:'${PATH}' >> /etc/bash.bashrc
 ENV PATH=/opt/bootstrap/view/bin:$PATH

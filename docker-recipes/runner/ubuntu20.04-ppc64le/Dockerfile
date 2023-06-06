@@ -67,8 +67,9 @@ RUN apt update -y \
  && rm -rf /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list \
  && apt remove -y software-properties-common \
  && apt autoremove -y \
- && apt clean -y \
- && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
+ && apt clean -y
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
  && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 30 \
  && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-11 30 \
  && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
