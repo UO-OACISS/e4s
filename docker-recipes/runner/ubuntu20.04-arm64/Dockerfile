@@ -91,6 +91,10 @@ RUN export _SPACK=/tmp/spack \
  && spack clean -a \
  && rm -rf $_SPACK /spack.yaml /spack.lock /.spack-env /Makefile ~/.spack
 
+RUN apt remove -y gpg \
+ && apt autoremove -y --purge \
+ && apt clean
+
 RUN ln -s /usr/include/aarch64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/aarch64-linux-gnu/bits /usr/include/bits \
  && ln -s /usr/include/aarch64-linux-gnu/gnu /usr/include/gnu \
