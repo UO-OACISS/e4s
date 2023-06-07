@@ -107,8 +107,8 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
  && ./aws/install \
  && rm -rf awscliv2.zip
 
-RUN echo export PATH=/bootstrap/runner/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . $(find /bootstrap/runner -type f -name bash) >> /etc/bash.bashrc \
+RUN echo export PATH=/opt/bootstrap/view/bin:'${PATH}' >> /etc/bash.bashrc \
+ && echo . $(find /opt/bootstrap -type f -name bash) >> /etc/bash.bashrc \
  && mkdir -p /modules \
  && echo module use /modules >> /etc/bash.bashrc
 
