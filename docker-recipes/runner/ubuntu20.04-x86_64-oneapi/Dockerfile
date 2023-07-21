@@ -1,4 +1,4 @@
-FROM intel/oneapi-hpckit:2023.1.0-devel-ubuntu20.04
+FROM intel/oneapi-hpckit:2023.2-devel-ubuntu20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
