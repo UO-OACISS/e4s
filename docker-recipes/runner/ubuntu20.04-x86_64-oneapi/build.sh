@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BUILD_DATE=$(printf '%(%Y-%m-%d)T' -1)
+BUILD_DATE=$(printf '%(%Y.%m.%d)T' -1)
 BUILD_TAG=${BUILD_TAG:-${BUILD_DATE}}
 
 REGISTRY=${REGISTRY:-ecpe4s}
