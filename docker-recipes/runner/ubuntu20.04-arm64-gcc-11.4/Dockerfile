@@ -77,7 +77,7 @@ RUN export S=/tmp/spack \
 && export SPACK_INSTALL_FLAGS=--cache-only \
 && make -j8 -k || make -j8 -k || make -j8 \
 && spack -e . gc -y \
-&& spack clean -a \
+&& spack clean -a
 
 RUN apt update -y \
  && apt install -y software-properties-common \
