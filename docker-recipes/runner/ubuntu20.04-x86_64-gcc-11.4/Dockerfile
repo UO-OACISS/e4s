@@ -77,7 +77,7 @@ RUN export S=/tmp/spack \
 && make -j8 -k || make -j8 -k || make -j8 \
 && spack -e . gc -y \
 && spack clean -a \
-&& rm -rf $S /spack.{yaml,lock} /concretize.log /.spack-env /Makefile ~/.spack
+&& rm -rf $S /spack.yaml /spack.lock /concretize.log /.spack-env /Makefile ~/.spack
 
 RUN apt update -y \
  && apt install -y software-properties-common \
