@@ -65,19 +65,22 @@ RUN envsubst < spack.yaml.pre > spack.yaml \
 FROM base as complete
 
 RUN export S=/tmp/spack \
-&& git clone https://github.com/spack/spack $S \
-&& (cd $S && git checkout b8590fbd057621c9b71c5b274b21e1802d52bc45) \
-&& . $S/share/spack/setup-env.sh \
-&& spack mirror add bootstrap https://cache.e4s.io/spack-bootstrap \
-&& spack buildcache keys -it \
-&& spack config add "config:db_lock_timeout:120" \
-&& spack config add "config:connect_timeout:60" \
-&& spack -e . concretize -f | tee concretize.log \
-&& spack -e . env depfile -o Makefile \
-&& export SPACK_INSTALL_FLAGS=--cache-only \
-&& make -j8 -k || make -j8 -k || make -j8 \
-&& spack -e . gc -y \
-&& spack clean -a
+ && git clone https://github.com/spack/spack $S \
+ && (cd $S && git checkout b8590fbd057621c9b71c5b274b21e1802d52bc45) \
+ && . $S/share/spack/setup-env.sh \
+ && export SPACK_DISABLE_LOCAL_CONFIG=1 \
+ && spack config add 'config:build_stage:$spack/build_stage' \
+ && spack config add "config:db_lock_timeout:120" \
+ && spack config add "config:connect_timeout:60" \
+ && spack mirror add bootstrap https://cache.e4s.io/spack-bootstrap \
+ && spack buildcache keys -it \
+ && spack -e . concretize -f | tee concretize.log \
+ && spack -e . env depfile -o Makefile \
+ && export SPACK_INSTALL_FLAGS=--cache-only \
+ && make -j8 -k || make -j8 -k || make -j8 \
+ && spack -e . gc -y \
+ && spack clean -a \
+ && rm -rf $S spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
 
 RUN apt update -y \
  && apt install -y software-properties-common \
