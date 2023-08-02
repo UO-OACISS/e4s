@@ -1,28 +1,28 @@
 spack:
-  view: /opt/bootstrap/view
+  view: $BOOTSTRAP_DIR/view
 
   config:
     install_tree:
-      root: /opt/bootstrap/install
+      root: $BOOTSTRAP_DIR/install
 
   concretizer:
-    reuse: true
+    reuse: false
     unify: when_possible
 
   packages:
     all:
       compiler: [gcc]
-      target: [aarch64]
+      target: [x86_64]
 
   specs:
-  - libtree
-  - patchelf
+  - ccache
   - cmake
   - gmake
   - gnupg
+  - libtree
+  - lmod
   - ninja
-  - ccache
-  - lmod ^lua@5.4.4
+  - patchelf
 
   compilers:
   - compiler:
@@ -34,7 +34,7 @@ spack:
         fc: /usr/bin/gfortran-9
       flags: {}
       operating_system: ubuntu20.04
-      target: aarch64
+      target: x86_64
       modules: []
       environment: {}
       extra_rpaths: []
