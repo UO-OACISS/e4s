@@ -6,6 +6,6 @@ BUILD_REPO=$(git config --get remote.origin.url)
 BUILD_REPO_REF=$(git log -1 --format="%H")
 
 REGISTRY=${REGISTRY:-ecpe4s}
-OUTPUT_IMAGE="${REGISTRY}/ubuntu20.04-runner-aarch64-gcc-11.1:${BUILD_TAG}"
+OUTPUT_IMAGE="${REGISTRY}/ubuntu20.04-runner-aarch64-gcc-11.4:${BUILD_TAG}"
 
 docker build -t "${OUTPUT_IMAGE}" .
