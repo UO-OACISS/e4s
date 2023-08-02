@@ -12,7 +12,7 @@ spack:
   packages:
     all:
       compiler: [gcc]
-      target: [x86_64]
+      target: [aarch64]
 
   specs:
   - ccache
@@ -34,7 +34,7 @@ spack:
         fc: /usr/bin/gfortran-9
       flags: {}
       operating_system: ubuntu20.04
-      target: x86_64
+      target: aarch64
       modules: []
       environment: {}
       extra_rpaths: []
