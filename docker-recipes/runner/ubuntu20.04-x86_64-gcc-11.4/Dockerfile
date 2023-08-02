@@ -22,6 +22,7 @@ RUN apt update -y \
   gettext \
   gfortran \
   git \
+  gpg \
   iputils-ping \
   jq \
   libffi-dev \
@@ -32,6 +33,7 @@ RUN apt update -y \
   locate \
   m4 \
   make \
+  mercurial \
   ncurses-dev \
   patch \
   pciutils \
@@ -54,48 +56,72 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
-COPY /spack.yaml /
-COPY /spack.lock /
+ENV BOOTSTRAP_DIR=/opt/bootstrap
 
-RUN export _SPACK=/tmp/spack \
- && git clone https://github.com/spack/spack $_SPACK \
- && (cd $_SPACK && git checkout 19dac780e880acd35859b07150bf6bbf069e8c17) \
- && . $_SPACK/share/spack/setup-env.sh \
- && spack mirror add bootstrap https://cache.e4s.io/runner-bootstrap/2023.06.01 \
- && spack buildcache keys -it \
- && spack -e . env depfile -o Makefile \
- && export SPACK_INSTALL_FLAGS=--cache-only \
- && make -j12 -k || make -j12 \
- && spack -e . gc -y \
- && spack clean -a \
- && rm -rf $_SPACK /spack.yaml /spack.lock /.spack-env /Makefile ~/.spack
+COPY /spack.yaml /spack.yaml.pre
 
-RUN apt remove -y gpg \
- && apt autoremove -y --purge \
- && apt clean
+RUN envsubst < spack.yaml.pre > spack.yaml \
+ && rm spack.yaml.pre
 
-RUN update-alternatives --install /usr/bin/gcc gcc /opt/bootstrap/view/bin/gcc 30 \
- && update-alternatives --install /usr/bin/g++ g++ /opt/bootstrap/view/bin/g++ 30 \
- && update-alternatives --install /usr/bin/gfortran gfortran /opt/bootstrap/view/bin/gfortran 30 \
- && update-alternatives --remove-all cc \
- && update-alternatives --remove-all c++ \
+RUN export S=/tmp/spack \
+&& git clone https://github.com/spack/spack $S \
+&& (cd $S && git checkout b8590fbd057621c9b71c5b274b21e1802d52bc45) \
+&& . $S/share/spack/setup-env.sh \
+&& spack mirror add bootstrap https://cache.e4s.io/spack-bootstrap \
+&& spack buildcache keys -it \
+&& spack config add "config:db_lock_timeout:120" \
+&& spack config add "config:connect_timeout:60" \
+&& spack -e . concretize -f | tee concretize.log \
+&& spack -e . env depfile -o Makefile \
+&& export SPACK_INSTALL_FLAGS=--cache-only \
+&& make -j8 -k || make -j8 -k || make -j8 \
+&& spack -e . gc -y \
+&& spack clean -a \
+&& rm -rf $S /spack.{yaml,lock} /concretize.log /.spack-env /Makefile ~/.spack
+
+RUN apt update -y \
+ && apt install -y software-properties-common \
+ && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+ && apt install -y \
+    gcc-11 \
+    g++-11 \
+    gfortran-11 \
+ && rm -rf /etc/apt/trusted.gpg.d/ubuntu-toolchain-r_ubuntu_test.gpg \
+ && rm -rf /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list \
+ && apt remove -y software-properties-common \
+ && apt autoremove -y \
+ && apt clean -y
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
+ && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 30 \
+ && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-11 30 \
  && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
  && update-alternatives --set cc /usr/bin/gcc \
  && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
  && update-alternatives --set c++ /usr/bin/g++
+
+RUN apt remove -y gpg \
+&& apt autoremove -y --purge \
+&& apt clean -y
 
 RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
  && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
 
- RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
-  && unzip awscliv2.zip \
-  && ./aws/install \
-  && rm -rf awscliv2.zip
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+ && unzip awscliv2.zip \
+ && ./aws/install \
+ && rm -rf awscliv2.zip
 
-RUN echo export PATH=/opt/bootstrap/view/bin:'${PATH}' >> /etc/bash.bashrc
-ENV PATH=/opt/bootstrap/view/bin:$PATH
+RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
+&& echo . $(find $BOOTSTRAP_DIR -type f -name bash) >> /etc/bash.bashrc \
+&& mkdir -p /modules \
+&& echo module use /modules >> /etc/bash.bashrc
+
+ENV PATH=$BOOTSTRAP_DIR/view/bin:$PATH
+
+RUN updatedb
 
 CMD ["/bin/bash"]
 

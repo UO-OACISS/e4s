@@ -17,6 +17,7 @@ spack:
   specs:
   - libtree
   - patchelf
+  - gcc@11.4.0
   - cmake
   - gmake
   - gnupg

@@ -22,7 +22,6 @@ RUN apt update -y \
   gettext \
   gfortran \
   git \
-  gpg \
   iputils-ping \
   jq \
   libffi-dev \
@@ -33,7 +32,6 @@ RUN apt update -y \
   locate \
   m4 \
   make \
-  mercurial \
   ncurses-dev \
   patch \
   pciutils \
@@ -56,27 +54,6 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
-RUN apt update -y \
- && apt install -y software-properties-common \
- && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
- && apt install -y \
-    gcc-11 \
-    g++-11 \
-    gfortran-11 \
- && rm -rf /etc/apt/trusted.gpg.d/ubuntu-toolchain-r_ubuntu_test.gpg \
- && rm -rf /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list \
- && apt remove -y software-properties-common \
- && apt autoremove -y \
- && apt clean -y
-
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
- && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 30 \
- && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-11 30 \
- && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
- && update-alternatives --set cc /usr/bin/gcc \
- && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
- && update-alternatives --set c++ /usr/bin/g++
-
 COPY /spack.yaml /
 COPY /spack.lock /
 
@@ -97,24 +74,28 @@ RUN apt remove -y gpg \
  && apt autoremove -y --purge \
  && apt clean
 
+RUN update-alternatives --install /usr/bin/gcc gcc /opt/bootstrap/view/bin/gcc 30 \
+ && update-alternatives --install /usr/bin/g++ g++ /opt/bootstrap/view/bin/g++ 30 \
+ && update-alternatives --install /usr/bin/gfortran gfortran /opt/bootstrap/view/bin/gfortran 30 \
+ && update-alternatives --remove-all cc \
+ && update-alternatives --remove-all c++ \
+ && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
+ && update-alternatives --set cc /usr/bin/gcc \
+ && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
+ && update-alternatives --set c++ /usr/bin/g++
+
 RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
  && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
  && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
 
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
- && unzip awscliv2.zip \
- && ./aws/install \
- && rm -rf awscliv2.zip
+ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+  && unzip awscliv2.zip \
+  && ./aws/install \
+  && rm -rf awscliv2.zip
 
-RUN echo export PATH=/opt/bootstrap/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . $(find /opt/bootstrap -type f -name bash) >> /etc/bash.bashrc \
- && mkdir -p /modules \
- && echo module use /modules >> /etc/bash.bashrc
-
-ENV PATH=$PATH:/bootstrap/runner/view/bin
-
-RUN updatedb
+RUN echo export PATH=/opt/bootstrap/view/bin:'${PATH}' >> /etc/bash.bashrc
+ENV PATH=/opt/bootstrap/view/bin:$PATH
 
 CMD ["/bin/bash"]
 
