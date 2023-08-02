@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.04 as base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
@@ -50,6 +50,35 @@ RUN locale-gen en_US.UTF-8 \
  && ln -s /usr/bin/gpg /usr/bin/gpg2 \
  && ln -s `which python3` /usr/bin/python
 
+RUN python -m pip install --upgrade pip setuptools wheel \
+ && python -m pip install gnureadline pyyaml pytz minio requests clingo \
+ && python -m pip install boto3==1.20.35 botocore==1.23.42 \
+ && rm -rf ~/.cache
+
+ENV BOOTSTRAP_DIR=/opt/bootstrap
+
+COPY /spack.yaml /spack.yaml.pre
+
+RUN envsubst < spack.yaml.pre > spack.yaml \
+ && rm spack.yaml.pre
+
+FROM base as complete
+
+RUN export S=/tmp/spack \
+&& git clone https://github.com/spack/spack $S \
+&& (cd $S && git checkout b8590fbd057621c9b71c5b274b21e1802d52bc45) \
+&& . $S/share/spack/setup-env.sh \
+&& spack mirror add bootstrap https://cache.e4s.io/spack-bootstrap \
+&& spack buildcache keys -it \
+&& spack config add "config:db_lock_timeout:120" \
+&& spack config add "config:connect_timeout:60" \
+&& spack -e . concretize -f | tee concretize.log \
+&& spack -e . env depfile -o Makefile \
+&& export SPACK_INSTALL_FLAGS=--cache-only \
+&& make -j8 -k || make -j8 -k || make -j8 \
+&& spack -e . gc -y \
+&& spack clean -a \
+
 RUN apt update -y \
  && apt install -y software-properties-common \
  && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
@@ -71,27 +100,6 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
  && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
  && update-alternatives --set c++ /usr/bin/g++
 
-RUN python -m pip install --upgrade pip setuptools wheel \
- && python -m pip install gnureadline pyyaml pytz minio requests clingo \
- && python -m pip install boto3==1.20.35 botocore==1.23.42 \
- && rm -rf ~/.cache
-
-COPY /spack.yaml /
-COPY /spack.lock /
-
-RUN export _SPACK=/tmp/spack \
- && git clone https://github.com/spack/spack $_SPACK \
- && (cd $_SPACK && git checkout 19dac780e880acd35859b07150bf6bbf069e8c17) \
- && . $_SPACK/share/spack/setup-env.sh \
- && spack mirror add bootstrap https://cache.e4s.io/runner-bootstrap/2023.06.01 \
- && spack buildcache keys -it \
- && spack -e . env depfile -o Makefile \
- && export SPACK_INSTALL_FLAGS=--cache-only \
- && make -j12 -k || make -j12 \
- && spack -e . gc -y \
- && spack clean -a \
- && rm -rf $_SPACK /spack.yaml /spack.lock /.spack-env /Makefile ~/.spack
-
 RUN apt remove -y gpg \
  && apt autoremove -y --purge \
  && apt clean
@@ -106,12 +114,12 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv
  && ./aws/install \
  && rm -rf awscliv2.zip
 
-RUN echo export PATH=/opt/bootstrap/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && echo . $(find /opt/bootstrap -type f -name bash) >> /etc/bash.bashrc \
- && mkdir -p /modules \
- && echo module use /modules >> /etc/bash.bashrc
+RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
+&& echo . $(find $BOOTSTRAP_DIR -type f -name bash) >> /etc/bash.bashrc \
+&& mkdir -p /modules \
+&& echo module use /modules >> /etc/bash.bashrc
 
-ENV PATH=$PATH:/bootstrap/runner/view/bin
+ENV PATH=$BOOTSTRAP_DIR/view/bin:$PATH
 
 RUN updatedb
 
