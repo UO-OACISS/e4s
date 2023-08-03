@@ -1,4 +1,4 @@
-FROM intel/oneapi-hpckit:2023.2-devel-ubuntu20.04
+FROM intel/oneapi-hpckit:2023.2-devel-ubuntu20.04 as base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
@@ -57,19 +57,32 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
-COPY /spack.yaml /
+ENV BOOTSTRAP_DIR=/opt/bootstrap
 
-RUN  git clone https://github.com/spack/spack /tmp/spack \
- && (cd /tmp/spack && git checkout 42ede698c26ccf9b1bae1daa2d9df68820191497) \
- && . /tmp/spack/share/spack/setup-env.sh \
- && spack -e . concretize -f | tee concretize.log \
- && spack mirror add --scope site bootstrap https://cache.e4s.io/runner-bootstrap-2023.05.02/256 \
+COPY /spack.yaml /spack.yaml.pre
+
+RUN envsubst < spack.yaml.pre > spack.yaml \
+ && rm spack.yaml.pre
+
+FROM base as complete
+
+RUN export S=/tmp/spack \
+ && git clone https://github.com/spack/spack $S \
+ && (cd $S && git checkout b8590fbd057621c9b71c5b274b21e1802d52bc45) \
+ && . $S/share/spack/setup-env.sh \
+ && export SPACK_DISABLE_LOCAL_CONFIG=1 \
+ && spack config add 'config:build_stage:$spack/build_stage' \
+ && spack config add "config:db_lock_timeout:120" \
+ && spack config add "config:connect_timeout:60" \
+ && spack mirror add bootstrap https://cache.e4s.io/spack-bootstrap \
  && spack buildcache keys -it \
- && spack -e . install \
+ && spack -e . concretize -f | tee concretize.log \
+ && spack -e . env depfile -o Makefile \
+ && export SPACK_INSTALL_FLAGS=--cache-only \
+ && make -j8 -k || make -j8 -k || make -j8 \
  && spack -e . gc -y \
  && spack clean -a \
- && mv /spack.yaml /spack.lock /concretize.log /opt/bootstrap/ \
- && rm -rf ~/.spack /.spack-env /tmp/spack
+ && rm -rf $S spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
 
 RUN apt update -y \
  && apt install -y software-properties-common \
@@ -91,18 +104,23 @@ RUN apt update -y \
  && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
  && update-alternatives --set c++ /usr/bin/g++ 
 
+RUN apt remove -y gpg \
+&& apt autoremove -y --purge \
+&& apt clean -y
+
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
  && unzip awscliv2.zip \
  && ./aws/install \
  && rm -rf awscliv2.zip
 
-RUN echo export PATH=/opt/bootstrap/view/bin:'${PATH}' >> /etc/bash.bashrc \
- && chmod +x $(find /opt/bootstrap -type f -name lmod) \
- && echo . $(find /opt/bootstrap -type f -name bash) >> /etc/bash.bashrc \
- && mkdir -p /modules \
- && echo module use /modules >> /etc/bash.bashrc
+RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
+&& echo . $(find $BOOTSTRAP_DIR -type f -name bash) >> /etc/bash.bashrc \
+&& mkdir -p /modules \
+&& echo module use /modules >> /etc/bash.bashrc
 
-ENV PATH=/opt/bootstrap/view/bin:$PATH
+ENV PATH=$BOOTSTRAP_DIR/view/bin:$PATH
+
+RUN updatedb
 
 CMD ["/bin/bash"]
 
