@@ -1,0 +1,41 @@
+spack:
+  view: $BOOTSTRAP_DIR/view
+
+  config:
+    install_tree:
+      root: $BOOTSTRAP_DIR/install
+
+  concretizer:
+    reuse: false
+    unify: when_possible
+
+  packages:
+    all:
+      compiler: [gcc]
+      target: [ppc64le]
+
+  specs:
+  - ccache
+  - cmake
+  - gcc@12.3.0
+  - gmake
+  - gnupg
+  - libtree
+  - lmod
+  - ninja
+  - patchelf
+
+  compilers:
+  - compiler:
+      spec: gcc@9.4.0
+      paths:
+        cc: /usr/bin/gcc-9
+        cxx: /usr/bin/g++-9
+        f77: /usr/bin/gfortran-9
+        fc: /usr/bin/gfortran-9
+      flags: {}
+      operating_system: ubuntu20.04
+      target: ppc64le
+      modules: []
+      environment: {}
+      extra_rpaths: []
