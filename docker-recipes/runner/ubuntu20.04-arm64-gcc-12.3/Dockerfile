@@ -71,7 +71,7 @@ RUN export S=/tmp/spack \
  && spack config add 'config:build_stage:$spack/build_stage' \
  && spack config add "config:db_lock_timeout:120" \
  && spack config add "config:connect_timeout:60" \
- && spack mirror add bootstrap https://cache.e4s.io/spack-bootstrap \
+ && spack mirror add bootstrap https://cache.e4s.io/runner-bootstrap/2023.06.01 \
  && spack buildcache keys -it \
  && spack -e . concretize -f | tee concretize.log \
  && spack -e . env depfile -o Makefile \
