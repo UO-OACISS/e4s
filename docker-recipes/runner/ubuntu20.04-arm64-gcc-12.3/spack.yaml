@@ -6,7 +6,7 @@ spack:
       root: $BOOTSTRAP_DIR/install
 
   concretizer:
-    reuse: false
+    reuse: true
     unify: when_possible
 
   packages:
@@ -15,15 +15,15 @@ spack:
       target: [aarch64]
 
   specs:
-  - ccache
-  - cmake
+  - libtree
+  - patchelf
   - gcc@12.3.0
+  - cmake
   - gmake
   - gnupg
-  - libtree
-  - lmod
   - ninja
-  - patchelf
+  - ccache
+  - lmod ^lua@5.4.4
 
   compilers:
   - compiler:
