@@ -1,12 +1,12 @@
 spack:
-  view: /opt/bootstrap/view
+  view: $BOOTSTRAP_DIR/view
 
   config:
     install_tree:
-      root: /opt/bootstrap/install
+      root: $BOOTSTRAP_DIR/install
 
   concretizer:
-    reuse: true
+    reuse: false
     unify: when_possible
 
   packages:
@@ -15,15 +15,15 @@ spack:
       target: [x86_64]
 
   specs:
-  - libtree
-  - patchelf
-  - gcc@12.3.0
+  - ccache
   - cmake
+  - gcc@12.3.0
   - gmake
   - gnupg
+  - libtree
+  - lmod
   - ninja
-  - ccache
-  - lmod ^lua@5.4.4
+  - patchelf
 
   compilers:
   - compiler:
