@@ -9,7 +9,7 @@ BUILD_TYPE=$1
 
 BUILD_DATE=$(printf '%(%Y.%m.%d)T' -1)
 BUILD_TAG=${BUILD_TAG:-${BUILD_DATE}}
-BUILD_NAME=ubuntu20.04-runner-ppc64le-gcc-11.3
+BUILD_NAME=ubuntu20.04-runner-ppc64le-gcc-11.4
 if [[ "$BUILD_TYPE" == "base" ]]; then
   BUILD_NAME=${BUILD_NAME}-base
 fi
