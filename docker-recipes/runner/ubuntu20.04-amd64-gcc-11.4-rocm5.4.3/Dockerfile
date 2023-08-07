@@ -9,7 +9,6 @@ RUN rm -f /usr/include/asm \
  && rm -f ./amdgpu-install_5.4.50403-1_all.deb \
  && echo 'deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/rocm-keyring.gpg] https://repo.radeon.com/amdgpu/5.4.3/ubuntu focal main' | tee /etc/apt/sources.list.d/rocm.list \
  && echo 'deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/rocm-keyring.gpg] https://repo.radeon.com/rocm/apt/5.4.3 focal main' | tee /etc/apt/sources.list.d/rocm.list \
- && echo -e 'Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600' | tee /etc/apt/preferences.d/rocm-pin-600 \
  && apt update -y \
  && amdgpu-install -y --usecase=rocm,hip,hiplibsdk,mllib,mlsdk --rocmrelease=5.4.3 --no-dkms \
  && apt clean -y \
@@ -19,6 +18,7 @@ RUN rm -f /usr/include/asm \
 RUN rm /usr/bin/python \
  && ln -s /usr/bin/python3 /usr/bin/python
 
-RUN echo export 'LD_LIBRARY_PATH=/opt/rocm-5.4.3/lib:${LD_LIBRARY_PATH}' >> /etc/bash.bashrc
+RUN echo /opt/rocm/lib > /etc/ld.so.conf.d/rocm.conf \
+ && ldconfig -v
 
 RUN updatedb
