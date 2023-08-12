@@ -96,13 +96,13 @@ RUN apt update -y \
  && apt autoremove -y \
  && apt clean -y
 
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
- && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 30 \
- && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-11 30 \
- && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
- && update-alternatives --set cc /usr/bin/gcc \
- && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
- && update-alternatives --set c++ /usr/bin/g++
+# RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
+#  && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 30 \
+#  && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-11 30 \
+#  && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
+#  && update-alternatives --set cc /usr/bin/gcc \
+#  && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
+#  && update-alternatives --set c++ /usr/bin/g++
 
 RUN apt remove -y gpg \
 && apt autoremove -y --purge \
