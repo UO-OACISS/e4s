@@ -112,7 +112,7 @@ RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
 && mkdir -p /modules \
 && echo module use /modules >> /etc/bash.bashrc
 
-ENV PATH=$BOOTSTRAP_DIR:$PATH
+ENV PATH=$BOOTSTRAP_DIR/view/bin:$PATH
 
 RUN updatedb
 
