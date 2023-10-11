@@ -87,10 +87,10 @@ RUN apt remove -y gpg \
 && apt autoremove -y --purge \
 && apt clean -y
 
-#RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
-# && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
-# && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
-# && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
+RUN ln -s /usr/include/x86_64-linux-gnu/asm /usr/include/asm \
+ && ln -s /usr/include/x86_64-linux-gnu/bits /usr/include/bits \
+ && ln -s /usr/include/x86_64-linux-gnu/gnu /usr/include/gnu \
+ && ln -s /usr/include/x86_64-linux-gnu/sys /usr/include/sys
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
  && unzip awscliv2.zip \
