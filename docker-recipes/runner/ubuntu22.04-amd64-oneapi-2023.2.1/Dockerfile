@@ -9,7 +9,7 @@ RUN wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRO
 RUN apt update -y \
  && apt upgrade -y \
  && apt clean -y
- 
+
 RUN apt update -y \
  && apt install -y \
   autoconf \
@@ -49,7 +49,7 @@ RUN apt update -y \
   zlib1g-dev \
   && apt autoremove --purge \
   && apt clean
-
+ 
 RUN locale-gen en_US.UTF-8 \
  && ln -s /usr/bin/gpg /usr/bin/gpg2 \
  && ln -s `which python3` /usr/bin/python
@@ -86,6 +86,20 @@ RUN export S=/tmp/spack \
  && spack -e . gc -y \
  && spack clean -a \
  && rm -rf $S spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
+
+RUN apt update -y \
+ && apt install -y \
+  intel-opencl-icd \
+  intel-level-zero-gpu \
+  intel-media-va-driver-non-free \
+  libmfx1 \
+  libigc-dev \
+  intel-igc-cm \
+  libigdfcl-dev \
+  libigfxcmrt-dev \
+  level-zero-dev \
+  clinfo \
+  libdrm-dev
 
 RUN apt remove -y gpg \
 && apt autoremove -y --purge \
