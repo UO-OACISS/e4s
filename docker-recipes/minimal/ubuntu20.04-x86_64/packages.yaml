@@ -1,0 +1,9 @@
+packages:
+  mpi:
+    require: mpich
+  mpich:
+    require: '@4.1.2 ~wrapperrpath ~hwloc'
+    buildable: false
+    externals:
+    - spec: mpich@4.1.2 ~argobots~cuda+fortran~hwloc+hydra+libxml2+pci~rocm+romio~slurm~vci~verbs~wrapperrpath build_system=autotools datatype-engine=auto device=ch4 netmod=ofi pmi=pmi
+      prefix: /usr/local/mpich/install/mpich
