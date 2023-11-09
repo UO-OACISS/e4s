@@ -1,11 +1,10 @@
-#!/bin/bash
+#!/bin/bash -e
 
-BUILD_DATE=$(printf '%(%Y-%m-%d)T' -1)
+REGISTRY=${REGISTRY:-esw123}
+BUILD_DATE=$(printf '%(%Y.%m.%d)T' -1)
 BUILD_TAG=${BUILD_TAG:-${BUILD_DATE}}
-BUILD_REPO=$(git config --get remote.origin.url)
-BUILD_REPO_REF=$(git log -1 --format="%H")
 
-REGISTRY=${REGISTRY:-ecpe4s}
-OUTPUT_IMAGE="${REGISTRY}/ubuntu20.04-aarch64:${BUILD_TAG}"
-
-docker build -t "${OUTPUT_IMAGE}" .
+DOCKER_CLI_EXPERIMENTAL=enabled \
+DOCKER_BUILDKIT=1 \
+ docker build \
+   -t "${REGISTRY}/ubuntu20.04-aarch64:${BUILD_TAG}" .

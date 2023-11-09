@@ -1,0 +1,44 @@
+modules:
+    prefix_inspections:
+      lib: [LD_LIBRARY_PATH]
+      lib64: [LD_LIBRARY_PATH]
+    default:
+      'enable:': [lmod]
+      lmod:
+        core_compilers: [gcc@=11.4.0]
+        verbose: true
+        hash_length: 0
+        hierarchy: [mpi]
+        hide_implicits: true
+        all:
+          autoload: direct
+          environment:
+            set:
+              '{name}_ROOT': '{PREFIX}'
+          suffixes:
+            +cuda cuda_arch=70: cuda70
+            +cuda cuda_arch=75: cuda75
+            +cuda cuda_arch=80: cuda80
+            +cuda cuda_arch=90: cuda90
+            +openmp: openmp
+        cabana:
+          suffixes:
+            ^kokkos +cuda cuda_arch=70: cuda70
+            ^kokkos +cuda cuda_arch=75: cuda75
+            ^kokkos +cuda cuda_arch=80: cuda80
+            ^kokkos +cuda cuda_arch=90: cuda90
+        tau:
+          suffixes:
+            +cuda: cuda
+        hpctoolkit:
+          suffixes:
+            +cuda: cuda
+        bricks:
+          suffixes:
+            +cuda: cuda
+        flux-core:
+          suffixes:
+            +cuda: cuda
+        papi:
+          suffixes:
+            +cuda: cuda 

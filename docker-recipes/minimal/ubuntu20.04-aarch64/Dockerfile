@@ -1,30 +1,51 @@
-FROM ecpe4s/ubuntu20.04-runner-aarch64:2023-02-01
+FROM ecpe4s/ubuntu20.04-runner-arm64-gcc-11.4-mpi-base:2023.08.20
 
-COPY /spack.yaml /
+ENV SPACK_ROOT=/spack
 
-RUN git clone https://github.com/spack/spack /spack \
- && (cd spack && git checkout e4s-23.05) \
- && . /spack/share/spack/setup-env.sh \
- && spack mirror add E4S https://cache.e4s.io/23.05 \
+RUN git clone https://github.com/spack/spack $SPACK_ROOT \
+ && (cd $SPACK_ROOT && git checkout e4s-23.11) \
+ && . $SPACK_ROOT/share/spack/setup-env.sh \
+ && export SPACK_DISABLE_LOCAL_CONFIG=1 \
+ && spack config add "config:db_lock_timeout:480" \
+ && spack config add "config:connect_timeout:61" \
+ && spack mirror add E4S https://cache.e4s.io/23.11 \
  && spack buildcache keys -it \
- && spack config --scope site add modules:prefix_inspections:lib64:[LD_LIBRARY_PATH] \
- && spack config --scope site add modules:prefix_inspections:lib:[LD_LIBRARY_PATH] \
+ && rm -rf ~/.spack \
+ && echo . $SPACK_ROOT/share/spack/setup-env.sh >> /etc/bash.bashrc
+
+COPY /spack.yaml /spack.yaml
+RUN . $SPACK_ROOT/share/spack/setup-env.sh \
  && spack -e . concretize -f | tee concretize.log \
- && spack -e . install --cache-only \
- && spack -e . gc -y \
+ && spack -e . env depfile -o Makefile \
+ && export SPACK_INSTALL_FLAGS=--cache-only \
+ && make -j16 -k || make -j16 -k || make -j16 \
+ && spack clean -a \
+ && mkdir -p /etc/e4s/base \
+ && mv spack.yaml spack.lock concretize.log /etc/e4s/base/ \
+ && rm -rf .spack-env Makefile ~/.spack
+
+COPY /compilers.yaml /spack/etc/spack
+COPY /modules.yaml /spack/etc/spack
+COPY /packages.yaml /spack/etc/spack
+RUN . $SPACK_ROOT/share/spack/setup-env.sh \
+ && spack module lmod refresh --delete-tree -y \
+ && echo module use /spack/share/spack/lmod/linux-ubuntu20.04-aarch64/Core >> /etc/bash.bashrc \
+ && echo module load mpich >> /etc/bash.bashrc \
  && spack clean -a
 
 RUN apt update -y \
  && apt install -y valgrind \
  && apt clean -y
 
-RUN rm -f /etc/ld.so.conf.d/spack-runner-bootstrap.conf \
- && ldconfig -v
+RUN . $SPACK_ROOT/share/spack/setup-env.sh \
+ && spack config --scope site add "config:misc_cache:"'$spack'"/var/spack/misc_cache" \
+ && spack list --count
+
+COPY /Acknowledgement.txt /
 
 RUN echo unset which >> /etc/bash.bashrc \
- && echo . /spack/share/spack/setup-env.sh >> /etc/bash.bashrc \
- && echo export PATH=/opt/bootstrap/view/bin:'$PATH' >> /etc/bash.bashrc
-
-ENV PATH=$PATH:/opt/bootstrap/view/bin
+ && echo export 'PATH=/usr/local/cuda/bin:${PATH}' >> /etc/bash.bashrc
 
 RUN updatedb
+
+ENTRYPOINT ["/bin/bash", "--rcfile", "/etc/bash.bashrc"]
