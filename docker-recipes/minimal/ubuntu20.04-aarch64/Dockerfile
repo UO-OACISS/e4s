@@ -33,18 +33,15 @@ RUN . $SPACK_ROOT/share/spack/setup-env.sh \
  && echo module load mpich >> /etc/bash.bashrc \
  && spack clean -a
 
-RUN apt update -y \
- && apt install -y valgrind \
- && apt clean -y
-
 RUN . $SPACK_ROOT/share/spack/setup-env.sh \
  && spack config --scope site add "config:misc_cache:"'$spack'"/var/spack/misc_cache" \
  && spack list --count
 
-COPY /Acknowledgement.txt /
+RUN apt update -y \
+ && apt install -y valgrind \
+ && apt clean -y
 
-RUN echo unset which >> /etc/bash.bashrc \
- && echo export 'PATH=/usr/local/cuda/bin:${PATH}' >> /etc/bash.bashrc
+RUN echo unset which >> /etc/bash.bashrc
 
 RUN updatedb
 
