@@ -56,7 +56,7 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
-ENV BOOTSTRAP_DIR=/opt/bootstrap
+ENV BOOTSTRAP_DIR=/usr/local/spack-tools
 
 COPY /spack.yaml /spack.yaml.pre
 
