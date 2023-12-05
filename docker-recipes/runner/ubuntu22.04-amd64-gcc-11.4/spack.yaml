@@ -11,8 +11,7 @@ spack:
 
   packages:
     all:
-      compiler: [gcc]
-      target: [x86_64]
+      require: "%gcc target=x86_64"
 
   specs:
   - ccache
