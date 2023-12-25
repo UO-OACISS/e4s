@@ -1,0 +1,39 @@
+spack:
+  view: $BOOTSTRAP_DIR/view
+
+  config:
+    install_tree:
+      root: $BOOTSTRAP_DIR/install
+
+  concretizer:
+    reuse: false
+    unify: when_possible
+
+  packages:
+    all:
+      require: "%gcc target=ppc64le"
+
+  specs:
+  - ccache
+  - cmake
+  - gmake
+  - gnupg
+  - libtree
+  - lmod
+  - ninja
+  - patchelf
+
+  compilers:
+  - compiler:
+      spec: gcc@11.4.0
+      paths:
+        cc: /usr/bin/gcc-11
+        cxx: /usr/bin/g++-11
+        f77: /usr/bin/gfortran-11
+        fc: /usr/bin/gfortran-11
+      flags: {}
+      operating_system: ubuntu22.04
+      target: ppc64le
+      modules: []
+      environment: {}
+      extra_rpaths: []
