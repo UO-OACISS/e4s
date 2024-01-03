@@ -1,9 +1,9 @@
 spack:
-  view: false
+  view: $BOOTSTRAP_DIR/view
 
   config:
     install_tree:
-      padded_length: 256
+      root: $BOOTSTRAP_DIR/install
 
   concretizer:
     reuse: false
