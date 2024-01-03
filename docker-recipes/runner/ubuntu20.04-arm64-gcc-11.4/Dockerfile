@@ -66,7 +66,7 @@ FROM base as complete
 
 RUN export S=/tmp/spack \
  && git clone https://github.com/spack/spack $S \
- && (cd $S && git checkout ) \
+ && (cd $S && git checkout 375bc6fc9443082fd28e4bbcad44d1f627a452eb) \
  && . $S/share/spack/setup-env.sh \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
  && spack config add 'config:build_stage:$spack/build_stage' \
