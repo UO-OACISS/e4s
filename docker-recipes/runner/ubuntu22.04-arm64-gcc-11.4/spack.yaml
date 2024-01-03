@@ -11,7 +11,7 @@ spack:
 
   packages:
     all:
-      require: "%gcc target=x86_64"
+      require: "%gcc target=aarch64"
 
   specs:
   - ccache
@@ -33,7 +33,7 @@ spack:
         fc: /usr/bin/gfortran-11
       flags: {}
       operating_system: ubuntu22.04
-      target: x86_64
+      target: aarch64
       modules: []
       environment: {}
       extra_rpaths: []
