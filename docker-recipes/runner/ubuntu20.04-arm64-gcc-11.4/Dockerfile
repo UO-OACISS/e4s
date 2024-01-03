@@ -55,7 +55,7 @@ RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install boto3==1.20.35 botocore==1.23.42 \
  && rm -rf ~/.cache
 
-ENV BOOTSTRAP_DIR=/opt/bootstrap
+ENV BOOTSTRAP_DIR=/usr/local/spack-tools
 
 COPY /spack.yaml /spack.yaml.pre
 
@@ -66,7 +66,7 @@ FROM base as complete
 
 RUN export S=/tmp/spack \
  && git clone https://github.com/spack/spack $S \
- && (cd $S && git checkout b8590fbd057621c9b71c5b274b21e1802d52bc45) \
+ && (cd $S && git checkout ) \
  && . $S/share/spack/setup-env.sh \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
  && spack config add 'config:build_stage:$spack/build_stage' \
@@ -81,27 +81,6 @@ RUN export S=/tmp/spack \
  && spack -e . gc -y \
  && spack clean -a \
  && rm -rf $S spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
-
-RUN apt update -y \
- && apt install -y software-properties-common \
- && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
- && apt install -y \
-    gcc-11 \
-    g++-11 \
-    gfortran-11 \
- && rm -rf /etc/apt/trusted.gpg.d/ubuntu-toolchain-r_ubuntu_test.gpg \
- && rm -rf /etc/apt/sources.list.d/ubuntu-toolchain-r-ubuntu-test-focal.list \
- && apt remove -y software-properties-common \
- && apt autoremove -y \
- && apt clean -y
-
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 30 \
- && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 30 \
- && update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-11 30 \
- && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30 \
- && update-alternatives --set cc /usr/bin/gcc \
- && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30 \
- && update-alternatives --set c++ /usr/bin/g++
 
 RUN apt remove -y gpg \
  && apt autoremove -y --purge \
