@@ -1,9 +1,9 @@
 spack:
-  view: $BOOTSTRAP_DIR/view
+  view: false
 
   config:
     install_tree:
-      root: $BOOTSTRAP_DIR/install
+      padded_length: 256
 
   concretizer:
     reuse: false
@@ -11,8 +11,7 @@ spack:
 
   packages:
     all:
-      compiler: [gcc]
-      target: [aarch64]
+      require: "%gcc target=aarch64"
 
   specs:
   - ccache
@@ -26,15 +25,16 @@ spack:
 
   compilers:
   - compiler:
-      spec: gcc@9.4.0
+      spec: gcc@11.4.0
       paths:
-        cc: /usr/bin/gcc-9
-        cxx: /usr/bin/g++-9
-        f77: /usr/bin/gfortran-9
-        fc: /usr/bin/gfortran-9
+        cc: /usr/bin/gcc-11
+        cxx: /usr/bin/g++-11
+        f77: /usr/bin/gfortran-11
+        fc: /usr/bin/gfortran-11
       flags: {}
-      operating_system: ubuntu20.04
+      operating_system: ubuntu22.04
       target: aarch64
       modules: []
       environment: {}
       extra_rpaths: []
+
