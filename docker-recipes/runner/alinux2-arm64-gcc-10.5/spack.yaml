@@ -1,0 +1,39 @@
+spack:
+  view: $BOOTSTRAP_DIR/view
+
+  config:
+    install_tree:
+      root: $BOOTSTRAP_DIR/install
+
+  concretizer:
+    reuse: false
+    unify: when_possible
+
+  packages:
+    all:
+      require: "%gcc target=aarch64"
+
+  specs:
+  - ccache
+  - cmake
+  - gmake
+  - gnupg
+  - libtree
+  - lmod
+  - ninja
+  - patchelf
+
+  compilers:
+  - compiler:
+      spec: gcc@=7.3.1
+      paths:
+        cc: /usr/bin/gcc
+        cxx: /usr/bin/g++
+        f77: /usr/bin/gfortran
+        fc: /usr/bin/gfortran
+      flags: {}
+      operating_system: amzn2
+      target: aarch64
+      modules: []
+      environment: {}
+      extra_rpaths: []
