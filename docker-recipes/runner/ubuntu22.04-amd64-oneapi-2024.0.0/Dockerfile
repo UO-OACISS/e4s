@@ -7,10 +7,6 @@ RUN wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRO
  && echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | tee /etc/apt/sources.list.d/oneAPI.list
 
 RUN apt update -y \
- && apt upgrade -y \
- && apt clean -y
-
-RUN apt update -y \
  && apt install -y \
   autoconf \
   automake \
@@ -116,6 +112,10 @@ RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
 && echo module use /modules >> /etc/bash.bashrc
 
 ENV PATH=$BOOTSTRAP_DIR/view/bin:$PATH
+ENV LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/2024.0/lib:$LD_LIBRARY_PATH
+
+RUN echo /opt/intel/oneapi/compiler/2024.0/lib >> /etc/ld.so.conf.d/oneapi.conf \
+ && ldconfig -v
 
 RUN updatedb
 
