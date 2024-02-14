@@ -3,12 +3,12 @@
 ENV SPACK_ROOT=/spack
 
 RUN git clone https://github.com/spack/spack $SPACK_ROOT \
- && (cd $SPACK_ROOT && git checkout e4s-23.11) \
+ && (cd $SPACK_ROOT && git checkout e4s-24.02) \
  && . $SPACK_ROOT/share/spack/setup-env.sh \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
  && spack config add "config:db_lock_timeout:480" \
  && spack config add "config:connect_timeout:61" \
- && spack mirror add E4S https://cache.e4s.io/23.11 \
+ && spack mirror add E4S https://cache.e4s.io/24.02 \
  && spack buildcache keys -it \
  && rm -rf ~/.spack \
  && echo . $SPACK_ROOT/share/spack/setup-env.sh >> /etc/bash.bashrc
