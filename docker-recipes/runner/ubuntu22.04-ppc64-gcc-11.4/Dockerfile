@@ -53,7 +53,7 @@ RUN locale-gen en_US.UTF-8 \
 
 RUN python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install gnureadline pyyaml pytz minio requests clingo \
- && python -m pip install boto3==1.20.35 botocore==1.23.42 \
+ && python -m pip install boto3 botocore \
  && rm -rf ~/.cache
 
 ENV BOOTSTRAP_DIR=/usr/local/spack-tools
@@ -67,7 +67,7 @@ FROM base as complete
 
 RUN export S=/tmp/spack \
  && git clone https://github.com/spack/spack $S \
- && (cd $S && git checkout c074bf0865d574a40bf349025042e71aaecf7da5) \
+ && git -C $S checkout b5b5130bedcf5a5165cfef2e4e3a30dc1ac0f7ef \
  && . $S/share/spack/setup-env.sh \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
  && spack config add 'config:build_stage:$spack/build_stage' \
@@ -76,10 +76,7 @@ RUN export S=/tmp/spack \
  && spack mirror add bootstrap https://cache.e4s.io/spack-bootstrap \
  && spack buildcache keys -it \
  && spack -e . concretize -f | tee concretize.log \
- && spack -e . env depfile -o Makefile \
- && export SPACK_INSTALL_FLAGS=--cache-only \
- && make -j8 -k || make -j8 -k || make -j8 \
- && spack -e . gc -y \
+ && spack -e . install --cache-only \ 
  && spack clean -a \
  && mv spack.yaml spack.lock concretize.log $BOOTSTRAP_DIR/. \
  && rm -rf $S .spack-env Makefile ~/.spack
