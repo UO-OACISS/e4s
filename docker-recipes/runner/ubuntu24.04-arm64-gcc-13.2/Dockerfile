@@ -1,4 +1,4 @@
-FROM ubuntu:ubuntu:noble-20240225 as base
+FROM ubuntu:noble-20240225 as base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
