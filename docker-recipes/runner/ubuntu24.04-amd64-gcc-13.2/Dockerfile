@@ -51,7 +51,12 @@ RUN apt update -y \
 RUN locale-gen en_US.UTF-8 \
  && ln -s `which python3` /usr/bin/python
 
-RUN python -m pip install --upgrade pip setuptools wheel \
+ENV PYVENV_DIR=/default-py-venv
+RUN python3 -m venv $PYVENV_DIR \
+ && source $PYVENV_DIR/bin/activate \
+ && echo source $PYVENV_DIR/bin/activate >> /etc/bash.bashrc \
+ && echo export SPACK_PYTHON=$PYVENV_DIR/bin/python3 >> /etc/bash.bashrc \
+ && python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install gnureadline pyyaml pytz minio requests clingo \
  && python -m pip install boto3 botocore \
  && rm -rf ~/.cache
@@ -65,7 +70,9 @@ RUN envsubst < spack.yaml.pre > spack.yaml \
 
 FROM base as complete
 
-RUN export S=/tmp/spack \
+RUN source $PYVENV_DIR/bin/activate \
+ && export SPACK_PYTHON=$PYVENV_DIR/bin/python3 \
+ && export S=/tmp/spack \
  && git clone https://github.com/spack/spack $S \
  && git -C $S checkout f58ebd4fbb1e68ba4a06d37d95b71d7ef41f03c8 \
  && . $S/share/spack/setup-env.sh \
