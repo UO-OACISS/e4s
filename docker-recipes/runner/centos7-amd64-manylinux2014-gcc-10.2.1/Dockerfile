@@ -5,8 +5,10 @@ ENV BOOTSTRAP_DIR=/usr/local/spack-tools
 COPY /spack.yaml /spack.yaml.pre
 COPY /spack.lock /concretize.log /
 
-RUN envsubst < spack.yaml.pre > spack.yaml \
- && rm spack.yaml.pre
+RUN yum -y install gettext \
+ && envsubst < spack.yaml.pre > spack.yaml \
+ && rm spack.yaml.pre \
+ && yum -y remove gettext
 
 RUN export S=/tmp/spack \
  && git clone https://github.com/spack/spack $S \
