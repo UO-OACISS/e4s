@@ -102,6 +102,9 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
  && ./aws/install \
  && rm -rf awscliv2.zip
 
+RUN ./opt/intel/oneapi/modulefiles-setup.sh --output-dir=/opt/intel/oneapi/modulefiles \
+ && echo module use /opt/intel/oneapi/modulefiles/ >> /etc/bash.bashrc
+
 RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
 && echo . $(find $BOOTSTRAP_DIR -type f -name bash) >> /etc/bash.bashrc \
 && mkdir -p /modules \
