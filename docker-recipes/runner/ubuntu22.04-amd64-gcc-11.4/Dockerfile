@@ -37,7 +37,9 @@ RUN apt update -y \
   ncurses-dev \
   patch \
   pciutils \
+  python3-dev \
   python3-pip \
+  python3-venv \
   rsync \
   unzip \
   uuid-runtime \
