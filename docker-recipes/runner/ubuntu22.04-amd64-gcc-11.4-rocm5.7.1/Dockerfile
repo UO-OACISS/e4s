@@ -16,3 +16,5 @@ RUN echo /opt/rocm/lib > /etc/ld.so.conf.d/rocm.conf \
  && ldconfig -v
 
 RUN updatedb
+
+RUN echo export PATH=/opt/rocm/bin:'$PATH' >> /etc/bash.bashrc
