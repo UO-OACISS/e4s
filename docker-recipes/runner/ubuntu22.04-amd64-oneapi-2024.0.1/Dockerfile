@@ -3,9 +3,6 @@ FROM intel/hpckit:2024.0.1-devel-ubuntu22.04 as base
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
 
-RUN apt update -y \
- && apt upgrade -y
-
 RUN wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB \ | gpg --dearmor | tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null \
  && echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | tee /etc/apt/sources.list.d/oneAPI.list
 
@@ -48,7 +45,7 @@ RUN apt update -y \
   vim \
   wget \
   zlib1g-dev \
-  && apt autoremove --purge \
+  && apt autoremove -y --purge \
   && apt clean
  
 RUN locale-gen en_US.UTF-8 \
@@ -72,7 +69,7 @@ FROM base as complete
 
 RUN export S=/tmp/spack \
  && git clone https://github.com/spack/spack $S \
- && git -C $S checkout b5b5130bedcf5a5165cfef2e4e3a30dc1ac0f7ef \
+ && git -C $S checkout faed43704b0d1bae88124000254f8aa312eaa567 \
  && . $S/share/spack/setup-env.sh \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
  && spack config add 'config:build_stage:$spack/build_stage' \
@@ -104,10 +101,14 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
  && ./aws/install \
  && rm -rf awscliv2.zip
 
+RUN ./opt/intel/oneapi/modulefiles-setup.sh --output-dir=/opt/intel/oneapi/modulefiles
+
 RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
-&& echo . $(find $BOOTSTRAP_DIR -type f -name bash) >> /etc/bash.bashrc \
-&& mkdir -p /modules \
-&& echo module use /modules >> /etc/bash.bashrc
+ && echo . $(find $BOOTSTRAP_DIR -type f -name bash) >> /etc/bash.bashrc \
+ && mkdir -p /modules \
+ && echo module use /modules >> /etc/bash.bashrc \
+ && echo module use /opt/intel/oneapi/modulefiles >> /etc/bash.bashrc \
+ && echo '. /opt/intel/oneapi/setvars.sh >/dev/null 2>&1' >> /etc/bash.bashrc
 
 ENV PATH=$BOOTSTRAP_DIR/view/bin:$PATH
 ENV LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/2024.0/lib:$LD_LIBRARY_PATH
