@@ -1,16 +1,38 @@
-FROM intel/hpckit:2024.1.0-devel-ubuntu22.04 as base
+FROM ubuntu:22.04 as base
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG ONEAPI_VERSION=2024.1
 ENV TZ=America/Los_Angeles
 
 RUN apt update -y \
  && apt upgrade -y
 
-RUN wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB \ | gpg --dearmor | tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null \
- && echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | tee /etc/apt/sources.list.d/oneAPI.list
+RUN apt install -y gpg-agent wget ca-certificates \
+    && wget -O- https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB | \
+       gpg --dearmor | tee /usr/share/keyrings/oneapi-archive-keyring.gpg > /dev/null \
+    && echo "deb [signed-by=/usr/share/keyrings/oneapi-archive-keyring.gpg] https://apt.repos.intel.com/oneapi all main" | \
+       tee /etc/apt/sources.list.d/oneAPI.list \
+    && . /etc/os-release \
+    && wget -qO - https://repositories.intel.com/gpu/intel-graphics.key | \
+       gpg --yes --dearmor --output /usr/share/keyrings/intel-graphics.gpg \
+    && echo "deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/gpu/ubuntu ${VERSION_CODENAME}/lts/2350 unified" | \
+       tee /etc/apt/sources.list.d/intel-gpu-${VERSION_CODENAME}.list \
+    && apt update -y \
+    && apt install -y intel-oneapi-compiler-fortran-${ONEAPI_VERSION} \
+         intel-oneapi-compiler-dpcpp-cpp-${ONEAPI_VERSION} \
+         intel-opencl-icd \
+         intel-level-zero-gpu \
+         intel-media-va-driver-non-free \
+         libmfx1 \
+         libigc-dev \
+         intel-igc-cm \
+         libigdfcl-dev \
+         libigfxcmrt-dev \
+         level-zero-dev \
+         clinfo \
+         libdrm-dev
 
-RUN apt update -y \
- && apt install -y \
+RUN apt install -y \
   autoconf \
   automake \
   bzip2 \
@@ -83,20 +105,6 @@ RUN export S=/tmp/spack \
  && spack clean -a \
  && rm -rf $S spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
 
-RUN apt update -y \
- && apt install -y \
-  intel-opencl-icd \
-  intel-level-zero-gpu \
-  intel-media-va-driver-non-free \
-  libmfx1 \
-  libigc-dev \
-  intel-igc-cm \
-  libigdfcl-dev \
-  libigfxcmrt-dev \
-  level-zero-dev \
-  clinfo \
-  libdrm-dev
-
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
  && unzip awscliv2.zip \
  && ./aws/install \
@@ -110,10 +118,10 @@ RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
 && echo module use /modules >> /etc/bash.bashrc \
 && echo module use /opt/intel/oneapi/modulefiles/ >> /etc/bash.bashrc
 
-ENV PATH=$BOOTSTRAP_DIR/view/bin:$PATH
-ENV LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/2024.1/lib:$LD_LIBRARY_PATH
+ENV PATH=/opt/intel/oneapi/compiler/${ONEAPI_VERSION}/bin:$BOOTSTRAP_DIR/view/bin:$PATH
+ENV LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/${ONEAPI_VERSION}/lib:$LD_LIBRARY_PATH
 
-RUN echo /opt/intel/oneapi/compiler/2024.1/lib >> /etc/ld.so.conf.d/oneapi.conf \
+RUN echo /opt/intel/oneapi/compiler/${ONEAPI_VERSION}/lib >> /etc/ld.so.conf.d/oneapi.conf \
  && ldconfig -v
 
 RUN updatedb
