@@ -9,7 +9,7 @@ RUN rm -f /usr/include/asm \
  && wget -q https://repo.radeon.com/amdgpu-install/6.1.1/ubuntu/jammy/amdgpu-install_6.1.60101-1_all.deb \
  && apt install -y ./amdgpu-install_6.1.60101-1_all.deb \
  && rm -f ./amdgpu-install_6.1.60101-1_all.deb \
- && amdgpu-install -y --usecase=rocm,hip,hiplibsdk,mllib,mlsdk --rocmrelease=6.1.1 --no-dkms \
+ && amdgpu-install -y --usecase=rocm,rocmdev,hip,hiplibsdk,mllib,mlsdk --rocmrelease=6.1.1 --no-dkms \
  && apt clean -y
 
 RUN echo /opt/rocm/lib > /etc/ld.so.conf.d/rocm.conf \
