@@ -4,6 +4,8 @@ RUN yum install -y \
  python3 \
  vim
 
+RUN python3 -m pip install boto3
+
 RUN cd /tmp \
  && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
  && unzip awscliv2.zip \
