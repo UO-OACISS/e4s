@@ -1,7 +1,7 @@
 FROM ubuntu:22.04 as base
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG ONEAPI_VERSION=2024.1
+ARG ONEAPI_VERSION=2024.2
 ENV TZ=America/Los_Angeles
 
 RUN apt update -y \
