@@ -33,6 +33,10 @@ RUN apt install -y gpg-agent wget ca-certificates \
          libdrm-dev
 
 RUN apt install -y \
+ intel-oneapi-mkl-devel \
+ intel-oneapi-mpi-devel
+
+RUN apt install -y \
   autoconf \
   automake \
   bzip2 \
@@ -113,15 +117,17 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN ./opt/intel/oneapi/modulefiles-setup.sh --output-dir=/opt/intel/oneapi/modulefiles
 
 RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
-&& echo . $(find $BOOTSTRAP_DIR -type f -name bash) >> /etc/bash.bashrc \
-&& mkdir -p /modules \
-&& echo module use /modules >> /etc/bash.bashrc \
-&& echo module use /opt/intel/oneapi/modulefiles/ >> /etc/bash.bashrc
+ && echo . $(find $BOOTSTRAP_DIR -type f -name bash) >> /etc/bash.bashrc \
+ && mkdir -p /modules \
+ && echo module use /modules >> /etc/bash.bashrc \
+ && echo module use /opt/intel/oneapi/modulefiles/ >> /etc/bash.bashrc \
+ && echo module load mpi >> /etc/bash.bashrc
 
-ENV PATH=/opt/intel/oneapi/compiler/${ONEAPI_VERSION}/bin:$BOOTSTRAP_DIR/view/bin:$PATH
-ENV LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/${ONEAPI_VERSION}/lib:$LD_LIBRARY_PATH
+ENV PATH=/opt/intel/oneapi/compiler/${ONEAPI_VERSION}/bin:/opt/intel/oneapi/mpi/2021.13/bin:$BOOTSTRAP_DIR/view/bin:$PATH
+ENV LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/${ONEAPI_VERSION}/lib:/opt/intel/oneapi/mpi/2021.13/lib:$LD_LIBRARY_PATH
 
 RUN echo /opt/intel/oneapi/compiler/${ONEAPI_VERSION}/lib >> /etc/ld.so.conf.d/oneapi.conf \
+ && echo /opt/intel/oneapi/mpi/2021.13/lib >> /etc/ld.so.conf.d/oneapi.conf \
  && ldconfig -v
 
 RUN updatedb
