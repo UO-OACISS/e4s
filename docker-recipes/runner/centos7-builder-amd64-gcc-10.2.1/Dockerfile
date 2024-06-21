@@ -9,7 +9,7 @@ RUN yum install -y \
  file
 
 RUN yum install -y centos-release-scl \
- && yum install devtoolset-10
+ && yum install -y devtoolset-10
 
 RUN python3 -m pip install boto3
 
