@@ -13,7 +13,8 @@ RUN rm -f /usr/include/asm \
  && apt clean -y
 
 RUN apt update -y \
- && apt install -y rocm-llvm-dev
+ && apt install -y rocm-llvm-dev6.1.1 \
+ && apt clean -y
 
 RUN echo /opt/rocm/lib > /etc/ld.so.conf.d/rocm.conf \
  && ldconfig -v
