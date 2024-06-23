@@ -12,6 +12,9 @@ RUN rm -f /usr/include/asm \
  && amdgpu-install -y --usecase=rocm,rocmdev,hip,hiplibsdk,mllib,mlsdk --rocmrelease=6.1.1 --no-dkms \
  && apt clean -y
 
+RUN apt update -y \
+ && apt install -y rocm-llvm-dev
+
 RUN echo /opt/rocm/lib > /etc/ld.so.conf.d/rocm.conf \
  && ldconfig -v
 
