@@ -19,4 +19,4 @@ RUN cd /tmp \
  && ./aws/install \
  && rm -rf awscliv2.zip aws
 
-RUN echo source scl_source enable gcc-toolset-10 >> /etc/bashrc
+RUN echo source scl_source enable devtoolset-10 >> /etc/bashrc
