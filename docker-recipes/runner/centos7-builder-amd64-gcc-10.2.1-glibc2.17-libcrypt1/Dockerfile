@@ -1,14 +1,20 @@
 FROM centos:7.9.2009
 
-RUN yum install -y \
- python3 \
- vim \
- git \
- patch \
- bzip2 \
- file
+COPY CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+
+RUN yum update -y \
+ && yum install -y \
+    python3 \
+    vim \
+    git \
+    patch \
+    bzip2 \
+    file
+
+COPY CentOS-SCL.repo /etc/yum.repos.d/CentOS-SCL.repo
 
 RUN yum install -y centos-release-scl \
+ && rm -f rm /etc/yum.repos.d/CentOS-SCLo*.repo \
  && yum install -y devtoolset-10
 
 RUN python3 -m pip install boto3
