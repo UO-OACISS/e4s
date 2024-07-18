@@ -5,11 +5,11 @@ COPY CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 RUN yum update -y \
  && yum install -y \
     bzip2 \
-    file
+    file \
     git \
     patch \
     python3 \
-    vim \
+    vim
 
 COPY CentOS-SCL.repo /etc/yum.repos.d/CentOS-SCL.repo
 
