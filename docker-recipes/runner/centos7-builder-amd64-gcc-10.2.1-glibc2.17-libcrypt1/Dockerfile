@@ -19,7 +19,7 @@ RUN yum install -y centos-release-scl \
 
 RUN python3 -m pip install boto3
 
-ENV BOOTSTRAP_DIR=/usr/local/spack-tools
+ENV BOOTSTRAP_DIR=/usr/local/basic-tools
 
 COPY /spack.yaml /spack.yaml.pre
 
@@ -49,3 +49,5 @@ RUN cd /tmp \
  && rm -rf awscliv2.zip aws
 
 RUN echo source scl_source enable devtoolset-10 >> /etc/bashrc
+
+ENV PATH=$BOOTSTRAP_DIR/view/bin:$PATH
