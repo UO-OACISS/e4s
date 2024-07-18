@@ -39,7 +39,7 @@ RUN export S=/tmp/spack \
  && spack -e . concretize -f | tee concretize.log \
  && spack -e . install --cache-only \ 
  && spack clean -a \
- && mv spack.yaml spack.lock concretize.log $BOOTSTRAP_DIR/
+ && mv spack.yaml spack.lock concretize.log $BOOTSTRAP_DIR/ \
  && rm -rf $S .spack-env Makefile ~/.spack
 
 RUN cd /tmp \
