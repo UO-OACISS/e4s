@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as base
+FROM ubuntu:22.04 AS base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
@@ -65,7 +65,7 @@ COPY /spack.yaml /spack.yaml.pre
 RUN envsubst < spack.yaml.pre > spack.yaml \
  && rm spack.yaml.pre
 
-FROM base as complete
+FROM base AS complete
 
 RUN export S=/tmp/spack \
  && git clone https://github.com/spack/spack $S \
