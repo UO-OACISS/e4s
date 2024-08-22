@@ -1,4 +1,4 @@
-FROM ecpe4s/ubuntu22.04-runner-amd64-gcc-11.4:2024.03.01
+FROM ecpe4s/ubuntu22.04-runner-amd64-gcc-11.4:2024.08.22
 
 # https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html
 RUN rm -f /usr/include/asm \
@@ -21,5 +21,6 @@ RUN echo /opt/rocm/lib > /etc/ld.so.conf.d/rocm.conf \
 
 RUN echo export PATH=/opt/rocm/bin:'$PATH' >> /etc/bash.bashrc
 ENV PATH=/opt/rocm/bin:$PATH
+ENV LD_LIBRARY_PATH=/opt/rocm/lib:$PATH
 
 RUN updatedb
