@@ -1,4 +1,4 @@
-FROM ubuntu:noble-20240225 as base
+FROM ubuntu:24.04 as base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
@@ -51,8 +51,13 @@ RUN apt update -y \
 RUN locale-gen en_US.UTF-8 \
  && ln -s `which python3` /usr/bin/python
 
-ENV PYVENV_DIR=/default-py-venv
-RUN python3 -m venv $PYVENV_DIR \
+RUN apt update -y \
+ && apt install -y software-properties-common \
+ && add-apt-repository -y ppa:deadsnakes/ppa \
+ && apt install -y python3.10 python3.10-distutils python3.10-venv
+
+ENV PYVENV_DIR=/py3.10-venv
+RUN python3.10 -m venv $PYVENV_DIR \
  && . $PYVENV_DIR/bin/activate \
  && echo . $PYVENV_DIR/bin/activate >> /etc/bash.bashrc \
  && echo export SPACK_PYTHON=$PYVENV_DIR/bin/python3 >> /etc/bash.bashrc \
@@ -74,7 +79,7 @@ RUN export S=/tmp/spack \
  && echo . $PYVENV_DIR/bin/activate \
  && export SPACK_PYTHON=$PYVENV_DIR/bin/python3 \
  && git clone https://github.com/spack/spack $S \
- && git -C $S checkout f58ebd4fbb1e68ba4a06d37d95b71d7ef41f03c8 \
+ && git -C $S checkout 9ba7af404a14e84eec8f79567a6232c06a3c8d69 \
  && . $S/share/spack/setup-env.sh \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
  && spack config add 'config:build_stage:$spack/build_stage' \
@@ -82,7 +87,6 @@ RUN export S=/tmp/spack \
  && spack config add "config:connect_timeout:60" \
  && spack mirror add bootstrap https://cache.e4s.io/spack-bootstrap \
  && spack buildcache keys -it \
- && spack -e . concretize -f | tee concretize.log \
  && spack -e . install --cache-only \ 
  && spack clean -a \
  && rm -rf $S spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
