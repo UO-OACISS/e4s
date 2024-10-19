@@ -54,9 +54,10 @@ RUN locale-gen en_US.UTF-8 \
 RUN apt update -y \
  && apt install -y software-properties-common \
  && add-apt-repository -y ppa:deadsnakes/ppa \
- && apt install -y python3.10 python3.10-distutils python3.10-venv
+ && apt install -y python3.10 python3.10-distutils python3.10-venv python3.10-dev \
+ && apt clean -y
 
-ENV PYVENV_DIR=/py3.10-venv
+ENV PYVENV_DIR=/py3.10
 RUN python3.10 -m venv $PYVENV_DIR \
  && . $PYVENV_DIR/bin/activate \
  && echo . $PYVENV_DIR/bin/activate >> /etc/bash.bashrc \
