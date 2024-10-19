@@ -6,8 +6,7 @@ spack:
       root: $BOOTSTRAP_DIR/install
 
   concretizer:
-    reuse: false
-    unify: when_possible
+    reuse: true
 
   packages:
     all:
@@ -22,17 +21,17 @@ spack:
   - ninja
   - patchelf
 
-  compilers:
-  - compiler:
-      spec: gcc@=13.2.0
-      paths:
-        cc: /usr/bin/gcc
-        cxx: /usr/bin/g++
-        f77: /usr/bin/gfortran
-        fc: /usr/bin/gfortran
-      flags: {}
-      operating_system: ubuntu24.04
-      target: aarch64
-      modules: []
-      environment: {}
-      extra_rpaths: []
+#  compilers:
+#  - compiler:
+#      spec: gcc@=13.2.0
+#      paths:
+#        cc: /usr/bin/gcc
+#        cxx: /usr/bin/g++
+#        f77: /usr/bin/gfortran
+#        fc: /usr/bin/gfortran
+#      flags: {}
+#      operating_system: ubuntu24.04
+#      target: aarch64
+#      modules: []
+#      environment: {}
+#      extra_rpaths: []
