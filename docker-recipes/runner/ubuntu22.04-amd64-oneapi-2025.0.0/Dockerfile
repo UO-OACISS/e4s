@@ -124,10 +124,10 @@ RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
  && echo module load mpi >> /etc/bash.bashrc
 
 ENV PATH=/opt/intel/oneapi/compiler/${ONEAPI_VERSION}/bin:/opt/intel/oneapi/mpi/2021.14/bin:$BOOTSTRAP_DIR/view/bin:$PATH
-ENV LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/${ONEAPI_VERSION}/lib:/opt/intel/oneapi/mpi/2021.13/lib:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/opt/intel/oneapi/compiler/${ONEAPI_VERSION}/lib:/opt/intel/oneapi/mpi/2021.14/lib:$LD_LIBRARY_PATH
 
 RUN echo /opt/intel/oneapi/compiler/${ONEAPI_VERSION}/lib >> /etc/ld.so.conf.d/oneapi.conf \
- && echo /opt/intel/oneapi/mpi/2021.13/lib >> /etc/ld.so.conf.d/oneapi.conf \
+ && echo /opt/intel/oneapi/mpi/2021.14/lib >> /etc/ld.so.conf.d/oneapi.conf \
  && ldconfig -v
 
 RUN updatedb
