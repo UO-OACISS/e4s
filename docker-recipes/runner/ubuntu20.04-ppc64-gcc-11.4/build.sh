@@ -17,7 +17,16 @@ fi
 REGISTRY=${REGISTRY:-ecpe4s}
 OUTPUT_IMAGE="${REGISTRY}/${BUILD_NAME}:${BUILD_TAG}"
 
+SPACK_ROOT=/spack
+SPACK_REPO=https://github.com/spack/spack
+SPACK_CHECKOUT=9ba7af404a14e84eec8f79567a6232c06a3c8d69
+SPACK_MIRROR=https://cache.e4s.io/spack-bootstrap
+
 docker build \
  --target ${BUILD_TYPE} \
  -t "${OUTPUT_IMAGE}" \
+ --build-arg SPACK_ROOT=$SPACK_ROOT \
+ --build-arg SPACK_REPO=$SPACK_REPO \
+ --build-arg SPACK_CHECKOUT=$SPACK_CHECKOUT \
+ --build-arg SPACK_MIRROR=$SPACK_MIRROR \
  .

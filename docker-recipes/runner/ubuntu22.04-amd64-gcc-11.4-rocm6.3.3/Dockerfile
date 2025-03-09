@@ -1,4 +1,4 @@
-FROM ecpe4s/ubuntu22.04-runner-amd64-gcc-11.4:2024.12.04
+FROM ecpe4s/ubuntu22.04-runner-amd64-gcc-11.4:2025.03.01
 
 # https://rocm.docs.amd.com/projects/install-on-linux/en/latest/install/quick-start.html
 RUN rm -f /usr/include/asm \

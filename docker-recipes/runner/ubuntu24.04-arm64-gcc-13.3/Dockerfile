@@ -76,17 +76,21 @@ RUN envsubst < spack.yaml.pre > spack.yaml \
 
 FROM base as complete
 
-RUN export S=/tmp/spack \
- && echo . $PYVENV_DIR/bin/activate \
+ARG SPACK_MIRROR
+ARG SPACK_REPO
+ARG SPACK_CHECKOUT
+ARG SPACK_ROOT
+
+RUN echo . $PYVENV_DIR/bin/activate \
  && export SPACK_PYTHON=$PYVENV_DIR/bin/python3 \
- && git clone https://github.com/spack/spack $S \
- && git -C $S checkout 9ba7af404a14e84eec8f79567a6232c06a3c8d69 \
- && . $S/share/spack/setup-env.sh \
+ && git clone $SPACK_REPO $SPACK_ROOT \
+ && git -C $SPACK_ROOT checkout 9ba7af404a14e84eec8f79567a6232c06a3c8d69 \
+ && . $SPACK_ROOT/share/spack/setup-env.sh \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
  && spack config add 'config:build_stage:$spack/build_stage' \
  && spack config add "config:db_lock_timeout:120" \
  && spack config add "config:connect_timeout:60" \
- && spack mirror add bootstrap https://cache.e4s.io/spack-bootstrap \
+ && spack mirror add bootstrap $SPACK_MIRROR \
  && spack buildcache keys -it \
  && spack -e . install --cache-only \ 
  && spack clean -a \

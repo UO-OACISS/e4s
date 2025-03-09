@@ -67,15 +67,19 @@ RUN envsubst < spack.yaml.pre > spack.yaml \
 
 FROM base AS complete
 
-RUN export S=/tmp/spack \
- && git clone https://github.com/spack/spack $S \
- && git -C $S checkout 3ea970746dc4ca685babf906a3ea33d90ee9fca8 \
- && . $S/share/spack/setup-env.sh \
+ARG SPACK_MIRROR
+ARG SPACK_REPO
+ARG SPACK_CHECKOUT
+ARG SPACK_ROOT
+
+RUN git clone $SPACK_REPO $SPACK_ROOT \
+ && git -C $SPACK_ROOT checkout $SPACK_CHECKOUT \
+ && . $SPACK_ROOT/share/spack/setup-env.sh \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
  && spack config add 'config:build_stage:$spack/build_stage' \
  && spack config add "config:db_lock_timeout:120" \
  && spack config add "config:connect_timeout:60" \
- && spack mirror add bootstrap https://cache.e4s.io/spack-universal-bootstrap/glibc2.17-libcrypt1 \
+ && spack mirror add bootstrap $SPACK_MIRROR \
  && spack buildcache keys -it \
  && spack -e . concretize -f | tee concretize.log \
  && spack -e . install --cache-only \ 
