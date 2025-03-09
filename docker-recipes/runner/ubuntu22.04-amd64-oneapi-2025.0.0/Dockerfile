@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 as base
+FROM ubuntu:22.04 AS base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG ONEAPI_VERSION=2025.0
@@ -92,7 +92,7 @@ COPY /spack.yaml /spack.yaml.pre
 RUN envsubst < spack.yaml.pre > spack.yaml \
  && rm spack.yaml.pre
 
-FROM base as complete
+FROM base AS complete
 
 ARG SPACK_MIRROR
 ARG SPACK_REPO
@@ -101,7 +101,7 @@ ARG SPACK_ROOT
 
 RUN git clone $SPACK_REPO $SPACK_ROOT \
  && git -C $SPACK_ROOT checkout $SPACK_CHECKOUT \
- && . $S/share/spack/setup-env.sh \
+ && . $SPACK_ROOT/share/spack/setup-env.sh \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
  && spack config add 'config:build_stage:$spack/build_stage' \
  && spack config add "config:db_lock_timeout:120" \
