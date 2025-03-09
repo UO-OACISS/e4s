@@ -85,7 +85,7 @@ RUN git clone $SPACK_REPO $SPACK_ROOT \
  && make -j8 -k || make -j8 -k || make -j8 \
  && spack -e . gc -y \
  && spack clean -a \
- && rm -rf $S spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
+ && rm -rf $SPACK_ROOT spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
 
 RUN apt update -y \
  && apt install -y software-properties-common \

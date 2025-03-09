@@ -94,20 +94,24 @@ RUN envsubst < spack.yaml.pre > spack.yaml \
 
 FROM base as complete
 
-RUN export S=/tmp/spack \
- && git clone https://github.com/spack/spack $S \
- && git -C $S checkout 9ba7af404a14e84eec8f79567a6232c06a3c8d69 \
+ARG SPACK_MIRROR
+ARG SPACK_REPO
+ARG SPACK_CHECKOUT
+ARG SPACK_ROOT
+
+RUN git clone $SPACK_REPO $SPACK_ROOT \
+ && git -C $SPACK_ROOT checkout $SPACK_CHECKOUT \
  && . $S/share/spack/setup-env.sh \
  && export SPACK_DISABLE_LOCAL_CONFIG=1 \
  && spack config add 'config:build_stage:$spack/build_stage' \
  && spack config add "config:db_lock_timeout:120" \
  && spack config add "config:connect_timeout:60" \
- && spack mirror add bootstrap https://cache.e4s.io/spack-universal-bootstrap/glibc2.17-libcrypt1 \
+ && spack mirror add bootstrap $SPACK_MIRROR \
  && spack buildcache keys -it \
  && spack -e . concretize -f | tee concretize.log \
  && spack -e . install --cache-only \ 
  && spack clean -a \
- && rm -rf $S spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
+ && rm -rf $SPACK_ROOT spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
  && unzip awscliv2.zip \

@@ -94,7 +94,7 @@ RUN echo . $PYVENV_DIR/bin/activate \
  && spack buildcache keys -it \
  && spack -e . install --cache-only \ 
  && spack clean -a \
- && rm -rf $S spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
+ && rm -rf $SPACK_ROOT spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
 
 RUN ln -s /usr/include/aarch64-linux-gnu/asm /usr/include/asm \
  && ln -s /usr/include/aarch64-linux-gnu/bits /usr/include/bits \
