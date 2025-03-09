@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 as base
+FROM ubuntu:24.04 AS base
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
@@ -64,7 +64,7 @@ RUN python3.10 -m venv $PYVENV_DIR \
  && echo export SPACK_PYTHON=$PYVENV_DIR/bin/python3 >> /etc/bash.bashrc \
  && python -m pip install --upgrade pip setuptools wheel \
  && python -m pip install gnureadline pyyaml pytz minio requests clingo \
- && python -m pip install boto3 botocore \
+ && python -m pip install boto3 botocore clingo \
  && rm -rf ~/.cache
 
 ENV BOOTSTRAP_DIR=/usr/local/spack-tools
@@ -74,7 +74,7 @@ COPY /spack.yaml /spack.yaml.pre
 RUN envsubst < spack.yaml.pre > spack.yaml \
  && rm spack.yaml.pre
 
-FROM base as complete
+FROM base AS complete
 
 ARG SPACK_MIRROR
 ARG SPACK_REPO
