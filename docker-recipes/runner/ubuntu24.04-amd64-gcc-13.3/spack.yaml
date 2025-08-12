@@ -1,0 +1,32 @@
+spack:
+  view:
+    default:
+      root: $SPACK_TOOLS_PATH/view
+      link: roots
+
+  config:
+    install_tree:
+      root: $SPACK_TOOLS_PATH/install
+      projections:
+        all: "{name}-{version}-{hash:3}"
+
+  concretizer:
+    reuse: true
+    unify: when_possible
+
+  packages:
+    all:
+      require: 'target=x86_64_v3 %gcc'
+
+  mirrors:
+    bootstrap:
+      url: https://cache.e4s.io/spack-universal-bootstrap/x86_64_v3-glibc2.17
+
+  specs:
+  - ccache
+  - cmake
+  - environment-modules
+  - gmake
+  - libtree
+  - ninja
+  - patchelf
