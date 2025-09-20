@@ -1,33 +1,46 @@
 #!/bin/bash -e
 
-if [[ $# -ne 1 || ( "$1" != "base" && "$1" != "complete" ) ]] ; then
-  echo "usage: $0 <base|complete>"
-  exit 1
-fi
+. assets/utilities.sh
 
-BUILD_TYPE=$1
+[[ -f secrets.env ]] && . $(cat secrets.env) >/dev/null 2>&1
 
-BUILD_DATE=$(printf '%(%Y.%m.%d)T' -1)
-BUILD_TAG=${BUILD_TAG:-${BUILD_DATE}}
-BUILD_NAME=ubuntu24.04-runner-amd64-gcc-13.3
-if [[ "$BUILD_TYPE" == "base" ]]; then
-  BUILD_NAME=${BUILD_NAME}-base
-fi
+require_env AWS_ACCESS_KEY_ID
+require_env AWS_SECRET_ACCESS_KEY
+require_env SIGNING_KEY_PATH
 
-REGISTRY=${REGISTRY:-ecpe4s}
-OUTPUT_IMAGE="${REGISTRY}/${BUILD_NAME}:${BUILD_TAG}"
+name=ubuntu24.04-runner-amd64-gcc-13.3
+tag=${BUILD_TAG:-$(printf '%(%Y.%m.%d)T' -1)}
+registry=${REGISTRY:-ecpe4s}
+output_img="${registry}/${name}:${tag}"
 
-SPACK_ROOT=/spack
-SPACK_REPO=https://github.com/spack/spack
-SPACK_CHECKOUT=e46416596535ef0fcd8ecabdac36b0e332e82785
-# SPACK_MIRROR=https://cache.e4s.io/spack-universal-bootstrap/x86_64_v3-glibc2.17
+PYTHON_MIRROR=cache.e4s.io/runners/python-pad256
+PYTHON_PATH=/opt/python
+PYTHON_VERSION=3.12.11
+SPACK_CORE_CHECKOUT=v1.0.2
+SPACK_CORE_REPO=https://github.com/spack/spack
+SPACK_CORE_ROOT=/spack
+SPACK_PACKAGES_CHECKOUT=9b9174352b562a210cff991b73fe1d7793b825d9
+SPACK_PACKAGES_REPO=https://github.com/spack/spack-packages
+SPACK_PACKAGES_ROOT=/spack-packages
+TOOLS_MIRROR=cache.e4s.io/runners/tools-pad256
+TOOLS_PATH=/opt/tools
 
 docker build \
- --target ${BUILD_TYPE} \
- -t "${OUTPUT_IMAGE}" \
- --build-arg SPACK_ROOT=$SPACK_ROOT \
- --build-arg SPACK_REPO=$SPACK_REPO \
- --build-arg SPACK_CHECKOUT=$SPACK_CHECKOUT \
- .
-
-#  --build-arg SPACK_MIRROR=$SPACK_MIRROR \
+ -t "${output_img}" \
+ --build-arg PYTHON_MIRROR=$PYTHON_MIRROR \
+ --build-arg PYTHON_PATH=$PYTHON_PATH \
+ --build-arg PYTHON_VERSION=$PYTHON_VERSION \
+ --build-arg SPACK_CORE_CHECKOUT=$SPACK_CORE_CHECKOUT \
+ --build-arg SPACK_CORE_REPO=$SPACK_CORE_REPO \
+ --build-arg SPACK_CORE_ROOT=$SPACK_CORE_ROOT \
+ --build-arg SPACK_PACKAGES_CHECKOUT=$SPACK_PACKAGES_CHECKOUT \
+ --build-arg SPACK_PACKAGES_REPO=$SPACK_PACKAGES_REPO \
+ --build-arg SPACK_PACKAGES_ROOT=$SPACK_PACKAGES_ROOT \
+ --build-arg TOOLS_MIRROR=$TOOLS_MIRROR \
+ --build-arg TOOLS_PATH=$TOOLS_PATH \
+ --secret id=AWS_ACCESS_KEY_ID \
+ --secret id=AWS_SECRET_ACCESS_KEY \
+ --secret id=SIGNING_KEY,src=$SIGNING_KEY_PATH \
+ --progress=plain \
+ -f ./Dockerfile \
+ assets

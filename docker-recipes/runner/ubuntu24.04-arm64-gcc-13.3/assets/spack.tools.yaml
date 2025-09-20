@@ -1,0 +1,33 @@
+spack:
+  concretizer:
+    reuse: true
+    unify: when_possible
+
+  packages:
+    all:
+      require:
+      - "target=aarch64"
+    c:
+      require: [gcc@13.3.0]
+    cxx:
+      require: [gcc@13.3.0]
+    fortran:
+      require: [gcc@13.3.0]
+    gcc:
+      externals:
+      - spec: gcc@13.3.0 languages:='c,c++,fortran'
+        prefix: /usr
+        extra_attributes:
+          compilers:
+            c: /usr/bin/gcc
+            cxx: /usr/bin/g++
+            fortran: /usr/bin/gfortran
+
+  specs:
+  - ccache
+  - cmake
+  - environment-modules
+  - gmake
+  - libtree
+  - ninja
+  - patchelf

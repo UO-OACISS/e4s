@@ -1,121 +1,201 @@
-FROM ubuntu:24.04 AS base
+## 1. Install packages used by all subsequent stages
+FROM ubuntu:24.04 AS base-0
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/Los_Angeles
-
-RUN apt update -y \
- && apt upgrade -y \
- && apt clean -y
  
-RUN apt update -y \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean \
+ && apt update -y \
+ && apt upgrade -y \
  && apt install -y \
-  autoconf \
-  automake \
-  bzip2 \
-  cpio \
-  curl \
-  emacs-nox \
-  file \
-  findutils \
-  g++ \
-  gcc \
-  gettext \
-  gfortran \
-  git \
-  gpg \
-  iputils-ping \
-  jq \
-  libffi-dev \
-  libssl-dev \
-  libudev-dev \
-  libxml2-dev \
-  locales \
-  locate \
-  m4 \
-  make \
-  mercurial \
-  ncurses-dev \
-  patch \
-  pciutils \
-  python3-pip \
-  python3-venv \
-  rsync \
-  unzip \
-  uuid-runtime \
-  vim \
-  wget \
-  zlib1g-dev \
-  && apt autoremove --purge \
-  && apt clean
+    autoconf \
+    automake \
+    bzip2 \
+    cpio \
+    curl \
+    emacs-nox \
+    file \
+    findutils \
+    g++ \
+    gcc \
+    gettext \
+    gfortran \
+    git \
+    gpg \
+    iputils-ping \
+    jq \
+    libffi-dev \
+    libgdbm-dev \
+    libreadline-dev \
+    libssl-dev \
+    libudev-dev \
+    libxml2-dev \
+    locales \
+    locate \
+    m4 \
+    make \
+    mercurial \
+    ncurses-dev \
+    patch \
+    pciutils \
+    pkgconf \
+    python3-pip \
+    python3-venv \
+    rsync \
+    unzip \
+    uuid-runtime \
+    vim \
+    wget \
+    zlib1g-dev \
+ && apt autoremove --purge
 
 RUN locale-gen en_US.UTF-8 \
  && ln -s `which python3` /usr/bin/python
 
-RUN apt update -y \
- && apt install -y software-properties-common \
- && add-apt-repository -y ppa:deadsnakes/ppa \
- && apt install -y python3.10 python3.10-distutils python3.10-venv python3.10-dev \
- && apt clean -y
+RUN cd /tmp \
+ && curl -LsSf https://astral.sh/uv/install.sh | sh
 
-ENV PYVENV_DIR=/py3.10
-RUN python3.10 -m venv $PYVENV_DIR \
- && . $PYVENV_DIR/bin/activate \
- && echo . $PYVENV_DIR/bin/activate >> /etc/bash.bashrc \
- && echo export SPACK_PYTHON=$PYVENV_DIR/bin/python3 >> /etc/bash.bashrc \
- && python -m pip install --upgrade pip setuptools wheel \
- && python -m pip install gnureadline pyyaml pytz minio requests clingo \
- && python -m pip install boto3 botocore clingo \
- && rm -rf ~/.cache
+ENV PATH="/root/.local/bin/:$PATH"
+RUN echo 'export PATH=/root/.local/bin/:$PATH' >> /etc/bash.bashrc
 
-ENV BOOTSTRAP_DIR=/usr/local/spack-tools
-
-COPY /spack.yaml /spack.yaml.pre
-
-RUN envsubst < spack.yaml.pre > spack.yaml \
- && rm spack.yaml.pre
-
-FROM base AS complete
-
-ARG SPACK_MIRROR
-ARG SPACK_REPO
-ARG SPACK_CHECKOUT
-ARG SPACK_ROOT
-
-RUN echo . $PYVENV_DIR/bin/activate \
- && export SPACK_PYTHON=$PYVENV_DIR/bin/python3 \
- && git clone $SPACK_REPO $SPACK_ROOT \
- && git -C $SPACK_ROOT checkout 9ba7af404a14e84eec8f79567a6232c06a3c8d69 \
- && . $SPACK_ROOT/share/spack/setup-env.sh \
- && export SPACK_DISABLE_LOCAL_CONFIG=1 \
- && spack config add 'config:build_stage:$spack/build_stage' \
- && spack config add "config:db_lock_timeout:120" \
- && spack config add "config:connect_timeout:60" \
- && spack mirror add bootstrap $SPACK_MIRROR \
- && spack buildcache keys -it \
- && spack -e . install --cache-only \ 
- && spack clean -a \
- && rm -rf $SPACK_ROOT spack.yaml spack.lock concretize.log .spack-env Makefile ~/.spack
-
-RUN ln -s /usr/include/aarch64-linux-gnu/asm /usr/include/asm \
- && ln -s /usr/include/aarch64-linux-gnu/bits /usr/include/bits \
- && ln -s /usr/include/aarch64-linux-gnu/gnu /usr/include/gnu \
- && ln -s /usr/include/aarch64-linux-gnu/sys /usr/include/sys
-
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" \
- && unzip awscliv2.zip \
+RUN curl --silent "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" \
+ && unzip -q awscliv2.zip \
  && ./aws/install \
  && rm -rf awscliv2.zip
 
-RUN echo export PATH=$BOOTSTRAP_DIR/view/bin:'${PATH}' >> /etc/bash.bashrc \
-&& echo . $(find $BOOTSTRAP_DIR -type f -name bash) >> /etc/bash.bashrc \
-&& mkdir -p /modules \
-&& echo module use /modules >> /etc/bash.bashrc
 
-ENV PATH=$BOOTSTRAP_DIR/view/bin:$PATH
+## 2. Clone Spack + Spack Packages
+FROM base-0 AS spack
+
+ARG SPACK_CORE_REPO
+ARG SPACK_CORE_CHECKOUT
+ARG SPACK_PACKAGES_CHECKOUT
+ARG SPACK_PACKAGES_REPO
+ARG SPACK_CORE_ROOT
+ARG SPACK_PACKAGES_ROOT
+
+RUN git clone --quiet $SPACK_PACKAGES_REPO $SPACK_PACKAGES_ROOT \
+ && git -C $SPACK_PACKAGES_ROOT checkout --quiet $SPACK_PACKAGES_CHECKOUT
+
+RUN git clone --quiet $SPACK_CORE_REPO $SPACK_CORE_ROOT \
+ && git -C $SPACK_CORE_ROOT checkout --quiet $SPACK_CORE_CHECKOUT \
+ && . $SPACK_CORE_ROOT/share/spack/setup-env.sh \
+ && export SPACK_DISABLE_LOCAL_CONFIG=1 \
+ && spack repo set --destination $SPACK_PACKAGES_ROOT builtin \
+ && spack config --scope site add "config:db_lock_timeout:480" \
+ && spack config --scope site add "config:connect_timeout:60"
+
+
+## 3. Build Python; push to cache; then install from cache into PYTHON_PATH
+FROM base-0 AS python-build
+
+ARG SPACK_CORE_REPO
+ARG SPACK_CORE_CHECKOUT
+ARG SPACK_PACKAGES_CHECKOUT
+ARG SPACK_PACKAGES_REPO
+ARG SPACK_CORE_ROOT
+ARG SPACK_PACKAGES_ROOT
+ARG PYTHON_MIRROR
+ARG PYTHON_PATH
+ARG PYTHON_VERSION
+
+COPY --from=spack $SPACK_CORE_ROOT $SPACK_CORE_ROOT
+COPY --from=spack $SPACK_PACKAGES_ROOT $SPACK_PACKAGES_ROOT
+
+COPY /0001-python-add-v3.12.11.patch /
+RUN git -c user.name=docker -c user.email=docker -C $SPACK_PACKAGES_ROOT am < 0001-python-add-v3.12.11.patch 
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=cache,target=/root/.cache/uv \
+    export UV_LINK_MODE=copy \
+ && uv pip install --system --break-system-packages --upgrade boto3 botocore
+
+COPY /spack.python.yaml $PYTHON_PATH/spack.yaml
+COPY /build-and-install-python.sh /utilities.sh $PYTHON_PATH/
+
+WORKDIR $PYTHON_PATH
+
+RUN --mount=type=secret,id=AWS_ACCESS_KEY_ID \
+    --mount=type=secret,id=AWS_SECRET_ACCESS_KEY \
+    --mount=type=secret,id=SIGNING_KEY \
+    ./build-and-install-python.sh
+
+
+
+## 4. Create new base for all subsequent stages that has the python from (3)
+FROM base-0 AS base-1
+
+ARG SPACK_CORE_REPO
+ARG SPACK_CORE_CHECKOUT
+ARG SPACK_PACKAGES_CHECKOUT
+ARG SPACK_PACKAGES_REPO
+ARG SPACK_CORE_ROOT
+ARG SPACK_PACKAGES_ROOT
+ARG PYTHON_PATH
+ARG PYTHON_VERSION
+
+COPY --from=python-build $PYTHON_PATH $PYTHON_PATH
+
+ENV PATH=$PYTHON_PATH/pkgs/python-$PYTHON_VERSION/bin:$PATH
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=cache,target=/root/.cache/uv \
+    export UV_LINK_MODE=copy \
+ && uv pip install --system --upgrade \
+      boto3 \
+      botocore \
+      clingo \
+      minio \
+      pyyaml \
+      requests \
+      setuptools \
+      wheel
+
+
+## 5. Build Tools; push to cache; then install from cache into TOOLS_PATH
+FROM base-1 AS tools-build
+
+ARG SPACK_CORE_REPO
+ARG SPACK_CORE_CHECKOUT
+ARG SPACK_PACKAGES_CHECKOUT
+ARG SPACK_PACKAGES_REPO
+ARG SPACK_CORE_ROOT
+ARG SPACK_PACKAGES_ROOT
+ARG TOOLS_MIRROR
+ARG TOOLS_PATH
+
+COPY --from=spack $SPACK_CORE_ROOT $SPACK_CORE_ROOT
+COPY --from=spack $SPACK_PACKAGES_ROOT $SPACK_PACKAGES_ROOT
+
+COPY /spack.tools.yaml $TOOLS_PATH/spack.yaml
+COPY /build-and-install-tools.sh /utilities.sh $TOOLS_PATH
+
+WORKDIR $TOOLS_PATH
+
+RUN --mount=type=secret,id=AWS_ACCESS_KEY_ID \
+    --mount=type=secret,id=AWS_SECRET_ACCESS_KEY \
+    --mount=type=secret,id=SIGNING_KEY \
+    ./build-and-install-tools.sh
+
+
+## 6. Create final runner image with the tools from (5)
+FROM base-1 AS runner
+
+ARG TOOLS_PATH
+
+COPY --from=tools-build $TOOLS_PATH $TOOLS_PATH
+
+COPY /setup-bashrc.sh /utilities.sh /
+RUN /setup-bashrc.sh \
+ && rm -f /setup-bashrc.sh /utilities.sh
 
 RUN updatedb
 
 CMD ["/bin/bash"]
+
+ENV PATH=$TOOLS_PATH/view/bin:$PATH
 
 ENV NVIDIA_VISIBLE_DEVICES=all \
     NVIDIA_DRIVER_CAPABILITIES=compute,utility \
