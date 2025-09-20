@@ -6,7 +6,7 @@ spack:
   packages:
     all:
       require:
-      - "target=aarch64"
+      - "target=x86_64_v3"
     c:
       require: [gcc@13.3.0]
     cxx:
